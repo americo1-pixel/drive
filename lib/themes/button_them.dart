@@ -34,8 +34,8 @@ class ButtonThem {
             borderRadius: BorderRadius.circular(btnRadius),
           ),
           color: bgColors ?? (themeChange.getThem()
-                  ? AppColors.darkModePrimary
-                  : AppColors.primary),
+                  ? AppColors.primary
+                  : AppColors.darkModePrimary),
           child: Text(
             title.toUpperCase(),
             textAlign: TextAlign.center,

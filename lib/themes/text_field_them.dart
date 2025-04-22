@@ -16,9 +16,9 @@ class TextFieldThem {
     bool enable = true,
     int maxLine = 1,
     List<TextInputFormatter>? inputFormatters,
+    InputDecoration? decoration,
+    TextStyle? style,
   }) {
-    final themeChange = Provider.of<DarkThemeProvider>(context);
-
     return TextFormField(
         controller: controller,
         textAlign: TextAlign.start,
@@ -26,30 +26,31 @@ class TextFieldThem {
         keyboardType: keyBoardType,
         maxLines: maxLine,
         inputFormatters: inputFormatters,
-        style: GoogleFonts.poppins(color: themeChange.getThem() ? Colors.white : Colors.black),
-        decoration: InputDecoration(
+        style: style ?? GoogleFonts.poppins(color: Colors.black),
+        decoration: decoration ?? InputDecoration(
             filled: true,
-            fillColor: themeChange.getThem() ? AppColors.darkTextField : AppColors.textField,
-            contentPadding: EdgeInsets.only(left: 10, right: 10, top: maxLine == 1 ? 0 : 10),
+            fillColor: Colors.white,
+            hintStyle: GoogleFonts.poppins(color: Colors.grey[600], fontSize: 14),
+            contentPadding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
             disabledBorder: OutlineInputBorder(
-              borderRadius: const BorderRadius.all(Radius.circular(4)),
-              borderSide: BorderSide(color: themeChange.getThem() ? AppColors.darkTextFieldBorder : AppColors.textFieldBorder, width: 1),
+              borderRadius: BorderRadius.circular(8),
+              borderSide: BorderSide(color: Colors.grey[400]!),
             ),
             focusedBorder: OutlineInputBorder(
-              borderRadius: const BorderRadius.all(Radius.circular(4)),
-              borderSide: BorderSide(color: themeChange.getThem() ? AppColors.darkTextFieldBorder : AppColors.textFieldBorder, width: 1),
+              borderRadius: BorderRadius.circular(8),
+              borderSide: BorderSide(color: Colors.grey[400]!),
             ),
             enabledBorder: OutlineInputBorder(
-              borderRadius: const BorderRadius.all(Radius.circular(4)),
-              borderSide: BorderSide(color: themeChange.getThem() ? AppColors.darkTextFieldBorder : AppColors.textFieldBorder, width: 1),
+              borderRadius: BorderRadius.circular(8),
+              borderSide: BorderSide(color: Colors.grey[400]!),
             ),
             errorBorder: OutlineInputBorder(
-              borderRadius: const BorderRadius.all(Radius.circular(4)),
-              borderSide: BorderSide(color: themeChange.getThem() ? AppColors.darkTextFieldBorder : AppColors.textFieldBorder, width: 1),
+              borderRadius: BorderRadius.circular(8),
+              borderSide: BorderSide(color: Colors.grey[400]!),
             ),
             border: OutlineInputBorder(
-              borderRadius: const BorderRadius.all(Radius.circular(4)),
-              borderSide: BorderSide(color: themeChange.getThem() ? AppColors.darkTextFieldBorder : AppColors.textFieldBorder, width: 1),
+              borderRadius: BorderRadius.circular(8),
+              borderSide: BorderSide(color: Colors.grey[400]!),
             ),
             hintText: hintText));
   }
@@ -61,39 +62,38 @@ class TextFieldThem {
       TextInputType keyBoardType = TextInputType.text,
       bool enable = true,
       ValueChanged<String>? onChanged}) {
-    final themeChange = Provider.of<DarkThemeProvider>(context);
-
     return TextFormField(
         controller: controller,
         textAlign: TextAlign.start,
         enabled: enable,
         keyboardType: keyBoardType,
-        style: GoogleFonts.poppins(color: themeChange.getThem() ? Colors.white : Colors.black),
+        style: GoogleFonts.poppins(color: Colors.black),
         onChanged: onChanged,
         decoration: InputDecoration(
             prefix: prefix,
             filled: true,
-            fillColor: themeChange.getThem() ? AppColors.darkTextField : AppColors.textField,
-            contentPadding: const EdgeInsets.only(left: 10, right: 10),
+            fillColor: Colors.white,
+            hintStyle: GoogleFonts.poppins(color: Colors.grey[600], fontSize: 14),
+            contentPadding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
             disabledBorder: OutlineInputBorder(
-              borderRadius: const BorderRadius.all(Radius.circular(4)),
-              borderSide: BorderSide(color: themeChange.getThem() ? AppColors.darkTextFieldBorder : AppColors.textFieldBorder, width: 1),
+              borderRadius: BorderRadius.circular(8),
+              borderSide: BorderSide(color: Colors.grey[400]!),
             ),
             focusedBorder: OutlineInputBorder(
-              borderRadius: const BorderRadius.all(Radius.circular(4)),
-              borderSide: BorderSide(color: themeChange.getThem() ? AppColors.darkTextFieldBorder : AppColors.textFieldBorder, width: 1),
+              borderRadius: BorderRadius.circular(8),
+              borderSide: BorderSide(color: Colors.grey[400]!),
             ),
             enabledBorder: OutlineInputBorder(
-              borderRadius: const BorderRadius.all(Radius.circular(4)),
-              borderSide: BorderSide(color: themeChange.getThem() ? AppColors.darkTextFieldBorder : AppColors.textFieldBorder, width: 1),
+              borderRadius: BorderRadius.circular(8),
+              borderSide: BorderSide(color: Colors.grey[400]!),
             ),
             errorBorder: OutlineInputBorder(
-              borderRadius: const BorderRadius.all(Radius.circular(4)),
-              borderSide: BorderSide(color: themeChange.getThem() ? AppColors.darkTextFieldBorder : AppColors.textFieldBorder, width: 1),
+              borderRadius: BorderRadius.circular(8),
+              borderSide: BorderSide(color: Colors.grey[400]!),
             ),
             border: OutlineInputBorder(
-              borderRadius: const BorderRadius.all(Radius.circular(4)),
-              borderSide: BorderSide(color: themeChange.getThem() ? AppColors.darkTextFieldBorder : AppColors.textFieldBorder, width: 1),
+              borderRadius: BorderRadius.circular(8),
+              borderSide: BorderSide(color: Colors.grey[400]!),
             ),
             hintText: hintText));
   }

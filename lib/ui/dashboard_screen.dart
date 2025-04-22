@@ -59,7 +59,7 @@ class DashBoardScreen extends StatelessWidget {
                                     driverModel.isOnline == true ? -1 : 1, 0),
                                 duration: const Duration(milliseconds: 300),
                                 child: Container(
-                                  width: Responsive.width(35, context),
+                                  width: Responsive.width(40, context),
                                   height: Responsive.height(8, context),
                                   decoration: const BoxDecoration(
                                     color: AppColors.darkModePrimary,
@@ -94,7 +94,7 @@ class DashBoardScreen extends StatelessWidget {
                                 child: Align(
                                   alignment: const Alignment(-1, 0),
                                   child: Container(
-                                    width: Responsive.width(35, context),
+                                    width: Responsive.width(40, context),
                                     color: Colors.transparent,
                                     alignment: Alignment.center,
                                     child: Text(
@@ -121,7 +121,7 @@ class DashBoardScreen extends StatelessWidget {
                                 child: Align(
                                   alignment: const Alignment(1, 0),
                                   child: Container(
-                                    width: Responsive.width(35, context),
+                                    width: Responsive.width(40, context),
                                     color: Colors.transparent,
                                     alignment: Alignment.center,
                                     child: Text(
@@ -141,10 +141,7 @@ class DashBoardScreen extends StatelessWidget {
                         );
                       })
                   : Text(
-                      controller
-                          .drawerItems[controller.selectedDrawerIndex.value]
-                          .title
-                          .tr,
+                      controller.getCurrentTitle().tr,
                       style: GoogleFonts.poppins(
                         color: Colors.white,
                       ),
@@ -224,50 +221,9 @@ class DashBoardScreen extends StatelessWidget {
 
   buildAppDrawer(BuildContext context, DashBoardController controller) {
     final themeChange = Provider.of<DarkThemeProvider>(context);
-    List<DrawerItem> drawerItems = [];
-    if (Constant.isSubscriptionModelApplied == true) {
-      drawerItems = [
-        DrawerItem('City'.tr, "assets/icons/ic_city.svg"),
-        // DrawerItem('Rides'.tr, "assets/icons/ic_order.svg"),
-        //DrawerItem('OutStation'.tr, "assets/icons/ic_intercity.svg"),
-        // DrawerItem('OutStation Rides'.tr, "assets/icons/ic_order.svg"),
-        //DrawerItem('Freight'.tr, "assets/icons/ic_freight.svg"),
-        DrawerItem('My Wallet'.tr, "assets/icons/ic_wallet.svg"),
-        //DrawerItem('Bank Details'.tr, "assets/icons/ic_profile.svg"),
-        DrawerItem('Inbox'.tr, "assets/icons/ic_inbox.svg"),
-        DrawerItem('Profile'.tr, "assets/icons/ic_profile.svg"),
-        if (Constant.isVerifyDocument == true)
-          DrawerItem('Online Registration'.tr, "assets/icons/ic_document.svg"),
-        DrawerItem('Vehicle Information'.tr, "assets/icons/ic_city.svg"),
-        DrawerItem('Settings'.tr, "assets/icons/ic_settings.svg"),
-        //DrawerItem('Subscription'.tr, "assets/icons/ic_subscription.svg"),
-        //DrawerItem('Subscription History'.tr,
-        //    "assets/icons/ic_subscription_history.svg"),
-        DrawerItem('Log out'.tr, "assets/icons/ic_logout.svg"),
-      ];
-    } else {
-      drawerItems = [
-        DrawerItem('City'.tr, "assets/icons/ic_city.svg"),
-        // DrawerItem('Rides'.tr, "assets/icons/ic_order.svg"),
-        DrawerItem('OutStation'.tr, "assets/icons/ic_intercity.svg"),
-        // DrawerItem('OutStation Rides'.tr, "assets/icons/ic_order.svg"),
-        DrawerItem('Freight'.tr, "assets/icons/ic_freight.svg"),
-        DrawerItem('My Wallet'.tr, "assets/icons/ic_wallet.svg"),
-        DrawerItem('Bank Details'.tr, "assets/icons/ic_profile.svg"),
-        DrawerItem('Inbox'.tr, "assets/icons/ic_inbox.svg"),
-        DrawerItem('Profile'.tr, "assets/icons/ic_profile.svg"),
-        if (Constant.isVerifyDocument == true)
-          DrawerItem('Online Registration'.tr, "assets/icons/ic_document.svg"),
-        DrawerItem('Vehicle Information'.tr, "assets/icons/ic_city.svg"),
-        DrawerItem('Settings'.tr, "assets/icons/ic_settings.svg"),
-        DrawerItem('Subscription History'.tr,
-            "assets/icons/ic_subscription_history.svg"),
-        DrawerItem('Log out'.tr, "assets/icons/ic_logout.svg"),
-      ];
-    }
     var drawerOptions = <Widget>[];
-    for (var i = 0; i < drawerItems.length; i++) {
-      var d = drawerItems[i];
+    for (var i = 0; i < controller.drawerItems.length; i++) {
+      var d = controller.drawerItems[i];
       drawerOptions.add(InkWell(
         onTap: () {
           controller.onSelectItem(i);

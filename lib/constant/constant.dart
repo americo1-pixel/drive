@@ -97,10 +97,22 @@ class Constant {
   }
 
   static String localizationTitle(List<LanguageTitle>? name) {
-    if (name!.firstWhere((element) => element.type == Constant.getLanguage().code).title!.isNotEmpty) {
-      return name.firstWhere((element) => element.type == Constant.getLanguage().code).title!;
-    } else {
-      return name.firstWhere((element) => element.type == "en").title.toString();
+    if (name == null || name.isEmpty) {
+      return '';
+    }
+    
+    try {
+      final currentLanguage = name.firstWhere(
+        (element) => element.type == Constant.getLanguage().code,
+        orElse: () => name.firstWhere(
+          (element) => element.type == "en",
+          orElse: () => LanguageTitle(title: '', type: 'en')
+        )
+      );
+      
+      return currentLanguage.title ?? '';
+    } catch (e) {
+      return '';
     }
   }
 

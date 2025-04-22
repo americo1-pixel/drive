@@ -51,6 +51,7 @@ class SettingScreen extends StatelessWidget {
                                       const SizedBox(
                                         height: 20,
                                       ),
+                                      /* Comentado opción de idioma
                                       Padding(
                                         padding: const EdgeInsets.all(8.0),
                                         child: Row(
@@ -62,7 +63,7 @@ class SettingScreen extends StatelessWidget {
                                             Expanded(
                                               child: Text(
                                                 "Language".tr,
-                                                style: GoogleFonts.poppins(fontWeight: FontWeight.w500),
+                                                style: GoogleFonts.poppins(fontWeight: FontWeight.w500, color: Colors.black),
                                               ),
                                             ),
                                             SizedBox(
@@ -85,11 +86,11 @@ class SettingScreen extends StatelessWidget {
                                                     LocalizationService().changeLocale(value.code.toString());
                                                     Preferences.setString(Preferences.languageCodeKey, jsonEncode(controller.selectedLanguage.value));
                                                   },
-                                                  hint:  Text("select".tr),
+                                                  hint:  Text("select".tr, style: TextStyle(color: Colors.black)),
                                                   items: controller.languageList.map((item) {
                                                     return DropdownMenuItem(
                                                       value: item,
-                                                      child: Text(item.name.toString(), style: GoogleFonts.poppins(fontWeight: FontWeight.w500)),
+                                                      child: Text(item.name.toString(), style: GoogleFonts.poppins(fontWeight: FontWeight.w500, color: Colors.black)),
                                                     );
                                                   }).toList()),
                                             ),
@@ -97,6 +98,8 @@ class SettingScreen extends StatelessWidget {
                                         ),
                                       ),
                                       const Divider(),
+                                      */
+                                      /* Comentado opción de modo claro/oscuro
                                       Padding(
                                         padding: const EdgeInsets.all(8.0),
                                         child: Row(
@@ -105,7 +108,7 @@ class SettingScreen extends StatelessWidget {
                                             const SizedBox(
                                               width: 20,
                                             ),
-                                            Expanded(child: Text("Light/dark mode".tr, style: GoogleFonts.poppins(fontWeight: FontWeight.w500))),
+                                            Expanded(child: Text("Light/dark mode".tr, style: GoogleFonts.poppins(fontWeight: FontWeight.w500, color: Colors.black))),
                                             SizedBox(
                                               width: Responsive.width(26, context),
                                               child: DropdownButtonFormField<String>(
@@ -132,11 +135,11 @@ class SettingScreen extends StatelessWidget {
                                                       themeChange.darkTheme = 2;
                                                     }
                                                   },
-                                                  hint:  Text("select".tr),
+                                                  hint:  Text("select".tr, style: TextStyle(color: Colors.black)),
                                                   items: controller.modeList.map((item) {
                                                     return DropdownMenuItem(
                                                       value: item,
-                                                      child: Text(item.toString(), style: GoogleFonts.poppins(fontWeight: FontWeight.w500)),
+                                                      child: Text(item.toString(), style: GoogleFonts.poppins(fontWeight: FontWeight.w500, color: Colors.black)),
                                                     );
                                                   }).toList()),
                                             ),
@@ -144,6 +147,8 @@ class SettingScreen extends StatelessWidget {
                                         ),
                                       ),
                                       const Divider(),
+                                      */
+                                      /* Comentado opción de soporte
                                       Padding(
                                         padding: const EdgeInsets.all(8.0),
                                         child: InkWell(
@@ -159,12 +164,13 @@ class SettingScreen extends StatelessWidget {
                                               const SizedBox(
                                                 width: 20,
                                               ),
-                                              Text("Support".tr, style: GoogleFonts.poppins(fontWeight: FontWeight.w500)),
+                                              Text("Support".tr, style: GoogleFonts.poppins(fontWeight: FontWeight.w500, color: Colors.black)),
                                             ],
                                           ),
                                         ),
                                       ),
                                       const Divider(),
+                                      */
                                       Padding(
                                         padding: const EdgeInsets.all(8.0),
                                         child: InkWell(
@@ -177,7 +183,7 @@ class SettingScreen extends StatelessWidget {
                                               const SizedBox(
                                                 width: 20,
                                               ),
-                                              Text("Delete Account".tr, style: GoogleFonts.poppins(fontWeight: FontWeight.w500))
+                                              Text("Delete Account".tr, style: GoogleFonts.poppins(fontWeight: FontWeight.w500, color: Colors.black))
                                             ],
                                           ),
                                         ),
@@ -187,7 +193,7 @@ class SettingScreen extends StatelessWidget {
                                 ),
                                 Padding(
                                   padding: const EdgeInsets.symmetric(vertical: 10),
-                                  child: Text("V ${Constant.appVersion}"),
+                                  child: Text("V ${Constant.appVersion}", style: TextStyle(color: Colors.black)),
                                 )
                               ],
                             ),
@@ -203,7 +209,7 @@ class SettingScreen extends StatelessWidget {
   showAlertDialog(BuildContext context) {
     // set up the button
     Widget okButton = TextButton(
-      child:  Text("OK".tr),
+      child:  Text("OK".tr, style: TextStyle(color: Colors.black)),
       onPressed: () async {
         ShowToastDialog.showLoader("Please wait".tr);
         await FireStoreUtils.deleteUser().then((value) {
@@ -218,7 +224,7 @@ class SettingScreen extends StatelessWidget {
       },
     );
     Widget cancel = TextButton(
-      child:  Text("Cancel".tr),
+      child:  Text("Cancel".tr, style: TextStyle(color: Colors.black)),
       onPressed: () {
         Get.back();
       },
@@ -226,8 +232,8 @@ class SettingScreen extends StatelessWidget {
 
     // set up the AlertDialog
     AlertDialog alert = AlertDialog(
-      title:  Text("Account delete".tr),
-      content:  Text("Are you sure want to delete Account.".tr),
+      title:  Text("Account delete".tr, style: TextStyle(color: Colors.black)),
+      content:  Text("Are you sure want to delete Account.".tr, style: TextStyle(color: Colors.black)),
       actions: [
         okButton,
         cancel,

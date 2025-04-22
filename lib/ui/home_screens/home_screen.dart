@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:badges/badges.dart' as badges;
+import 'package:driver/ui/recargar_wallet/recargar_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -48,7 +49,7 @@ class HomeScreen extends StatelessWidget {
                                       ),
                                       ElevatedButton(
                                         onPressed: () {
-                                          // Aquí irá la acción de recargar
+                                          Get.to(() => const RecargarScreen());
                                         },
                                         style: ElevatedButton.styleFrom(
                                           backgroundColor: Colors.white,

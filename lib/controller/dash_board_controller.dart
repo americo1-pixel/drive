@@ -23,98 +23,36 @@ class DashBoardController extends GetxController {
   RxList<DrawerItem> drawerItems = <DrawerItem>[].obs;
 
   getDrawerItemWidget(int pos) {
-    if (Constant.isSubscriptionModelApplied == true) {
-      switch (pos) {
-        case 0:
-          return const HomeScreen();
-        // case 1:
-        //   return const OrderScreen();
-        case 1:
-          return const HomeIntercityScreen();
-        // case 2:
-        //   return const OrderIntercityScreen();
-        case 2:
-          return const FreightScreen();
-        case 3:
-          return const WalletScreen();
-        case 4:
-          return const BankDetailsScreen();
-        case 5:
-          return const InboxScreen();
-        case 6:
-          return const ProfileScreen();
-        case 7:
-          if (Constant.isVerifyDocument == true) {
-            return const OnlineRegistrationScreen();
-          } else {
-            return const VehicleInformationScreen();
-          }
-        case 8:
-          return Constant.isVerifyDocument == true ? const VehicleInformationScreen() : const SettingScreen();
-        case 9:
-          return Constant.isVerifyDocument == true ? const SettingScreen() : const SubscriptionListScreen();
-        case 10:
-          return Constant.isVerifyDocument == true ? const SubscriptionListScreen() : const SubscriptionHistory();
-        case 11:
-          return Constant.isVerifyDocument == true ? const SubscriptionHistory() : const Text("Error");
-        default:
-          return const Text("Error");
-      }
-    } else {
-      switch (pos) {
-        case 0:
-          return const HomeScreen();
-        // case 1:
-        //   return const OrderScreen();
-        case 1:
-          return const HomeIntercityScreen();
-        // case 2:
-        //   return const OrderIntercityScreen();
-        case 2:
-          return const FreightScreen();
-        case 3:
-          return const WalletScreen();
-        case 4:
-          return const BankDetailsScreen();
-        case 5:
-          return const InboxScreen();
-        case 6:
-          return const ProfileScreen();
-        case 7:
-          if (Constant.isVerifyDocument == true) {
-            return const OnlineRegistrationScreen();
-          } else {
-            return const VehicleInformationScreen();
-          }
-        case 8:
-          return Constant.isVerifyDocument == true ? const VehicleInformationScreen() : const SettingScreen();
-        case 9:
-          return Constant.isVerifyDocument == true ? const SettingScreen() : const SubscriptionHistory();
-        case 10:
-          return Constant.isVerifyDocument == true ? const SubscriptionHistory() : const Text("Error");
-        default:
-          return const Text("Error");
-      }
+    switch (pos) {
+      case 0:
+        return const HomeScreen();
+      case 1:
+        return const WalletScreen();
+      case 2:
+        return const InboxScreen();
+      case 3:
+        return const ProfileScreen();
+      case 4:
+        return const OnlineRegistrationScreen();
+      case 5:
+        return const VehicleInformationScreen();
+      case 6:
+        return const SettingScreen();
+      case 7:
+        return const Text("Error");
+      default:
+        return const Text("Error");
     }
   }
 
   RxInt selectedDrawerIndex = 0.obs;
 
   onSelectItem(int index) async {
-    if (Constant.isSubscriptionModelApplied == true) {
-      if (Constant.isVerifyDocument == true ? index == 12 : index == 11) {
-        await FirebaseAuth.instance.signOut();
-        Get.offAll(const LoginScreen());
-      } else {
-        selectedDrawerIndex.value = index;
-      }
+    if (index == 7) { // Log out
+      await FirebaseAuth.instance.signOut();
+      Get.offAll(const LoginScreen());
     } else {
-      if (Constant.isVerifyDocument == true ? index == 11 : index == 10) {
-        await FirebaseAuth.instance.signOut();
-        Get.offAll(const LoginScreen());
-      } else {
-        selectedDrawerIndex.value = index;
-      }
+      selectedDrawerIndex.value = index;
     }
 
     Get.back();
@@ -129,42 +67,16 @@ class DashBoardController extends GetxController {
   }
 
   setDrawerList() {
-    if (Constant.isSubscriptionModelApplied == true) {
-      drawerItems.value = [
-        DrawerItem('City'.tr, "assets/icons/ic_city.svg"),
-        // DrawerItem('Rides'.tr, "assets/icons/ic_order.svg"),
-        DrawerItem('OutStation'.tr, "assets/icons/ic_intercity.svg"),
-        // DrawerItem('OutStation Rides'.tr, "assets/icons/ic_order.svg"),
-        DrawerItem('Freight'.tr, "assets/icons/ic_freight.svg"),
-        DrawerItem('My Wallet'.tr, "assets/icons/ic_wallet.svg"),
-        DrawerItem('Bank Details'.tr, "assets/icons/ic_profile.svg"),
-        DrawerItem('Inbox'.tr, "assets/icons/ic_inbox.svg"),
-        DrawerItem('Profile'.tr, "assets/icons/ic_profile.svg"),
-        if (Constant.isVerifyDocument == true) DrawerItem('Online Registration'.tr, "assets/icons/ic_document.svg"),
-        DrawerItem('Vehicle Information'.tr, "assets/icons/ic_city.svg"),
-        DrawerItem('Settings'.tr, "assets/icons/ic_settings.svg"),
-        DrawerItem('Subscription'.tr, "assets/icons/ic_subscription.svg"),
-        DrawerItem('Subscription History'.tr, "assets/icons/ic_subscription_history.svg"),
-        DrawerItem('Log out'.tr, "assets/icons/ic_logout.svg"),
-      ];
-    } else {
-      drawerItems.value = [
-        DrawerItem('City'.tr, "assets/icons/ic_city.svg"),
-        // DrawerItem('Rides'.tr, "assets/icons/ic_order.svg"),
-        DrawerItem('OutStation'.tr, "assets/icons/ic_intercity.svg"),
-        // DrawerItem('OutStation Rides'.tr, "assets/icons/ic_order.svg"),
-        DrawerItem('Freight'.tr, "assets/icons/ic_freight.svg"),
-        DrawerItem('My Wallet'.tr, "assets/icons/ic_wallet.svg"),
-        DrawerItem('Bank Details'.tr, "assets/icons/ic_profile.svg"),
-        DrawerItem('Inbox'.tr, "assets/icons/ic_inbox.svg"),
-        DrawerItem('Profile'.tr, "assets/icons/ic_profile.svg"),
-        if (Constant.isVerifyDocument == true) DrawerItem('Online Registration'.tr, "assets/icons/ic_document.svg"),
-        DrawerItem('Vehicle Information'.tr, "assets/icons/ic_city.svg"),
-        DrawerItem('Settings'.tr, "assets/icons/ic_settings.svg"),
-        DrawerItem('Subscription History'.tr, "assets/icons/ic_subscription_history.svg"),
-        DrawerItem('Log out'.tr, "assets/icons/ic_logout.svg"),
-      ];
-    }
+    drawerItems.value = [
+      DrawerItem('City'.tr, "assets/icons/ic_city.svg"),
+      DrawerItem('My Wallet'.tr, "assets/icons/ic_wallet.svg"),
+      DrawerItem('Inbox'.tr, "assets/icons/ic_inbox.svg"),
+      DrawerItem('Profile'.tr, "assets/icons/ic_profile.svg"),
+      DrawerItem('Online Registration'.tr, "assets/icons/ic_document.svg"),
+      DrawerItem('Vehicle Information'.tr, "assets/icons/ic_city.svg"),
+      DrawerItem('Settings'.tr, "assets/icons/ic_settings.svg"),
+      DrawerItem('Log out'.tr, "assets/icons/ic_logout.svg"),
+    ];
   }
 
   getLocation() async {
@@ -183,6 +95,13 @@ class DashBoardController extends GetxController {
       return Future.value(false);
     }
     return Future.value(true);
+  }
+
+  String getCurrentTitle() {
+    if (selectedDrawerIndex.value >= 0 && selectedDrawerIndex.value < drawerItems.length) {
+      return drawerItems[selectedDrawerIndex.value].title;
+    }
+    return '';
   }
 }
 

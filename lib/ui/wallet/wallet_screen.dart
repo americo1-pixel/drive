@@ -42,58 +42,45 @@ class WalletScreen extends StatelessWidget {
                 : Column(
                     children: [
                       Container(
-                        height: Responsive.width(24, context),
+                        height: Responsive.width(30, context),
                         width: Responsive.width(100, context),
                         color: AppColors.primary,
                         child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 10),
+                          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               Expanded(
                                 child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Text(
-                                      "Total Balance".tr,
-                                      style: GoogleFonts.poppins(color: Colors.white, fontWeight: FontWeight.w600, fontSize: 16),
+                                    Padding(
+                                      padding: const EdgeInsets.only(top: 8),
+                                      child: Text(
+                                        "Total Balance".tr,
+                                        style: GoogleFonts.poppins(color: Colors.white, fontWeight: FontWeight.w600, fontSize: 18),
+                                      ),
                                     ),
+                                    const SizedBox(height: 4),
                                     Text(
-                                      Constant.amountShow(amount: controller.driverUserModel.value.walletAmount.toString()),
-                                      style: GoogleFonts.poppins(color: Colors.white, fontWeight: FontWeight.w600, fontSize: 24),
+                                      "Bs.- ${controller.driverUserModel.value.walletAmount.toString()}",
+                                      style: GoogleFonts.poppins(color: Colors.white, fontWeight: FontWeight.w600, fontSize: 28),
                                     ),
                                   ],
-                                ),
-                              ),
-                              Transform.translate(
-                                offset: const Offset(0, -22),
-                                child: MaterialButton(
-                                  onPressed: () {
-                                    paymentMethodDialog(context, controller);
-                                  },
-                                  height: 40,
-                                  elevation: 0.5,
-                                  minWidth: 0.40,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(30),
-                                  ),
-                                  color: themeChange.getThem() ? AppColors.darkModePrimary : Colors.white,
-                                  child: Text(
-                                    "Topup Wallet".tr.toUpperCase(),
-                                    textAlign: TextAlign.center,
-                                    style: GoogleFonts.poppins(fontWeight: FontWeight.w600),
-                                  ),
                                 ),
                               ),
                             ],
                           ),
                         ),
                       ),
+                      const SizedBox(height: 5),
                       Expanded(
                         child: Container(
                           decoration: BoxDecoration(
-                              color: Theme.of(context).colorScheme.background, borderRadius: const BorderRadius.only(topLeft: Radius.circular(25), topRight: Radius.circular(25))),
+                              color: Theme.of(context).colorScheme.background, 
+                              borderRadius: const BorderRadius.only(topLeft: Radius.circular(25), topRight: Radius.circular(25))),
                           child: Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 10),
                             child: controller.transactionList.isEmpty
@@ -202,42 +189,12 @@ class WalletScreen extends StatelessWidget {
                   ),
             bottomNavigationBar: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: ButtonThem.buildBorderButton(
-                      context,
-                      title: "withdraw".tr,
-                      onPress: () async {
-                        if (double.parse(controller.driverUserModel.value.walletAmount.toString()) <= 0) {
-                          ShowToastDialog.showToast("Insufficient balance".tr);
-                        } else {
-                          ShowToastDialog.showLoader("Please wait".tr);
-                          await FireStoreUtils.bankDetailsIsAvailable().then((value) {
-                            ShowToastDialog.closeLoader();
-                            if (value == true) {
-                              withdrawAmountBottomSheet(context, controller);
-                            } else {
-                              ShowToastDialog.showToast("Your bank details is not available.Please add bank details".tr);
-                            }
-                          });
-                        }
-                      },
-                    ),
-                  ),
-                  const SizedBox(
-                    width: 10,
-                  ),
-                  Expanded(
-                    child: ButtonThem.buildButton(
-                      context,
-                      title: "Withdrawal history".tr,
-                      onPress: () {
-                        Get.to(const WithDrawHistoryScreen());
-                      },
-                    ),
-                  )
-                ],
+              child: ButtonThem.buildButton(
+                context,
+                title: "Recargar mi billetera".tr,
+                onPress: () {
+                  paymentMethodDialog(context, controller);
+                },
               ),
             ),
           );

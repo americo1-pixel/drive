@@ -16,9 +16,9 @@ class OnlineRegistrationScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final themeChange = Provider.of<DarkThemeProvider>(context);
+    final controller = Get.put(OnlineRegistrationController());
 
     return GetBuilder<OnlineRegistrationController>(
-        init: OnlineRegistrationController(),
         builder: (controller) {
           return Scaffold(
             backgroundColor: AppColors.primary,
@@ -57,18 +57,16 @@ class OnlineRegistrationScreen extends StatelessWidget {
                                           padding: const EdgeInsets.all(8.0),
                                           child: Container(
                                             decoration: BoxDecoration(
-                                              color: themeChange.getThem() ? AppColors.darkContainerBackground : AppColors.containerBackground,
+                                              color: Colors.white,
                                               borderRadius: const BorderRadius.all(Radius.circular(10)),
-                                              border: Border.all(color: themeChange.getThem() ? AppColors.darkContainerBorder : AppColors.containerBorder, width: 0.5),
-                                              boxShadow: themeChange.getThem()
-                                                  ? null
-                                                  : [
-                                                      BoxShadow(
-                                                        color: Colors.grey.withOpacity(0.5),
-                                                        blurRadius: 8,
-                                                        offset: const Offset(0, 2), // changes position of shadow
-                                                      ),
-                                                    ],
+                                              boxShadow: [
+                                                BoxShadow(
+                                                  color: Colors.grey.withOpacity(0.3),
+                                                  spreadRadius: 1,
+                                                  blurRadius: 5,
+                                                  offset: const Offset(0, 2), // changes position of shadow
+                                                ),
+                                              ],
                                             ),
                                             child: Padding(
                                               padding: const EdgeInsets.all(8.0),
@@ -77,7 +75,12 @@ class OnlineRegistrationScreen extends StatelessWidget {
                                                 children: [
                                                   Row(
                                                     children: [
-                                                      Expanded(child: Text(Constant.localizationTitle(documentModel.title))),
+                                                      Expanded(
+                                                        child: Text(
+                                                          Constant.localizationTitle(documentModel.title),
+                                                          style: const TextStyle(color: Colors.black),
+                                                        ),
+                                                      ),
                                                       const SizedBox(
                                                         width: 10,
                                                       ),

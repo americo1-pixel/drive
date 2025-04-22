@@ -74,47 +74,57 @@ class VehicleInformationScreen extends StatelessWidget {
                                                           ? AppColors.darkModePrimary
                                                           : AppColors.primary
                                                       : themeChange.getThem()
-                                                          ? AppColors.darkService
+                                                          ? AppColors.grey400
                                                           : controller.colors[index % controller.colors.length],
                                                   borderRadius: const BorderRadius.all(
                                                     Radius.circular(20),
                                                   )),
-                                              child: Column(
-                                                crossAxisAlignment: CrossAxisAlignment.center,
-                                                mainAxisAlignment: MainAxisAlignment.center,
-                                                children: [
-                                                  Container(
-                                                    decoration: const BoxDecoration(
-                                                        color: AppColors.background,
-                                                        borderRadius: BorderRadius.all(
-                                                          Radius.circular(20),
-                                                        )),
-                                                    child: Padding(
-                                                      padding: const EdgeInsets.all(8.0),
-                                                      child: CachedNetworkImage(
-                                                        imageUrl: serviceModel.image.toString(),
-                                                        fit: BoxFit.contain,
-                                                        height: Responsive.height(8, context),
-                                                        width: Responsive.width(18, context),
-                                                        placeholder: (context, url) => Constant.loader(context),
-                                                        errorWidget: (context, url, error) => Image.network(
-                                                            'https://firebasestorage.googleapis.com/v0/b/goride-1a752.appspot.com/o/placeholderImages%2Fuser-placeholder.jpeg?alt=media&token=34a73d67-ba1d-4fe4-a29f-271d3e3ca115'),
+                                              child: Padding(
+                                                padding: const EdgeInsets.all(10.0),
+                                                child: Column(
+                                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                                  mainAxisAlignment: MainAxisAlignment.center,
+                                                  children: [
+                                                    Container(
+                                                      decoration: const BoxDecoration(
+                                                          color: AppColors.background,
+                                                          borderRadius: BorderRadius.all(
+                                                            Radius.circular(20),
+                                                          )),
+                                                      child: Padding(
+                                                        padding: const EdgeInsets.fromLTRB(8.0, 8.0, 8.0, 8.0),
+                                                        child: CachedNetworkImage(
+                                                          imageUrl: serviceModel.image.toString(),
+                                                          fit: BoxFit.contain,
+                                                          height: Responsive.height(6, context),
+                                                          width: Responsive.width(15, context),
+                                                          placeholder: (context, url) => Constant.loader(context),
+                                                          errorWidget: (context, url, error) => Image.network(
+                                                              'https://firebasestorage.googleapis.com/v0/b/goride-1a752.appspot.com/o/placeholderImages%2Fuser-placeholder.jpeg?alt=media&token=34a73d67-ba1d-4fe4-a29f-271d3e3ca115'),
+                                                        ),
                                                       ),
                                                     ),
-                                                  ),
-                                                  const SizedBox(
-                                                    height: 10,
-                                                  ),
-                                                  Text(Constant.localizationTitle(serviceModel.title),
-                                                      style: GoogleFonts.poppins(
-                                                          color: controller.selectedServiceType.value.id == serviceModel.id
-                                                              ? themeChange.getThem()
-                                                                  ? Colors.black
-                                                                  : Colors.white
-                                                              : themeChange.getThem()
-                                                                  ? Colors.white
-                                                                  : Colors.black)),
-                                                ],
+                                                    const SizedBox(
+                                                      height: 5,
+                                                    ),
+                                                    Expanded(
+                                                      child: Center(
+                                                        child: Text(
+                                                          Constant.localizationTitle(serviceModel.title),
+                                                          textAlign: TextAlign.center,
+                                                          style: GoogleFonts.poppins(
+                                                              color: controller.selectedServiceType.value.id == serviceModel.id
+                                                                  ? themeChange.getThem()
+                                                                      ? Colors.black
+                                                                      : Colors.white
+                                                                  : themeChange.getThem()
+                                                                      ? Colors.white
+                                                                      : Colors.black),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
                                               ),
                                             ),
                                           ),
@@ -126,147 +136,138 @@ class VehicleInformationScreen extends StatelessWidget {
                                 const SizedBox(
                                   height: 10,
                                 ),
-                                TextFieldThem.buildTextFiled(context, hintText: 'Vehicle Number'.tr, controller: controller.vehicleNumberController.value),
+                                Text("Número de Vehículo".tr, style: GoogleFonts.poppins(fontSize: 16, fontWeight: FontWeight.w600, color: Colors.black)),
                                 const SizedBox(
-                                  height: 10,
+                                  height: 5,
                                 ),
-                                InkWell(
-                                  onTap: () async {
-                                    await Constant.selectDate(context).then((value) {
-                                      if (value != null) {
-                                        controller.selectedDate.value = value;
-                                        controller.registrationDateController.value.text = DateFormat("dd-MM-yyyy").format(value);
-                                      }
-                                    });
-                                  },
-                                  child: TextFieldThem.buildTextFiled(context,
-                                      hintText: 'Registration Date'.tr, controller: controller.registrationDateController.value, enable: false),
+                                TextFieldThem.buildTextFiled(
+                                  context, 
+                                  hintText: 'Vehicle Number'.tr, 
+                                  controller: controller.vehicleNumberController.value,
                                 ),
                                 const SizedBox(
                                   height: 10,
+                                ),
+                                Text("Tipo de Vehículo".tr, style: GoogleFonts.poppins(fontSize: 16, fontWeight: FontWeight.w600, color: Colors.black)),
+                                const SizedBox(
+                                  height: 5,
                                 ),
                                 DropdownButtonFormField<VehicleTypeModel>(
                                     decoration: InputDecoration(
                                       filled: true,
-                                      fillColor: themeChange.getThem() ? AppColors.darkTextField : AppColors.textField,
-                                      contentPadding: const EdgeInsets.only(left: 10, right: 10),
-                                      disabledBorder: OutlineInputBorder(
-                                        borderRadius: const BorderRadius.all(Radius.circular(4)),
-                                        borderSide: BorderSide(color: themeChange.getThem() ? AppColors.darkTextFieldBorder : AppColors.textFieldBorder, width: 1),
-                                      ),
-                                      focusedBorder: OutlineInputBorder(
-                                        borderRadius: const BorderRadius.all(Radius.circular(4)),
-                                        borderSide: BorderSide(color: themeChange.getThem() ? AppColors.darkTextFieldBorder : AppColors.textFieldBorder, width: 1),
+                                      fillColor: Colors.white,
+                                      hintStyle: GoogleFonts.poppins(color: Colors.grey[600], fontSize: 14),
+                                      contentPadding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
+                                      border: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(8),
+                                        borderSide: BorderSide(color: Colors.grey[400]!),
                                       ),
                                       enabledBorder: OutlineInputBorder(
-                                        borderRadius: const BorderRadius.all(Radius.circular(4)),
-                                        borderSide: BorderSide(color: themeChange.getThem() ? AppColors.darkTextFieldBorder : AppColors.textFieldBorder, width: 1),
+                                        borderRadius: BorderRadius.circular(8),
+                                        borderSide: BorderSide(color: Colors.grey[400]!),
                                       ),
-                                      errorBorder: OutlineInputBorder(
-                                        borderRadius: const BorderRadius.all(Radius.circular(4)),
-                                        borderSide: BorderSide(color: themeChange.getThem() ? AppColors.darkTextFieldBorder : AppColors.textFieldBorder, width: 1),
-                                      ),
-                                      border: OutlineInputBorder(
-                                        borderRadius: const BorderRadius.all(Radius.circular(4)),
-                                        borderSide: BorderSide(color: themeChange.getThem() ? AppColors.darkTextFieldBorder : AppColors.textFieldBorder, width: 1),
+                                      focusedBorder: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(8),
+                                        borderSide: BorderSide(color: Colors.grey[400]!),
                                       ),
                                     ),
+                                    style: GoogleFonts.poppins(color: Colors.black),
                                     validator: (value) => value == null ? 'field required' : null,
                                     value: controller.selectedVehicle.value.id == null ? null : controller.selectedVehicle.value,
                                     onChanged: (value) {
                                       controller.selectedVehicle.value = value!;
                                     },
-                                    hint: Text("Select vehicle type".tr),
+                                    hint: Text("Select vehicle type".tr, style: GoogleFonts.poppins(color: Colors.grey[600], fontSize: 14)),
                                     items: controller.vehicleList.map((item) {
                                       return DropdownMenuItem(
                                         value: item,
-                                        child: Text(Constant.localizationName(item.name)),
+                                        child: Text(Constant.localizationName(item.name), style: GoogleFonts.poppins(color: Colors.black)),
                                       );
                                     }).toList()),
                                 const SizedBox(
                                   height: 10,
                                 ),
+                                Text("Color del Vehículo".tr, style: GoogleFonts.poppins(fontSize: 16, fontWeight: FontWeight.w600, color: Colors.black)),
+                                const SizedBox(
+                                  height: 5,
+                                ),
                                 DropdownButtonFormField<String>(
                                     decoration: InputDecoration(
                                       filled: true,
-                                      fillColor: themeChange.getThem() ? AppColors.darkTextField : AppColors.textField,
-                                      contentPadding: const EdgeInsets.only(left: 10, right: 10),
-                                      disabledBorder: OutlineInputBorder(
-                                        borderRadius: const BorderRadius.all(Radius.circular(4)),
-                                        borderSide: BorderSide(color: themeChange.getThem() ? AppColors.darkTextFieldBorder : AppColors.textFieldBorder, width: 1),
-                                      ),
-                                      focusedBorder: OutlineInputBorder(
-                                        borderRadius: const BorderRadius.all(Radius.circular(4)),
-                                        borderSide: BorderSide(color: themeChange.getThem() ? AppColors.darkTextFieldBorder : AppColors.textFieldBorder, width: 1),
+                                      fillColor: Colors.white,
+                                      hintStyle: GoogleFonts.poppins(color: Colors.grey[600], fontSize: 14),
+                                      contentPadding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
+                                      border: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(8),
+                                        borderSide: BorderSide(color: Colors.grey[400]!),
                                       ),
                                       enabledBorder: OutlineInputBorder(
-                                        borderRadius: const BorderRadius.all(Radius.circular(4)),
-                                        borderSide: BorderSide(color: themeChange.getThem() ? AppColors.darkTextFieldBorder : AppColors.textFieldBorder, width: 1),
+                                        borderRadius: BorderRadius.circular(8),
+                                        borderSide: BorderSide(color: Colors.grey[400]!),
                                       ),
-                                      errorBorder: OutlineInputBorder(
-                                        borderRadius: const BorderRadius.all(Radius.circular(4)),
-                                        borderSide: BorderSide(color: themeChange.getThem() ? AppColors.darkTextFieldBorder : AppColors.textFieldBorder, width: 1),
-                                      ),
-                                      border: OutlineInputBorder(
-                                        borderRadius: const BorderRadius.all(Radius.circular(4)),
-                                        borderSide: BorderSide(color: themeChange.getThem() ? AppColors.darkTextFieldBorder : AppColors.textFieldBorder, width: 1),
+                                      focusedBorder: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(8),
+                                        borderSide: BorderSide(color: Colors.grey[400]!),
                                       ),
                                     ),
+                                    style: GoogleFonts.poppins(color: Colors.black),
                                     validator: (value) => value == null ? 'field required' : null,
                                     value: controller.selectedColor.value.isEmpty ? null : controller.selectedColor.value,
                                     onChanged: (value) {
                                       controller.selectedColor.value = value!;
                                     },
-                                    hint: Text("Select vehicle color".tr),
+                                    hint: Text("Select vehicle color".tr, style: GoogleFonts.poppins(color: Colors.grey[600], fontSize: 14)),
                                     items: controller.carColorList.map((item) {
                                       return DropdownMenuItem(
                                         value: item,
-                                        child: Text(item.toString()),
+                                        child: Text(item.toString(), style: GoogleFonts.poppins(color: Colors.black)),
                                       );
                                     }).toList()),
                                 const SizedBox(
                                   height: 10,
                                 ),
+                                Text("Número de Asientos".tr, style: GoogleFonts.poppins(fontSize: 16, fontWeight: FontWeight.w600, color: Colors.black)),
+                                const SizedBox(
+                                  height: 5,
+                                ),
                                 DropdownButtonFormField<String>(
                                     decoration: InputDecoration(
                                       filled: true,
-                                      fillColor: themeChange.getThem() ? AppColors.darkTextField : AppColors.textField,
-                                      contentPadding: const EdgeInsets.only(left: 10, right: 10),
-                                      disabledBorder: OutlineInputBorder(
-                                        borderRadius: const BorderRadius.all(Radius.circular(4)),
-                                        borderSide: BorderSide(color: themeChange.getThem() ? AppColors.darkTextFieldBorder : AppColors.textFieldBorder, width: 1),
-                                      ),
-                                      focusedBorder: OutlineInputBorder(
-                                        borderRadius: const BorderRadius.all(Radius.circular(4)),
-                                        borderSide: BorderSide(color: themeChange.getThem() ? AppColors.darkTextFieldBorder : AppColors.textFieldBorder, width: 1),
+                                      fillColor: Colors.white,
+                                      hintStyle: GoogleFonts.poppins(color: Colors.grey[600], fontSize: 14),
+                                      contentPadding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
+                                      border: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(8),
+                                        borderSide: BorderSide(color: Colors.grey[400]!),
                                       ),
                                       enabledBorder: OutlineInputBorder(
-                                        borderRadius: const BorderRadius.all(Radius.circular(4)),
-                                        borderSide: BorderSide(color: themeChange.getThem() ? AppColors.darkTextFieldBorder : AppColors.textFieldBorder, width: 1),
+                                        borderRadius: BorderRadius.circular(8),
+                                        borderSide: BorderSide(color: Colors.grey[400]!),
                                       ),
-                                      errorBorder: OutlineInputBorder(
-                                        borderRadius: const BorderRadius.all(Radius.circular(4)),
-                                        borderSide: BorderSide(color: themeChange.getThem() ? AppColors.darkTextFieldBorder : AppColors.textFieldBorder, width: 1),
-                                      ),
-                                      border: OutlineInputBorder(
-                                        borderRadius: const BorderRadius.all(Radius.circular(4)),
-                                        borderSide: BorderSide(color: themeChange.getThem() ? AppColors.darkTextFieldBorder : AppColors.textFieldBorder, width: 1),
+                                      focusedBorder: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(8),
+                                        borderSide: BorderSide(color: Colors.grey[400]!),
                                       ),
                                     ),
+                                    style: GoogleFonts.poppins(color: Colors.black),
                                     validator: (value) => value == null ? 'field required' : null,
                                     value: controller.seatsController.value.text.isEmpty ? null : controller.seatsController.value.text,
                                     onChanged: (value) {
                                       controller.seatsController.value.text = value!;
                                     },
-                                    hint: Text("How Many Seats".tr),
+                                    hint: Text("How Many Seats".tr, style: GoogleFonts.poppins(color: Colors.grey[600], fontSize: 14)),
                                     items: controller.sheetList.map((item) {
                                       return DropdownMenuItem(
                                         value: item,
-                                        child: Text(item.toString()),
+                                        child: Text(item.toString(), style: GoogleFonts.poppins(color: Colors.black)),
                                       );
                                     }).toList()),
                                 const SizedBox(
                                   height: 10,
+                                ),
+                                Text("Zona".tr, style: GoogleFonts.poppins(fontSize: 16, fontWeight: FontWeight.w600, color: Colors.black)),
+                                const SizedBox(
+                                  height: 5,
                                 ),
                                 InkWell(
                                   onTap: () {
@@ -282,81 +283,62 @@ class VehicleInformationScreen extends StatelessWidget {
                                 const SizedBox(
                                   height: 10,
                                 ),
-                                controller.selectedServiceType.value.isAcNonAc == true
-                                    ? Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: [
-                                          Text("A/C Per Km Rate".tr, style: GoogleFonts.poppins(fontSize: 16, fontWeight: FontWeight.w600)),
-                                          const SizedBox(
-                                            height: 10,
-                                          ),
-                                          TextFieldThem.buildTextFiledWithPrefixIcon(
-                                            context,
-                                            hintText: 'A/C Per Km Rate'.tr,
-                                            keyBoardType: TextInputType.numberWithOptions(decimal: true),
-                                            controller: controller.acPerKmRate.value,
-                                            prefix: Padding(
-                                              padding: const EdgeInsets.only(right: 10),
-                                              child: Text(Constant.currencyModel!.symbol.toString()),
-                                            ),
-                                          ),
-                                          const SizedBox(
-                                            height: 10,
-                                          ),
-                                          Text("Non A/C Per Km Rate".tr, style: GoogleFonts.poppins(fontSize: 16, fontWeight: FontWeight.w600)),
-                                          const SizedBox(
-                                            height: 10,
-                                          ),
-                                          TextFieldThem.buildTextFiledWithPrefixIcon(
-                                            context,
-                                            hintText: 'Non A/C Per Km Rate'.tr,
-                                            controller: controller.nonAcPerKmRate.value,
-                                            keyBoardType: TextInputType.numberWithOptions(decimal: true),
-                                            prefix: Padding(
-                                              padding: const EdgeInsets.only(right: 10),
-                                              child: Text(Constant.currencyModel!.symbol.toString()),
-                                            ),
-                                          ),
-                                          const SizedBox(
-                                            height: 10,
-                                          ),
-                                        ],
-                                      )
-                                    : Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: [
-                                          Text("Per Km Rate".tr, style: GoogleFonts.poppins(fontSize: 16, fontWeight: FontWeight.w600)),
-                                          TextFieldThem.buildTextFiledWithPrefixIcon(
-                                            context,
-                                            hintText: 'Per Km Rate'.tr,
-                                            controller: controller.acNonAcWithoutPerKmRate.value,
-                                            keyBoardType: TextInputType.numberWithOptions(decimal: true),
-                                            prefix: Padding(
-                                              padding: const EdgeInsets.only(right: 10),
-                                              child: Text(Constant.currencyModel!.symbol.toString()),
-                                            ),
-                                          ),
-                                          SizedBox(
-                                            height: 10,
-                                          )
-                                        ],
-                                      ),
-                                Text("Select Your Rules".tr, style: GoogleFonts.poppins(fontWeight: FontWeight.w600, fontSize: 16)),
-                                ListBody(
-                                  children: controller.driverRulesList
-                                      .map((item) => CheckboxListTile(
-                                            checkColor: themeChange.getThem() ? AppColors.darkModePrimary : AppColors.primary,
-                                            value: controller.selectedDriverRulesList.indexWhere((element) => element.id == item.id) == -1 ? false : true,
-                                            title: Text(Constant.localizationName(item.name), style: GoogleFonts.poppins(fontWeight: FontWeight.w400)),
-                                            onChanged: (value) {
-                                              if (value == true) {
-                                                controller.selectedDriverRulesList.add(item);
-                                              } else {
-                                                controller.selectedDriverRulesList.removeAt(controller.selectedDriverRulesList.indexWhere((element) => element.id == item.id));
-                                              }
-                                            },
-                                          ))
-                                      .toList(),
+                                Divider(
+                                  color: AppColors.darkContainerBorder,
+                                  thickness: 1,          // Grosor de la línea
+                                  indent: 5,            // Espacio a la izquierda de la línea
+                                  endIndent: 5,         // Espacio a la derecha de la línea
+                                ),
+                                ExpansionTile(
+                                  title: Text("Select Your Rules".tr, 
+                                    style: GoogleFonts.poppins(
+                                      fontWeight: FontWeight.w600, 
+                                      fontSize: 16,
+                                      color: Colors.black
+                                    )
+                                  ),
+                                  iconColor: AppColors.primary,
+                                  collapsedIconColor: Colors.black,
+                                  children: [
+                                    ListBody(
+                                      children: controller.driverRulesList
+                                          .map((item) => CheckboxListTile(
+                                                checkColor: themeChange.getThem()
+                                                    ? AppColors.primary
+                                                    : AppColors.primary,
+                                                side: const BorderSide(color: AppColors.darkService, width: 2),
+                                                activeColor: Colors.white,
+                                                shape: RoundedRectangleBorder(
+                                                  side: const BorderSide(color: AppColors.darkService, width: 2),
+                                                  borderRadius: BorderRadius.circular(2),
+                                                ),
+                                                value: controller.selectedDriverRulesList.indexWhere(
+                                                            (element) => element.id == item.id) != -1,
+                                                title: Text(
+                                                  Constant.localizationName(item.name),
+                                                  style: GoogleFonts.poppins(
+                                                    fontWeight: FontWeight.w400,
+                                                    color: AppColors.darkService,
+                                                  ),
+                                                ),
+                                                onChanged: (value) {
+                                                  if (value == true) {
+                                                    controller.selectedDriverRulesList.add(item);
+                                                  } else {
+                                                    controller.selectedDriverRulesList.removeWhere(
+                                                        (element) => element.id == item.id);
+                                                  }
+                                                },
+                                              ))
+                                          .toList(),
+                                    ),
+                                  ],
+                                ),
+                                Divider(
+                                  color: AppColors.darkContainerBorder,
+                                  thickness: 1,          // Grosor de la línea
+                                  indent: 5,            // Espacio a la izquierda de la línea
+                                  endIndent: 5,         // Espacio a la derecha de la línea
                                 ),
                                 const SizedBox(
                                   height: 20,
@@ -378,10 +360,6 @@ class VehicleInformationScreen extends StatelessWidget {
                                         ShowToastDialog.showToast(
                                           "Please enter Vehicle number".tr,
                                         );
-                                      } else if (controller.registrationDateController.value.text.isEmpty) {
-                                        ShowToastDialog.showToast(
-                                          "Please select registration date".tr,
-                                        );
                                       } else if (controller.selectedVehicle.value.id == null || controller.selectedVehicle.value.id!.isEmpty) {
                                         ShowToastDialog.showToast(
                                           "Please enter Vehicle type".tr,
@@ -398,59 +376,20 @@ class VehicleInformationScreen extends StatelessWidget {
                                         ShowToastDialog.showToast(
                                           "Please select Zone".tr,
                                         );
-                                      } else if (controller.selectedServiceType.value.isAcNonAc == true) {
-                                        if (controller.acPerKmRate.value.text.isEmpty) {
-                                          ShowToastDialog.showToast(
-                                            "Please enter A/C Per Km Rate".tr,
-                                          );
-                                          return;
-                                        } else if (double.parse(controller.selectedServiceType.value.acCharge.toString()) < double.parse(controller.acPerKmRate.value.text)) {
-                                          ShowToastDialog.showToast(
-                                              "${"Maximum allowed value is".tr} ${controller.selectedServiceType.value.acCharge.toString()} ${"Please enter a lower A/c value.".tr}"
-                                                  .tr,
-                                          );
-                                          return;
-                                        } else if (controller.nonAcPerKmRate.value.text.isEmpty) {
-                                          ShowToastDialog.showToast(
-                                            "Please enter Non A/C Per Km Rate".tr,
-                                          );
-                                          return;
-                                        } else if (double.parse(controller.selectedServiceType.value.nonAcCharge.toString()) < double.parse(controller.nonAcPerKmRate.value.text)) {
-                                          ShowToastDialog.showToast(
-                                              "${"Maximum allowed value is".tr} ${controller.selectedServiceType.value.nonAcCharge.toString()} ${"Please enter a lower Non A/c value.".tr}"
-                                                  .tr,
-                                          );
-                                          return;
-                                        }else{
-                                          controller.saveDetails();
-                                        }
-                                      } else if (controller.selectedServiceType.value.isAcNonAc == false) {
-                                        if (controller.acNonAcWithoutPerKmRate.value.text.isEmpty) {
-                                          ShowToastDialog.showToast(
-                                            "Please enter  Per Km Rate".tr,
-                                          );
-                                          return;
-                                        }else if (double.parse(controller.selectedServiceType.value.kmCharge.toString()) < double.parse(controller.acNonAcWithoutPerKmRate.value.text)) {
-                                          ShowToastDialog.showToast(
-                                              "${"Maximum allowed value is".tr} ${controller.selectedServiceType.value.kmCharge.toString()} ${"Please enter a lower price.".tr}"
-                                                  .tr,
-                                          );
-                                          return;
-                                        }else{
-                                          controller.saveDetails();
-                                        }
                                       } else {
                                         controller.saveDetails();
-
                                       }
                                     },
                                   ),
                                 ),
                                 const SizedBox(
-                                  height: 20,
+                                  height: 10,
                                 ),
                                 Text("You can not change once you select one service type if you want to change please contact to administrator ".tr,
-                                    textAlign: TextAlign.center, style: GoogleFonts.poppins()),
+                                    textAlign: TextAlign.center, style: GoogleFonts.poppins(color: Colors.black)),
+                                const SizedBox(
+                                  height: 15,
+                                ),
                               ],
                             ),
                           ),
