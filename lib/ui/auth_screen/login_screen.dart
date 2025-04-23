@@ -39,7 +39,14 @@ class LoginScreen extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Image.asset("assets/images/login_image.png", width: Responsive.width(100, context)),
+                  const SizedBox(height: 80),
+                  Center(
+                    child: Image.asset(
+                      "assets/images/login_image.png", 
+                      width: Responsive.width(50, context)
+                    ),
+                  ),
+                  const SizedBox(height: 30),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 20),
                     child: Column(
@@ -47,11 +54,13 @@ class LoginScreen extends StatelessWidget {
                       children: [
                         Padding(
                           padding: const EdgeInsets.only(top: 10),
-                          child: Text("Login".tr, style: GoogleFonts.poppins(fontWeight: FontWeight.w600, fontSize: 18)),
+                          child: Center(
+                            child: Text("Login".tr, style: GoogleFonts.poppins(fontWeight: FontWeight.w600, fontSize: 18, color: Colors.black)),
+                          ),
                         ),
                         Padding(
                           padding: const EdgeInsets.only(top: 5),
-                          child: Text("Welcome Back! We are happy to have \n you back".tr, style: GoogleFonts.poppins(fontWeight: FontWeight.w400)),
+                          child: Text("Welcome Back! We are happy to have \n you back".tr, textAlign: TextAlign.center, style: GoogleFonts.poppins(fontWeight: FontWeight.w400, color: Colors.black)),
                         ),
                         const SizedBox(
                           height: 20,
@@ -62,11 +71,11 @@ class LoginScreen extends StatelessWidget {
                             textCapitalization: TextCapitalization.sentences,
                             controller: controller.phoneNumberController.value,
                             textAlign: TextAlign.start,
-                            style: GoogleFonts.poppins(color: themeChange.getThem() ? Colors.white : Colors.black),
+                            style: GoogleFonts.poppins(color: themeChange.getThem() ? Colors.black : Colors.black),
                             decoration: InputDecoration(
                                 isDense: true,
                                 filled: true,
-                                fillColor: themeChange.getThem() ? AppColors.darkTextField : AppColors.textField,
+                                fillColor: themeChange.getThem() ? AppColors.textField : AppColors.textField,
                                 contentPadding: const EdgeInsets.symmetric(vertical: 12),
                                 prefixIcon: CountryCodePicker(
                                   onChanged: (value) {
@@ -74,11 +83,14 @@ class LoginScreen extends StatelessWidget {
                                   },
                                   dialogBackgroundColor: themeChange.getThem() ? AppColors.darkBackground : AppColors.background,
                                   initialSelection: controller.countryCode.value,
+                                  textStyle: GoogleFonts.poppins(color: Colors.black),
                                   comparator: (a, b) => b.name!.compareTo(a.name.toString()),
                                   flagDecoration: const BoxDecoration(
                                     borderRadius: BorderRadius.all(Radius.circular(2)),
                                   ),
                                 ),
+                                hintText: "Phone number".tr,
+                                hintStyle: GoogleFonts.poppins(color: Colors.black38),
                                 disabledBorder: OutlineInputBorder(
                                   borderRadius: const BorderRadius.all(Radius.circular(4)),
                                   borderSide: BorderSide(color: themeChange.getThem() ? AppColors.darkTextFieldBorder : AppColors.textFieldBorder, width: 1),
@@ -98,8 +110,8 @@ class LoginScreen extends StatelessWidget {
                                 border: OutlineInputBorder(
                                   borderRadius: const BorderRadius.all(Radius.circular(4)),
                                   borderSide: BorderSide(color: themeChange.getThem() ? AppColors.darkTextFieldBorder : AppColors.textFieldBorder, width: 1),
-                                ),
-                                hintText: "Phone number".tr)),
+                                )
+                            )),
                         const SizedBox(
                           height: 30,
                         ),
@@ -314,8 +326,8 @@ class LoginScreen extends StatelessWidget {
                 child: Text.rich(
                   textAlign: TextAlign.center,
                   TextSpan(
-                    text: 'By tapping "Next" you agree to '.tr,
-                    style: GoogleFonts.poppins(),
+                    text: 'By tapping "Next" you agree to '.tr, 
+                    style: GoogleFonts.poppins(color: Colors.black),
                     children: <TextSpan>[
                       TextSpan(
                           recognizer: TapGestureRecognizer()

@@ -178,7 +178,7 @@ class DashBoardScreen extends StatelessWidget {
       builder: (BuildContext context) {
         return AlertDialog(
           // <-- SEE HERE
-          title: Text('Information'.tr),
+          title: Text('¡Completa tu perfil!'.tr),
           content: SingleChildScrollView(
             child: ListBody(
               children: <Widget>[
@@ -190,25 +190,37 @@ class DashBoardScreen extends StatelessWidget {
           ),
           actions: <Widget>[
             TextButton(
-              child: Text('No'.tr),
+              style: TextButton.styleFrom(
+                backgroundColor: Colors.grey[300],
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8),
+                ),
+              ),
+              child: Text('Ahora no'.tr, style: GoogleFonts.poppins(color: Colors.black)),
               onPressed: () {
                 Get.back();
               },
             ),
             TextButton(
-              child: Text('Yes'.tr),
+              style: TextButton.styleFrom(
+                backgroundColor: AppColors.primary,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8),
+                ),
+              ),
+              child: Text('Completar Ahora'.tr, style: GoogleFonts.poppins(color: Colors.white)),
               onPressed: () {
                 if (type == "document") {
                   if (Constant.isVerifyDocument == true) {
-                    controllerDashBoard.onSelectItem(7);
+                    controllerDashBoard.onSelectItem(5);
                   } else {
-                    controllerDashBoard.onSelectItem(6);
+                    controllerDashBoard.onSelectItem(5);
                   }
                 } else {
                   if (Constant.isVerifyDocument == true) {
-                    controllerDashBoard.onSelectItem(8);
+                    controllerDashBoard.onSelectItem(5);
                   } else {
-                    controllerDashBoard.onSelectItem(7);
+                    controllerDashBoard.onSelectItem(5);
                   }
                 }
               },

@@ -347,7 +347,7 @@ class VehicleInformationScreen extends StatelessWidget {
                                   alignment: Alignment.center,
                                   child: ButtonThem.buildButton(
                                     context,
-                                    title: "Save".tr,
+                                    title: "Guardar".tr,
                                     onPress: () async {
                                       ShowToastDialog.showLoader("Please wait".tr);
 

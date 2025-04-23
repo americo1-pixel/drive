@@ -29,7 +29,15 @@ class NewOrderScreen extends StatelessWidget {
               ? Constant.loader(context)
               : controller.driverModel.value.isOnline == false
                   ? Center(
-                      child: Text("You are Now offline so you can't get nearest order.".tr),
+                      child: Text(
+                        "You are Now offline so you can't get nearest order.".tr,
+                        style: GoogleFonts.poppins(
+                          color: Colors.black,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w400
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
                     )
                   : StreamBuilder<List<OrderModel>>(
                       stream: FireStoreUtils().getOrders(controller.driverModel.value, Constant.currentLocation?.latitude, Constant.currentLocation?.longitude),

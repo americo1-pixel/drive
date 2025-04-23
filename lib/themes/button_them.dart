@@ -68,8 +68,8 @@ class ButtonThem {
         height: btnHeight,
         child: ElevatedButton(
           style: ButtonStyle(
-            backgroundColor: MaterialStateProperty.all<Color>(themeChange.getThem() ? Colors.transparent : Colors.white),
-            foregroundColor: MaterialStateProperty.all<Color>(themeChange.getThem() ? AppColors.darkModePrimary : Colors.white),
+            backgroundColor: MaterialStateProperty.all<Color>(Colors.white),
+            foregroundColor: MaterialStateProperty.all<Color>(themeChange.getThem() ? AppColors.darkModePrimary : AppColors.primary),
             shape: MaterialStateProperty.all<RoundedRectangleBorder>(
               RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(borderRadius),
@@ -94,7 +94,7 @@ class ButtonThem {
               Text(
                 title.toUpperCase(),
                 textAlign: TextAlign.center,
-                style: GoogleFonts.poppins(color: themeChange.getThem() ? AppColors.darkModePrimary : AppColors.primary, fontSize: txtSize, fontWeight: FontWeight.w600),
+                style: GoogleFonts.poppins(color: Colors.black, fontSize: txtSize, fontWeight: FontWeight.w600),
               ),
             ],
           ),

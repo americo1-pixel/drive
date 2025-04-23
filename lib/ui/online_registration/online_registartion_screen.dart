@@ -60,13 +60,13 @@ class OnlineRegistrationScreen extends StatelessWidget {
                                               color: Colors.white,
                                               borderRadius: const BorderRadius.all(Radius.circular(10)),
                                               boxShadow: [
-                                                BoxShadow(
+                                                      BoxShadow(
                                                   color: Colors.grey.withOpacity(0.3),
                                                   spreadRadius: 1,
                                                   blurRadius: 5,
-                                                  offset: const Offset(0, 2), // changes position of shadow
-                                                ),
-                                              ],
+                                                        offset: const Offset(0, 2), // changes position of shadow
+                                                      ),
+                                                    ],
                                             ),
                                             child: Padding(
                                               padding: const EdgeInsets.all(8.0),

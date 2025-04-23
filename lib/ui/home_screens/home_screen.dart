@@ -37,15 +37,15 @@ class HomeScreen extends StatelessWidget {
                               width: Responsive.width(100, context),
                               child: Container(
                                 color: Colors.green,
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                                   child: Row(
                                     children: [
                                       Expanded(
-                                        child: Text(
-                                            "You have to minimum ${Constant.amountShow(amount: Constant.minimumDepositToRideAccept.toString())} wallet amount to Accept Order and place a bid"
-                                                .tr,
-                                            style: GoogleFonts.poppins(color: Colors.white)),
+                                child: Text(
+                                    "You have to minimum ${Constant.amountShow(amount: Constant.minimumDepositToRideAccept.toString())} wallet amount to Accept Order and place a bid"
+                                        .tr,
+                                    style: GoogleFonts.poppins(color: Colors.white)),
                                       ),
                                       ElevatedButton(
                                         onPressed: () {

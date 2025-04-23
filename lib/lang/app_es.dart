@@ -257,4 +257,6 @@ const Map<String, String> esES = {
   'Online Registration': 'Registro en línea',
   'Unverified': 'No verificado',
   'No Ride found': 'No se encontraron viajes',
+  'Double press to exit': 'Presiona dos veces para salir',
+  'Select Country': 'Selecciona tu país',
 };

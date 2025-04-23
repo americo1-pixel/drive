@@ -114,7 +114,15 @@ class InboxScreen extends StatelessWidget {
                     );
                   },
                   shrinkWrap: true,
-                  onEmpty:  Center(child: Text("No Conversion found".tr)),
+                  onEmpty:  Center(child: Text("No Conversion found".tr,
+                        style: GoogleFonts.poppins(
+                          color: Colors.black,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w400
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
                   // orderBy is compulsory to enable pagination
                   query: FirebaseFirestore.instance.collection(CollectionName.chat).where("driverId", isEqualTo: FireStoreUtils.getCurrentUid()).orderBy('createdAt', descending: true),
                   //Change types customerId

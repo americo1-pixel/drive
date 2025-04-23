@@ -24,10 +24,10 @@ class OnBoardingScreen extends StatelessWidget {
               : Stack(
                   children: [
                     controller.selectedPageIndex.value == 0
-                        ? Image.asset("assets/images/onboarding_1.png")
+                        ? Image.asset("assets/images/onboarding_1.png", width: double.infinity, height: double.infinity, fit: BoxFit.cover)
                         : controller.selectedPageIndex.value == 1
-                            ? Image.asset("assets/images/onboarding_2.png")
-                            : Image.asset("assets/images/onboarding_3.png"),
+                            ? Image.asset("assets/images/onboarding_2.png", width: double.infinity, height: double.infinity, fit: BoxFit.cover)
+                            : Image.asset("assets/images/onboarding_3.png", width: double.infinity, height: double.infinity, fit: BoxFit.cover),
                     Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
@@ -48,11 +48,14 @@ class OnBoardingScreen extends StatelessWidget {
                                       flex: 2,
                                       child: Padding(
                                         padding: const EdgeInsets.all(40),
-                                        child: CachedNetworkImage(
-                                          imageUrl: controller.onBoardingList[index].image.toString(),
-                                          fit: BoxFit.cover,
-                                          placeholder: (context, url) => Constant.loader(context),
-                                          errorWidget: (context, url, error) => Image.network(Constant.userPlaceHolder),
+                                        child: ClipRRect(
+                                          borderRadius: BorderRadius.circular(20),
+                                          child: CachedNetworkImage(
+                                            imageUrl: controller.onBoardingList[index].image.toString(),
+                                            fit: BoxFit.cover,
+                                            placeholder: (context, url) => Constant.loader(context),
+                                            errorWidget: (context, url, error) => Image.network(Constant.userPlaceHolder),
+                                          ),
                                         ),
                                       ),
                                     ),

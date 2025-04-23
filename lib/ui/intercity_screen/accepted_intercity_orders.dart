@@ -52,8 +52,15 @@ class AcceptedIntercityOrders extends StatelessWidget {
                     }
                     return snapshot.data!.docs.isEmpty
                         ? Center(
-                            child: Text("No accepted ride found".tr),
-                          )
+                                child: Text("No accepted ride found".tr,
+                            style: GoogleFonts.poppins(
+                              color: Colors.black,
+                              fontSize: 16,
+                              fontWeight: FontWeight.w400
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                        )
                         : ListView.builder(
                             itemCount: snapshot.data!.docs.length,
                             scrollDirection: Axis.vertical,

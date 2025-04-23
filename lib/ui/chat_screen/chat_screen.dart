@@ -89,7 +89,15 @@ class _ChatScreensState extends State<ChatScreens> {
                     ConversationModel inboxModel = ConversationModel.fromJson(documentSnapshots[index].data() as Map<String, dynamic>);
                     return chatItemView(inboxModel.senderId == FireStoreUtils.getCurrentUid(), inboxModel);
                   },
-                  onEmpty:  Center(child: Text("No Conversion found".tr)),
+                  onEmpty:  Center(child: Text("No Conversion found".tr,
+                        style: GoogleFonts.poppins(
+                          color: Colors.black,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w400
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
                   // orderBy is compulsory to enable pagination
                   query: FirebaseFirestore.instance.collection(CollectionName.chat).doc(widget.orderId).collection("thread").orderBy('createdAt', descending: false),
                   //Change types customerId

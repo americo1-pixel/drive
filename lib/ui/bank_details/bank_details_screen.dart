@@ -82,7 +82,7 @@ class BankDetailsScreen extends StatelessWidget {
                                   ),
                                   ButtonThem.buildButton(
                                     context,
-                                    title: "Save".tr,
+                                    title: "GUardar".tr,
                                     onPress: () async {
                                       if (controller.bankNameController.value.text.isEmpty) {
                                         ShowToastDialog.showToast("Please enter bank name".tr);

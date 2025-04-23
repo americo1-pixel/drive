@@ -52,7 +52,15 @@ class WithDrawHistoryScreen extends StatelessWidget {
                             return Text(snapshot.error.toString());
                           } else {
                             return snapshot.data!.isEmpty
-                                ?  Center(child: Text("No transaction found".tr))
+                                ? Center(child: Text("No transaction found".tr,
+                                      style: GoogleFonts.poppins(
+                                        color: Colors.black,
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w400
+                                      ),
+                                      textAlign: TextAlign.center,
+                                    ),
+                                  )
                                 : ListView.builder(
                                     itemCount: snapshot.data!.length,
                                     itemBuilder: (context, index) {
