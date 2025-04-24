@@ -121,7 +121,7 @@ class OrderScreen extends StatelessWidget {
                                                         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                                                         child: Row(
                                                           children: [
-                                                            Expanded(child: Text(orderModel.status.toString(), style: GoogleFonts.poppins(fontWeight: FontWeight.w600))),
+                                                            Expanded(child: Text(orderModel.status.toString().tr, style: GoogleFonts.poppins(fontWeight: FontWeight.w600))),
                                                             Text(Constant().formatTimestamp(orderModel.createdDate), style: GoogleFonts.poppins()),
                                                           ],
                                                         )),

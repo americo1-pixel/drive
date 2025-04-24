@@ -129,6 +129,7 @@ class UserView extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
                               Text(Constant.amountShow(amount: amount.toString()), style: GoogleFonts.poppins(fontWeight: FontWeight.w500)),
+                              /*
                               isAcOrNonAc == null
                                   ? SizedBox()
                                   : Row(
@@ -143,6 +144,7 @@ class UserView extends StatelessWidget {
                                         Text(isAcOrNonAc == true ? "AC" : "Non AC", style: GoogleFonts.poppins(fontWeight: FontWeight.w500)),
                                       ],
                                     ),
+                                    */
                               Row(
                                 children: [
                                   const Icon(
