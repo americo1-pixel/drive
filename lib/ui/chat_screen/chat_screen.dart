@@ -61,6 +61,7 @@ class _ChatScreensState extends State<ChatScreens> {
     return Scaffold(
       appBar: AppBar(
         elevation: 2,
+        backgroundColor: Colors.black,
         title: Text("${widget.customerName.toString()}\n#${widget.orderId.toString()}", maxLines: 2, style: GoogleFonts.poppins(color: Colors.white, fontSize: 14)),
         leading: InkWell(
             onTap: () {

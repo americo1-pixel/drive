@@ -32,7 +32,7 @@ class OrderMapController extends GetxController {
   @override
   void onInit() {
     if (Constant.selectedMapType == 'osm') {
-      ShowToastDialog.showLoader("Please wait");
+      ShowToastDialog.showLoader("Por favor espera");
       mapOsmController = MapController(initPosition: GeoPoint(latitude: 20.9153, longitude: -100.7439), useExternalTracking: false); //OSM
     }
     addMarkerSetup();
@@ -48,7 +48,7 @@ class OrderMapController extends GetxController {
 
   acceptOrder() async {
     if (double.parse(driverModel.value.walletAmount.toString()) >= double.parse(Constant.minimumDepositToRideAccept)) {
-      ShowToastDialog.showLoader("Please wait".tr);
+      ShowToastDialog.showLoader("Por favor espera".tr);
       List<dynamic> newAcceptedDriverId = [];
       if (orderModel.value.acceptedDriverId != null) {
         newAcceptedDriverId = orderModel.value.acceptedDriverId!;
@@ -101,7 +101,12 @@ class OrderMapController extends GetxController {
       String orderId = argumentData['orderModel'];
       await getData(orderId);
       if (Constant.selectedMapType == 'google') {
-        getPolyline();
+        getPolyline(
+            sourceLatitude: orderModel.value.sourceLocationLAtLng?.latitude,
+            sourceLongitude: orderModel.value.sourceLocationLAtLng?.longitude,
+            destinationLatitude: orderModel.value.destinationLocationLAtLng?.latitude,
+            destinationLongitude: orderModel.value.destinationLocationLAtLng?.longitude
+        );
       }
     }
 
@@ -150,13 +155,13 @@ class OrderMapController extends GetxController {
     startNightTimeString = DateTime(currentDate.year, currentDate.month, currentDate.day, int.parse(startParts[0]), int.parse(startParts[1]));
     endNightTimeString = DateTime(currentDate.year, currentDate.month, currentDate.day, int.parse(endParts[0]), int.parse(endParts[1]));
 
-    double durationValueInMinutes = convertToMinutes(orderModel.value.duration.toString());
+    double durationValueInMinutos = convertToMinutos(orderModel.value.duration.toString());
     double distance = double.tryParse(orderModel.value.distance.toString()) ?? 0.0;
     double nonAcChargeValue = double.tryParse(driverModel.value.vehicleInformation!.nonAcPerKmRate.toString()) ?? 0.0;
     double acChargeValue = double.tryParse(driverModel.value.vehicleInformation!.acPerKmRate.toString()) ?? 0.0;
     double kmCharge = double.tryParse(driverModel.value.vehicleInformation!.perKmRate!.toString()) ?? 0.0;
 
-    totalChargeOfMinute.value = double.parse(durationValueInMinutes.toString()) * double.parse(orderModel.value.service!.perMinuteCharge.toString());
+    totalChargeOfMinute.value = double.parse(durationValueInMinutos.toString()) * double.parse(orderModel.value.service!.perMinuteCharge.toString());
     basicFare.value = double.parse(orderModel.value.service!.basicFareCharge.toString());
 
     if (distance <= double.parse(orderModel.value.service!.basicFare.toString())) {
@@ -207,7 +212,76 @@ class OrderMapController extends GetxController {
   RxMap<PolylineId, Polyline> polyLines = <PolylineId, Polyline>{}.obs;
   PolylinePoints polylinePoints = PolylinePoints();
 
-  void getPolyline() async {
+  void getPolyline({required double? sourceLatitude, required double? sourceLongitude, required double? destinationLatitude, required double? destinationLongitude}) async {
+    print("==== Trazando ruta del conductor al pasajero ====");
+    
+    if (sourceLatitude != null && sourceLongitude != null && destinationLatitude != null && destinationLongitude != null) {
+        try {
+            print("Obteniendo ruta desde ($sourceLatitude, $sourceLongitude) hasta ($destinationLatitude, $destinationLongitude)");
+            
+            final request = PolylineRequest(
+                origin: PointLatLng(sourceLatitude, sourceLongitude),
+                destination: PointLatLng(destinationLatitude, destinationLongitude),
+                mode: TravelMode.driving,
+            );
+
+            print("Usando API key: ${Constant.mapAPIKey}");
+            PolylineResult result = await polylinePoints.getRouteBetweenCoordinates(
+                googleApiKey: Constant.mapAPIKey,
+                request: request
+            );
+
+            print("Respuesta de Google: ${result.errorMessage ?? 'Sin errores'}");
+            print("Puntos recibidos: ${result.points.length}");
+            
+            if (result.points.isNotEmpty) {
+                print("Primeros 3 puntos de la ruta:");
+                result.points.take(3).forEach((point) {
+                    print("Punto: (${point.latitude}, ${point.longitude})");
+                });
+            }
+
+            if (result.points.isNotEmpty) {
+                List<LatLng> polylineCoordinates = result.points
+                    .map((point) => LatLng(point.latitude, point.longitude))
+                    .toList();
+
+                PolylineId id = const PolylineId("poly");
+                final Polyline polyline = Polyline(
+                    polylineId: id,
+                    color: Colors.blue,
+                    points: polylineCoordinates,
+                    width: 5,
+                    geodesic: true
+                );
+
+                // Actualizar el mapa observable
+                polyLines.clear();
+                polyLines[id] = polyline;
+                
+                print("✅ Ruta trazada con ${polylineCoordinates.length} puntos");
+            } else {
+                print("❌ No se recibieron puntos para la ruta");
+                // Crear una línea recta simple como fallback
+                PolylineId id = const PolylineId("poly");
+                Polyline polyline = Polyline(
+                    polylineId: id,
+                    color: Colors.blue,
+                    points: [
+                        LatLng(sourceLatitude, sourceLongitude),
+                        LatLng(destinationLatitude, destinationLongitude)
+                    ],
+                    width: 5,
+                );
+                
+                polyLines.clear();
+                polyLines[id] = polyline;
+            }
+        } catch (e) {
+            print("❌ Error al trazar la ruta: $e");
+        }
+    }
+    
     if (orderModel.value.sourceLocationLAtLng != null && orderModel.value.destinationLocationLAtLng != null) {
       movePosition();
       List<LatLng> polylineCoordinates = [];
@@ -378,12 +452,12 @@ class OrderMapController extends GetxController {
     });
   }
 
-  double convertToMinutes(String duration) {
+  double convertToMinutos(String duration) {
     double durationValue = 0.0;
 
     try {
       final RegExp hoursRegex = RegExp(r"(\d+)\s*hour");
-      final RegExp minutesRegex = RegExp(r"(\d+)\s*min");
+      final RegExp MinutosRegex = RegExp(r"(\d+)\s*min");
 
       final Match? hoursMatch = hoursRegex.firstMatch(duration);
       if (hoursMatch != null) {
@@ -391,10 +465,10 @@ class OrderMapController extends GetxController {
         durationValue += hours * 60;
       }
 
-      final Match? minutesMatch = minutesRegex.firstMatch(duration);
-      if (minutesMatch != null) {
-        int minutes = int.parse(minutesMatch.group(1)!.trim());
-        durationValue += minutes;
+      final Match? MinutosMatch = MinutosRegex.firstMatch(duration);
+      if (MinutosMatch != null) {
+        int Minutos = int.parse(MinutosMatch.group(1)!.trim());
+        durationValue += Minutos;
       }
     } catch (e) {
       print("Exception: $e");

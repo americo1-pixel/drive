@@ -118,7 +118,7 @@ class SubscriptionController extends GetxController {
   }
 
   setOrder() async {
-    ShowToastDialog.showLoader("Please wait".tr);
+    ShowToastDialog.showLoader("Por favor espera".tr);
     driverUserModel.value.subscriptionPlanId = selectedSubscriptionPlan.value.id;
     driverUserModel.value.subscriptionPlan = selectedSubscriptionPlan.value;
     driverUserModel.value.subscriptionPlan?.createdAt = Timestamp.now();

@@ -12,7 +12,7 @@ const Map<String, String> arAR = {
   "Please enter email": "يرجى إدخال البريد الإلكتروني",
   "Please enter phone number": "يرجى إدخال رقم الهاتف",
   "Please enter valid email": "يرجى إدخال بريد إلكتروني صالح",
-  "Please wait": "يرجى الانتظار",
+  "Por favor espera": "يرجى الانتظار",
   "Login": "تسجيل الدخول",
   "Welcome Back! We are happy to have \n you back":
       "مرحباً بعودتك! يسعدنا أنك هنا \n معنا",
@@ -75,7 +75,7 @@ const Map<String, String> arAR = {
   "Pickup Customer": "التقاط الراكب",
   "OTP verify from customer": "التحقق من رمز التحقق (OTP) من العميل",
   "OTP verify": "التحقق من رمز التحقق",
-  "Please wait...": "يرجى الانتظار...",
+  "Por favor espera...": "يرجى الانتظار...",
   'Ride Started': 'تم بدء الرحلة',
   'The ride has officially started. Please follow the designated route to the destination.':
       'تم بدء الرحلة رسمياً. يرجى اتباع الطريق المحدد للوصول إلى الوجهة.',
@@ -129,7 +129,7 @@ const Map<String, String> arAR = {
       "يرجى تحميل الجانب الأمامي من المستند.",
   "Please upload back side of document.":
       "يرجى تحميل الجانب الخلفي من المستند.",
-  "Please wait..": "يرجى الانتظار..",
+  "Por favor espera..": "يرجى الانتظار..",
   "Please Select": "يرجى الاختيار",
   "Camera": "الكاميرا",
   "Gallery": "المعرض",
@@ -156,7 +156,7 @@ const Map<String, String> arAR = {
   "driver": "السائق",
   "Confirm cash payment": "تأكيد الدفع نقدًا",
   "wallet": "المحفظة",
-  "Admin commission debited": "تم خصم عمولة الإدارة",
+  "Comisión de administración debitada": "تم خصم عمولة الإدارة",
   'Cash Payment confirmed': 'تم تأكيد الدفع النقدي',
   'Driver has confirmed your cash payment': 'السائق أكد دفعك النقدي',
   "Payment Confirm successfully": "تم تأكيد الدفع بنجاح",

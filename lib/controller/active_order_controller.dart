@@ -4,5 +4,10 @@ import 'package:get/get.dart';
 
 class ActiveOrderController extends GetxController {
   HomeController homeController = Get.put(HomeController());
-  Rx<TextEditingController> otpController = TextEditingController().obs;
+  
+  final Rx<TextEditingController> otpController = TextEditingController().obs;
+
+  void resetOTPController() {
+    otpController.value = TextEditingController();
+  }
 }

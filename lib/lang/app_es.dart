@@ -11,7 +11,7 @@ const Map<String, String> esES = {
   "Please enter email": "Por favor ingresa tu correo electrónico",
   "Please enter phone number": "Por favor ingresa tu número de teléfono",
   "Please enter valid email": "Por favor ingresa un correo válido",
-  "Please wait": "Por favor espera",
+  "Por favor espera": "Por favor espera",
   "Login": "Iniciar sesión",
   "Welcome Back! We are happy to have \n you back": "¡Bienvenido de nuevo! Nos alegra tenerte \n de vuelta",
   "Next": "Siguiente",
@@ -226,7 +226,7 @@ const Map<String, String> esES = {
   'min': 'min',
   'sec': 'seg',
   'Holding Charges': 'Cargos por espera',
-  'Your payment request sent to driver please wait to the conformation': 'Tu solicitud de pago fue enviada al conductor. Por favor espera la confirmación.',
+  'Your payment request sent to driver Por favor espera to the conformation': 'Tu solicitud de pago fue enviada al conductor. Por favor espera la confirmación.',
   'New': 'Nuevos',
   'Accepted': 'Aceptados',
   'Active': 'Activos',
@@ -274,5 +274,5 @@ const Map<String, String> esES = {
   'Ride Accepted': 'Viaje aceptado',
   'Ride Picked Up': 'Viaje recogido',
   'Confirm cash payment': 'Confirmar pago en efectivo',
-  
+  'OTP verify from customer': 'Verificar OTP del cliente',
 };

@@ -52,7 +52,7 @@ class CompleteOrderController extends GetxController {
     startNightTimeString = DateTime(currentDate.year, currentDate.month, currentDate.day, int.parse(startParts[0]), int.parse(startParts[1]));
     endNightTimeString = DateTime(currentDate.year, currentDate.month, currentDate.day, int.parse(endParts[0]), int.parse(endParts[1]));
 
-    double durationValueInMinutes = convertToMinutes(orderModel.value.duration.toString());
+    double durationValueInMinutos = convertToMinutos(orderModel.value.duration.toString());
     double distance = double.tryParse(orderModel.value.distance.toString()) ?? 0.0;
     double nonAcChargeValue = 0.0;
     double acChargeValue = 0.0;
@@ -68,7 +68,7 @@ class CompleteOrderController extends GetxController {
       kmCharge = double.tryParse(orderModel.value.service!.kmCharge ?? '0.0') ?? 0.0;
     }
 
-    totalChargeOfMinute.value = double.parse(durationValueInMinutes.toString()) * double.parse(orderModel.value.service!.perMinuteCharge.toString());
+    totalChargeOfMinute.value = double.parse(durationValueInMinutos.toString()) * double.parse(orderModel.value.service!.perMinuteCharge.toString());
     basicFareCharge.value = double.parse(orderModel.value.service!.basicFareCharge.toString());
     holdingCharge.value = double.parse(orderModel.value.totalHoldingCharges.toString());
     if (distance <= double.parse(orderModel.value.service!.basicFare.toString())) {
@@ -113,12 +113,12 @@ class CompleteOrderController extends GetxController {
     total.value = subTotal.value + taxAmount.value;
   }
 
-  double convertToMinutes(String duration) {
+  double convertToMinutos(String duration) {
     double durationValue = 0.0;
 
     try {
       final RegExp hoursRegex = RegExp(r"(\d+)\s*hour");
-      final RegExp minutesRegex = RegExp(r"(\d+)\s*min");
+      final RegExp MinutosRegex = RegExp(r"(\d+)\s*min");
 
       final Match? hoursMatch = hoursRegex.firstMatch(duration);
       if (hoursMatch != null) {
@@ -126,10 +126,10 @@ class CompleteOrderController extends GetxController {
         durationValue += hours * 60;
       }
 
-      final Match? minutesMatch = minutesRegex.firstMatch(duration);
-      if (minutesMatch != null) {
-        int minutes = int.parse(minutesMatch.group(1)!.trim());
-        durationValue += minutes;
+      final Match? MinutosMatch = MinutosRegex.firstMatch(duration);
+      if (MinutosMatch != null) {
+        int Minutos = int.parse(MinutosMatch.group(1)!.trim());
+        durationValue += Minutos;
       }
     } catch (e) {
       print("Exception: $e");

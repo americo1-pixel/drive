@@ -150,7 +150,7 @@ class LoginScreen extends StatelessWidget {
                           iconVisibility: true,
                           iconAssetImage: 'assets/icons/ic_google.png',
                           onPress: () async {
-                            ShowToastDialog.showLoader("Please wait".tr);
+                            ShowToastDialog.showLoader("Por favor espera".tr);
                             await controller.signInWithGoogle().then((value) {
                               ShowToastDialog.closeLoader();
                               if (value != null) {
@@ -239,7 +239,7 @@ class LoginScreen extends StatelessWidget {
                               iconAssetImage: 'assets/icons/ic_apple.png',
                               iconColor: themeChange.getThem() ? AppColors.darkModePrimary : Colors.black,
                               onPress: () async {
-                                ShowToastDialog.showLoader("Please wait".tr);
+                                ShowToastDialog.showLoader("Por favor espera".tr);
                                 await controller.signInWithApple().then((value) {
                                   ShowToastDialog.closeLoader();
                                   if (value != null) {

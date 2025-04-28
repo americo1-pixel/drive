@@ -116,7 +116,7 @@ class InformationScreen extends StatelessWidget {
                           } else if (Constant.validateEmail(controller.emailController.value.text) == false) {
                             ShowToastDialog.showToast("Please enter valid email".tr);
                           } else {
-                            ShowToastDialog.showLoader("Please wait".tr);
+                            ShowToastDialog.showLoader("Por favor espera".tr);
                             DriverUserModel userModel = controller.userModel.value;
                             userModel.fullName = controller.fullNameController.value.text;
                             userModel.email = controller.emailController.value.text;

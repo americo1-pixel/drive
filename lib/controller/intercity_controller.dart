@@ -37,7 +37,7 @@ class IntercityController extends GetxController {
 
   acceptOrder(InterCityOrderModel orderModel) async {
     if (double.parse(driverModel.value.walletAmount.toString()) >= double.parse(Constant.minimumAmountToWithdrawal)) {
-      ShowToastDialog.showLoader("Please wait".tr);
+      ShowToastDialog.showLoader("Por favor espera".tr);
       List<dynamic> newAcceptedDriverId = [];
       if (orderModel.acceptedDriverId != null) {
         newAcceptedDriverId = orderModel.acceptedDriverId!;

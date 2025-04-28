@@ -211,7 +211,7 @@ class SettingScreen extends StatelessWidget {
     Widget okButton = TextButton(
       child:  Text("OK".tr, style: TextStyle(color: Colors.black)),
       onPressed: () async {
-        ShowToastDialog.showLoader("Please wait".tr);
+        ShowToastDialog.showLoader("Por favor espera".tr);
         await FireStoreUtils.deleteUser().then((value) {
           ShowToastDialog.closeLoader();
           if (value == true) {

@@ -55,11 +55,13 @@ class DashBoardScreen extends StatelessWidget {
                           child: Stack(
                             children: [
                               AnimatedAlign(
-                                alignment: Alignment(
-                                    driverModel.isOnline == true ? -1 : 1, 0),
+                                alignment: Alignment(driverModel.isOnline == true ? -1 : 1, 0),
                                 duration: const Duration(milliseconds: 300),
                                 child: Container(
-                                  width: Responsive.width(40, context),
+                                  // Ancho dinámico según el estado
+                                  width: driverModel.isOnline == true 
+                                    ? Responsive.width(30, context)  // Más estrecho cuando está Online
+                                    : Responsive.width(40, context), // Más ancho cuando está Offline
                                   height: Responsive.height(8, context),
                                   decoration: const BoxDecoration(
                                     color: AppColors.darkModePrimary,
@@ -71,7 +73,7 @@ class DashBoardScreen extends StatelessWidget {
                               ),
                               GestureDetector(
                                 onTap: () async {
-                                  ShowToastDialog.showLoader("Please wait");
+                                  ShowToastDialog.showLoader("Por favor espera".tr);
                                   if (driverModel.documentVerification ==
                                           false &&
                                       Constant.isVerifyDocument == true) {
@@ -94,7 +96,7 @@ class DashBoardScreen extends StatelessWidget {
                                 child: Align(
                                   alignment: const Alignment(-1, 0),
                                   child: Container(
-                                    width: Responsive.width(40, context),
+                                    width: Responsive.width(30, context),
                                     color: Colors.transparent,
                                     alignment: Alignment.center,
                                     child: Text(
@@ -111,7 +113,7 @@ class DashBoardScreen extends StatelessWidget {
                               ),
                               GestureDetector(
                                 onTap: () async {
-                                  ShowToastDialog.showLoader("Please wait".tr);
+                                  ShowToastDialog.showLoader("Por favor espera".tr);
                                   driverModel.isOnline = false;
                                   await FireStoreUtils.updateDriverUser(
                                       driverModel);

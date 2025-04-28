@@ -167,7 +167,10 @@ class ActiveOrderScreen extends StatelessWidget {
                                                       btnHeight: 44,
                                                       iconVisibility: false,
                                                       onPress: () async {
-                                                        showDialog(context: context, builder: (BuildContext context) => otpDialog(context, controller, orderModel));
+                                                        showDialog(
+                                                          context: context, 
+                                                          builder: (BuildContext context) => otpDialog(context, controller, orderModel)
+                                                        );
                                                       },
                                                     ),
                                         ),
@@ -239,7 +242,7 @@ class ActiveOrderScreen extends StatelessWidget {
                                                   btnHeight: 45,
                                                   iconVisibility: false,
                                                   onPress: () async {
-                                                    ShowToastDialog.showLoader("Please wait...".tr);
+                                                    ShowToastDialog.showLoader("Por favor espera...".tr);
                                                     orderModel.status = Constant.rideInProgress;
 
                                                     await FireStoreUtils.setOrder(orderModel).then((value) {
@@ -260,7 +263,7 @@ class ActiveOrderScreen extends StatelessWidget {
                                                   title: "Accept".tr,
                                                   btnHeight: 45,
                                                   onPress: () async {
-                                                    ShowToastDialog.showLoader("Please wait...".tr);
+                                                    ShowToastDialog.showLoader("Por favor espera...".tr);
                                                     orderModel.status = Constant.rideHoldAccepted;
                                                     orderModel.acceptHoldTime = Timestamp.now();
 
@@ -291,17 +294,17 @@ class ActiveOrderScreen extends StatelessWidget {
                                             title: "End Hold".tr,
                                             btnHeight: 45,
                                             onPress: () async {
-                                              ShowToastDialog.showLoader("Please wait...".tr);
+                                              ShowToastDialog.showLoader("Por favor espera...".tr);
                                               orderModel.status = Constant.rideInProgress;
                                               DateTime acceptTime = orderModel.acceptHoldTime!.toDate();
                                               int rideHoldTimeInSeconds = DateTime.now().difference(acceptTime).inSeconds;
-                                              int rideHoldTimeInMinutes = (rideHoldTimeInSeconds / 60).ceil();
+                                              int rideHoldTimeInMinutos = (rideHoldTimeInSeconds / 60).ceil();
 
                                               int chargePerInterval = int.parse(orderModel.service!.holdingMinuteCharge.toString());
                                               int holdingInterval = int.parse(orderModel.service!.holdingMinute.toString());
 
-                                              int intervals = rideHoldTimeInMinutes ~/ holdingInterval;
-                                              int extraTime = rideHoldTimeInMinutes % holdingInterval;
+                                              int intervals = rideHoldTimeInMinutos ~/ holdingInterval;
+                                              int extraTime = rideHoldTimeInMinutos % holdingInterval;
 
                                               int totalHoldingCharges = intervals * chargePerInterval;
 
@@ -309,7 +312,7 @@ class ActiveOrderScreen extends StatelessWidget {
                                                 totalHoldingCharges += chargePerInterval;
                                               }
                                               orderModel.acceptHoldTime = null;
-                                              orderModel.rideHoldTimeMinutes = rideHoldTimeInMinutes.toString();
+                                              orderModel.rideHoldTimeMinutos = rideHoldTimeInMinutos.toString();
                                               orderModel.totalHoldingCharges = totalHoldingCharges.toString();
 
                                               await FireStoreUtils.setOrder(orderModel).then((value) {
@@ -342,19 +345,22 @@ class ActiveOrderScreen extends StatelessWidget {
   otpDialog(BuildContext context, ActiveOrderController controller, OrderModel orderModel) {
     final themeChange = Provider.of<DarkThemeProvider>(context);
 
-    return Dialog(
+    return WillPopScope(
+      onWillPop: () async {
+        controller.resetOTPController();
+        return true;
+      },
+      child: Dialog(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0)),
-      //this right here
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 10),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
           children: [
-            const SizedBox(
-              height: 10,
-            ),
-            Text("OTP verify from customer".tr, style: GoogleFonts.poppins(fontWeight: FontWeight.w600)),
+              const SizedBox(height: 10),
+              Text("OTP verify from customer".tr, 
+                  style: GoogleFonts.poppins(fontWeight: FontWeight.w600)),
             Padding(
               padding: const EdgeInsets.only(top: 20),
               child: PinCodeTextField(
@@ -364,12 +370,24 @@ class ActiveOrderScreen extends StatelessWidget {
                 pinTheme: PinTheme(
                   fieldHeight: 40,
                   fieldWidth: 40,
-                  activeColor: themeChange.getThem() ? AppColors.darkTextFieldBorder : AppColors.textFieldBorder,
-                  selectedColor: themeChange.getThem() ? AppColors.darkTextFieldBorder : AppColors.textFieldBorder,
-                  inactiveColor: themeChange.getThem() ? AppColors.darkTextFieldBorder : AppColors.textFieldBorder,
-                  activeFillColor: themeChange.getThem() ? AppColors.darkTextField : AppColors.textField,
-                  inactiveFillColor: themeChange.getThem() ? AppColors.darkTextField : AppColors.textField,
-                  selectedFillColor: themeChange.getThem() ? AppColors.darkTextField : AppColors.textField,
+                    activeColor: themeChange.getThem() 
+                        ? AppColors.darkTextFieldBorder 
+                        : AppColors.textFieldBorder,
+                    selectedColor: themeChange.getThem() 
+                        ? AppColors.darkTextFieldBorder 
+                        : AppColors.textFieldBorder,
+                    inactiveColor: themeChange.getThem() 
+                        ? AppColors.darkTextFieldBorder 
+                        : AppColors.textFieldBorder,
+                    activeFillColor: themeChange.getThem() 
+                        ? AppColors.darkTextField 
+                        : AppColors.textField,
+                    inactiveFillColor: themeChange.getThem() 
+                        ? AppColors.darkTextField 
+                        : AppColors.textField,
+                    selectedFillColor: themeChange.getThem() 
+                        ? AppColors.darkTextField 
+                        : AppColors.textField,
                   shape: PinCodeFieldShape.box,
                   borderRadius: BorderRadius.circular(10),
                 ),
@@ -380,16 +398,18 @@ class ActiveOrderScreen extends StatelessWidget {
                 onChanged: (value) {},
               ),
             ),
-            const SizedBox(
-              height: 10,
-            ),
-            ButtonThem.buildButton(context, title: "OTP verify".tr, onPress: () async {
+              const SizedBox(height: 10),
+              ButtonThem.buildButton(
+                context, 
+                title: "OTP verify".tr, 
+                onPress: () async {
               if (orderModel.otp.toString() == controller.otpController.value.text) {
                 Get.back();
-                ShowToastDialog.showLoader("Please wait...".tr);
+                ShowToastDialog.showLoader("Por favor espera...".tr);
                 orderModel.status = Constant.rideInProgress;
 
-                await FireStoreUtils.getCustomer(orderModel.userId.toString()).then((value) async {
+                    await FireStoreUtils.getCustomer(orderModel.userId.toString())
+                        .then((value) async {
                   if (value != null) {
                     await SendNotification.sendOneNotification(
                         token: value.fcmToken.toString(),
@@ -406,15 +426,23 @@ class ActiveOrderScreen extends StatelessWidget {
                   }
                 });
               } else {
-                ShowToastDialog.showToast(
-                  "OTP Invalid".tr,
-                );
+                    ShowToastDialog.showToast("OTP Invalid".tr);
               }
-            }),
-            const SizedBox(
-              height: 10,
+                }
+              ),
+              const SizedBox(height: 10),
+              ButtonThem.buildBorderButton(
+                context,
+                title: "Cancelar".tr,
+                btnHeight: 44,
+                iconVisibility: false,
+                onPress: () {
+                  controller.resetOTPController();
+                  Get.back();
+                },
             ),
           ],
+          ),
         ),
       ),
     );

@@ -12,7 +12,7 @@ const Map<String, String> trFr = {
   "Please enter email": "Veuillez entrer votre email",
   "Please enter phone number": "Veuillez entrer le numéro de téléphone",
   "Please enter valid email": "Veuillez entrer une adresse e-mail valide",
-  "Please wait": "S'il vous plaît, attendez",
+  "Por favor espera": "S'il vous plaît, attendez",
   "Login": "Se connecter",
   "Welcome Back! We are happy to have \n you back":
       "Content de te revoir! Nous sommes heureux de vous retrouver \n",
@@ -80,7 +80,7 @@ const Map<String, String> trFr = {
   "Pickup Customer": "Client de ramassage",
   "OTP verify from customer": "Vérification OTP du client",
   "OTP verify": "Vérification OTP",
-  "Please wait...": "S'il vous plaît, attendez...",
+  "Por favor espera...": "S'il vous plaît, attendez...",
   'Ride Started': 'Balade commencée',
   'The ride has officially started. Please follow the designated route to the destination.':
       'La balade a officiellement commencé. Veuillez suivre l\'itinéraire indiqué jusqu\'à la destination.',
@@ -135,7 +135,7 @@ const Map<String, String> trFr = {
       "Veuillez télécharger le recto du document.",
   "Please upload back side of document.":
       "Veuillez télécharger le verso du document.",
-  "Please wait..": "S'il vous plaît, attendez..",
+  "Por favor espera..": "S'il vous plaît, attendez..",
   "Please Select": "Veuillez sélectionner",
   "Camera": "Caméra",
   "Gallery": "Galerie",
@@ -162,7 +162,7 @@ const Map<String, String> trFr = {
   "driver": "conducteur",
   "Confirm cash payment": "Confirme au paiement en espèces",
   "wallet": "portefeuille",
-  "Admin commission debited": "Commission d'administration débitée",
+  "Comisión de administración debitada": "Commission d'administration débitée",
   'Cash Payment confirmed': 'Paiement en espèces confirme',
   'Driver has confirmed your cash payment':
       'Le chauffeur a confirmé votre paiement en espèces',

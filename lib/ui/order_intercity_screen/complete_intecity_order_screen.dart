@@ -83,7 +83,7 @@ class CompleteIntercityOrderScreen extends StatelessWidget {
                                                   children: [
                                                     Expanded(
                                                       child: Text(
-                                                        "Ride ID".tr,
+                                                        "ID del viaje".tr,
                                                         style: GoogleFonts.poppins(
                                                           fontWeight: FontWeight.w600,
                                                         ),

@@ -183,7 +183,8 @@ class VehicleInformationScreen extends StatelessWidget {
                                         value: item,
                                         child: Text(Constant.localizationName(item.name), style: GoogleFonts.poppins(color: Colors.black)),
                                       );
-                                    }).toList()),
+                                    }).toList(),
+                                    dropdownColor: Colors.grey[200]),
                                 const SizedBox(
                                   height: 10,
                                 ),
@@ -222,7 +223,8 @@ class VehicleInformationScreen extends StatelessWidget {
                                         value: item,
                                         child: Text(item.toString(), style: GoogleFonts.poppins(color: Colors.black)),
                                       );
-                                    }).toList()),
+                                    }).toList(),
+                                    dropdownColor: Colors.grey[200]),
                                 const SizedBox(
                                   height: 10,
                                 ),
@@ -261,7 +263,8 @@ class VehicleInformationScreen extends StatelessWidget {
                                         value: item,
                                         child: Text(item.toString(), style: GoogleFonts.poppins(color: Colors.black)),
                                       );
-                                    }).toList()),
+                                    }).toList(),
+                                    dropdownColor: Colors.grey[200]),
                                 const SizedBox(
                                   height: 10,
                                 ),
@@ -349,7 +352,7 @@ class VehicleInformationScreen extends StatelessWidget {
                                     context,
                                     title: "Guardar".tr,
                                     onPress: () async {
-                                      ShowToastDialog.showLoader("Please wait".tr);
+                                      ShowToastDialog.showLoader("Por favor espera".tr);
 
                                       if (controller.selectedServiceType.value.id == null || controller.selectedServiceType.value.id!.isEmpty) {
                                         ShowToastDialog.showToast("Please select service".tr);

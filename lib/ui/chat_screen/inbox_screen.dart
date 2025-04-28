@@ -123,12 +123,17 @@ class InboxScreen extends StatelessWidget {
                         textAlign: TextAlign.center,
                       ),
                     ),
-                  // orderBy is compulsory to enable pagination
-                  query: FirebaseFirestore.instance.collection(CollectionName.chat).where("driverId", isEqualTo: FireStoreUtils.getCurrentUid()).orderBy('createdAt', descending: true),
+                  query: FirebaseFirestore.instance.collection(CollectionName.chat)
+                      .where("driverId", isEqualTo: FireStoreUtils.getCurrentUid())
+                      .orderBy('createdAt', descending: true),
                   //Change types customerId
                   viewType: ViewType.list,
-                  initialLoader: const CircularProgressIndicator(),
-                  // to fetch real-time data
+                  initialLoader: SizedBox(
+                      height: 100, 
+                      child: Center(
+                          child: CircularProgressIndicator(),
+                      ),
+                  ),
                   isLive: true,
                 ),
               ),

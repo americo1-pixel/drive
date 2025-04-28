@@ -246,7 +246,7 @@ class OrderFreightScreen extends StatelessWidget {
                                                 title: "Confirm cash payment".tr,
                                                 btnHeight: 44,
                                                 onPress: () async {
-                                                  ShowToastDialog.showLoader("Please wait..".tr);
+                                                  ShowToastDialog.showLoader("Por favor espera".tr);
                                                   orderModel.paymentStatus = true;
                                                   orderModel.status = Constant.rideComplete;
                                                   orderModel.updateDate = Timestamp.now();
@@ -273,7 +273,7 @@ class OrderFreightScreen extends StatelessWidget {
                                                       orderType: "intercity",
                                                       userId: orderModel.driverId.toString(),
                                                       userType: "driver",
-                                                      note: "Admin commission debited".tr);
+                                                      note: "Comisión de administración debitada".tr);
 
                                                   await FireStoreUtils.setWalletTransaction(adminCommissionWallet).then((value) async {
                                                     if (value == true) {

@@ -256,7 +256,7 @@ class DetailsUploadScreen extends StatelessWidget {
                                         } else if (controller.documentModel.value.backSide == true && controller.backImage.value.isEmpty) {
                                           ShowToastDialog.showToast("Please upload back side of document.".tr);
                                         } else {
-                                          ShowToastDialog.showLoader("Please wait..".tr);
+                                          ShowToastDialog.showLoader("Por favor espera".tr);
                                           controller.uploadDocument();
                                         }
                                       }

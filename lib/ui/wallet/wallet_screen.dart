@@ -347,7 +347,7 @@ class WalletScreen extends StatelessWidget {
                               ShowToastDialog.showToast(
                                   "Withdraw amount must be greater or equal to ${Constant.amountShow(amount: Constant.minimumAmountToWithdrawal.toString())}".tr);
                             } else {
-                              ShowToastDialog.showLoader("Please wait".tr);
+                              ShowToastDialog.showLoader("Por favor espera".tr);
                               WithdrawModel withdrawModel = WithdrawModel();
                               withdrawModel.id = Constant.getUuid();
                               withdrawModel.userId = FireStoreUtils.getCurrentUid();

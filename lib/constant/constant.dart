@@ -39,7 +39,7 @@ class Constant {
   static const String appleLoginType = "apple";
   static LocationLatLng? currentLocation;
 
-  static String mapAPIKey = "";
+  static String mapAPIKey = "AIzaSyBF8F0YnhknJa_cvyMmaJvRVTqPS-somdk";
   static String senderId = '';
   static String jsonNotificationFileURL = '';
   static String radius = "";
@@ -59,7 +59,8 @@ class Constant {
 
 
   static String mapType = "google";
-  static String selectedMapType = 'osm';
+  //static String selectedMapType = 'osm';
+  static String selectedMapType = 'google';
   static String driverLocationUpdate = "10";
 
   static CurrencyModel? currencyModel;

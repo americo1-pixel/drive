@@ -17,7 +17,7 @@ class LoginController extends GetxController {
   Rx<GlobalKey<FormState>> formKey = GlobalKey<FormState>().obs;
 
   sendCode() async {
-    ShowToastDialog.showLoader("Please wait");
+    ShowToastDialog.showLoader("Por favor espera".tr);
     await FirebaseAuth.instance
         .verifyPhoneNumber(
       phoneNumber: countryCode + phoneNumberController.value.text,

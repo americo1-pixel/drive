@@ -12,7 +12,7 @@ const Map<String, String> enUS = {
   "Please enter email": "Please enter email",
   "Please enter phone number": "Please enter phone number",
   "Please enter valid email": "Please enter valid email",
-  "Please wait": "Please wait",
+  "Por favor espera": "Por favor espera",
   "Login": "Login",
   "Welcome Back! We are happy to have \n you back":
       "Welcome Back! We are happy to have \n you back",
@@ -76,7 +76,7 @@ const Map<String, String> enUS = {
   "Pickup Customer": "Pickup Customer",
   "OTP verify from customer": "OTP verify from customer",
   "OTP verify": "OTP verify",
-  "Please wait...": "Please wait...",
+  "Por favor espera...": "Por favor espera...",
   'Ride Started': 'Ride Started',
   'The ride has officially started. Please follow the designated route to the destination.':
       'The ride has officially started. Please follow the designated route to the destination.',
@@ -131,7 +131,7 @@ const Map<String, String> enUS = {
       "Please upload front side of document.",
   "Please upload back side of document.":
       "Please upload back side of document.",
-  "Please wait..": "Please wait..",
+  "Por favor espera..": "Por favor espera..",
   "Please Select": "Please Select",
   "Camera": "Camera",
   "Gallery": "Gallery",
@@ -158,7 +158,7 @@ const Map<String, String> enUS = {
   "driver": "driver",
   "Confirm cash payment": "Confirm cash payment",
   "wallet": "wallet",
-  "Admin commission debited": "Admin commission debited",
+  
   'Cash Payment confirmed': 'Cash Payment confirmed',
   'Driver has confirmed your cash payment':
       'Driver has confirmed your cash payment',

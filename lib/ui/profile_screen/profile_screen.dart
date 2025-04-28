@@ -177,7 +177,7 @@ class ProfileScreen extends StatelessWidget {
                                             if (controller.fullNameController.value.text.isEmpty) {
                                               ShowToastDialog.showToast("Please enter full name");
                                             } else {
-                                              ShowToastDialog.showLoader("Please wait".tr);
+                                              ShowToastDialog.showLoader("Por favor espera".tr);
                                               if (controller.profileImage.value.isNotEmpty &&Constant().hasValidUrl(controller.profileImage.value) == false) {
                                                 controller.profileImage.value = await Constant.uploadUserImageToFireStorage(File(controller.profileImage.value),
                                                     "profileImage/${FireStoreUtils.getCurrentUid()}", File(controller.profileImage.value).path.split('/').last);

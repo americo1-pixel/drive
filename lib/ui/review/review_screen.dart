@@ -127,7 +127,7 @@ class ReviewScreen extends StatelessWidget {
                                   ),
                                   ButtonThem.buildButton(context, title: "Submit".tr, onPress: () async {
                                     if (controller.rating.value > 0 && controller.commentController.value.text.isNotEmpty) {
-                                      ShowToastDialog.showLoader("Please wait".tr);
+                                      ShowToastDialog.showLoader("Por favor espera".tr);
 
                                       await FireStoreUtils.getCustomer(controller.type.value == "orderModel"
                                               ? controller.orderModel.value.userId.toString()

@@ -88,13 +88,13 @@ class NewOrderScreen extends StatelessWidget {
                               startNightTimeString = DateTime(currentDate.year, currentDate.month, currentDate.day, int.parse(startParts[0]), int.parse(startParts[1]));
                               endNightTimeString = DateTime(currentDate.year, currentDate.month, currentDate.day, int.parse(endParts[0]), int.parse(endParts[1]));
 
-                              double durationValueInMinutes = convertToMinutes(orderModel.duration.toString());
+                              double durationValueInMinutos = convertToMinutos(orderModel.duration.toString());
                               double distance = double.tryParse(orderModel.distance.toString()) ?? 0.0;
                               double nonAcChargeValue = double.tryParse(controller.driverModel.value.vehicleInformation!.nonAcPerKmRate.toString()) ?? 0.0;
                               double acChargeValue = double.tryParse(controller.driverModel.value.vehicleInformation!.acPerKmRate.toString()) ?? 0.0;
                               double kmCharge = double.tryParse(controller.driverModel.value.vehicleInformation!.perKmRate!.toString()) ?? 0.0;
 
-                              totalChargeOfMinute = double.parse(durationValueInMinutes.toString()) * double.parse(orderModel.service!.perMinuteCharge.toString());
+                              totalChargeOfMinute = double.parse(durationValueInMinutos.toString()) * double.parse(orderModel.service!.perMinuteCharge.toString());
                               basicFare = double.parse(orderModel.service!.basicFareCharge.toString());
 
                               if (distance <= double.parse(orderModel.service!.basicFare.toString())) {
@@ -185,7 +185,8 @@ class NewOrderScreen extends StatelessWidget {
                                                           padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                                                           child: Center(
                                                             child: Text(
-                                                              'Recommended Price is ${Constant.amountShow(amount: finalAmount.toString())}. Approx distance ${double.parse(orderModel.distance.toString()).toStringAsFixed(Constant.currencyModel!.decimalDigits!)} ${Constant.distanceType}',
+                                                              '${'Recommended Price is'.tr} ${Constant.amountShow(amount: finalAmount.toString())}. '
+                                                              '${'Approx distance'.tr} ${double.parse(orderModel.distance.toString()).toStringAsFixed(Constant.currencyModel!.decimalDigits!)} ${Constant.distanceType}',
                                                               style: GoogleFonts.poppins(fontWeight: FontWeight.w500),
                                                             ),
                                                           ),
@@ -203,7 +204,8 @@ class NewOrderScreen extends StatelessWidget {
                                                           padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                                                           child: Center(
                                                             child: Text(
-                                                              'Recommended Price is ${Constant.amountShow(amount: orderModel.offerRate.toString())}. Approx distance ${double.parse(orderModel.distance.toString()).toStringAsFixed(Constant.currencyModel!.decimalDigits!)} ${Constant.distanceType}',
+                                                              '${'Recommended Price is'.tr} ${Constant.amountShow(amount: orderModel.offerRate.toString())}. '
+                                                              '${'Approx distance'.tr} ${double.parse(orderModel.distance.toString()).toStringAsFixed(Constant.currencyModel!.decimalDigits!)} ${Constant.distanceType}',
                                                               style: GoogleFonts.poppins(fontWeight: FontWeight.w500),
                                                             ),
                                                           ),
@@ -225,12 +227,12 @@ class NewOrderScreen extends StatelessWidget {
         });
   }
 
-  double convertToMinutes(String duration) {
+  double convertToMinutos(String duration) {
     double durationValue = 0.0;
 
     try {
       final RegExp hoursRegex = RegExp(r"(\d+)\s*hour");
-      final RegExp minutesRegex = RegExp(r"(\d+)\s*min");
+      final RegExp MinutosRegex = RegExp(r"(\d+)\s*min");
 
       final Match? hoursMatch = hoursRegex.firstMatch(duration);
       if (hoursMatch != null) {
@@ -238,10 +240,10 @@ class NewOrderScreen extends StatelessWidget {
         durationValue += hours * 60;
       }
 
-      final Match? minutesMatch = minutesRegex.firstMatch(duration);
-      if (minutesMatch != null) {
-        int minutes = int.parse(minutesMatch.group(1)!.trim());
-        durationValue += minutes;
+      final Match? MinutosMatch = MinutosRegex.firstMatch(duration);
+      if (MinutosMatch != null) {
+        int Minutos = int.parse(MinutosMatch.group(1)!.trim());
+        durationValue += Minutos;
       }
     } catch (e) {
       print("Exception: $e");

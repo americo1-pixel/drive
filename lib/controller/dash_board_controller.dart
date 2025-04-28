@@ -90,7 +90,7 @@ class DashBoardController extends GetxController {
     if (now.difference(currentBackPressTime.value) > const Duration(seconds: 2)) {
       currentBackPressTime.value = now;
       ShowToastDialog.showToast(
-        "Double press to exit",
+        "Double press to exit".tr,
       );
       return Future.value(false);
     }

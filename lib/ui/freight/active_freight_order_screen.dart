@@ -342,7 +342,7 @@ class ActiveFreightOrderScreen extends StatelessWidget {
             ButtonThem.buildButton(context, title: "OTP verify".tr, onPress: () async {
               if (orderModel.otp.toString() == controller.otpController.value.text) {
                 Get.back();
-                ShowToastDialog.showLoader("Please wait...".tr);
+                ShowToastDialog.showLoader("Por favor espera".tr);
                 orderModel.status = Constant.rideInProgress;
 
                 await FireStoreUtils.getCustomer(orderModel.userId.toString()).then((value) async {

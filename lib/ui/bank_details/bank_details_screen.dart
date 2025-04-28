@@ -93,7 +93,7 @@ class BankDetailsScreen extends StatelessWidget {
                                       } else if (controller.accountNumberController.value.text.isEmpty) {
                                         ShowToastDialog.showToast("Please enter account number".tr);
                                       } else {
-                                        ShowToastDialog.showLoader("Please wait".tr);
+                                        ShowToastDialog.showLoader("Por favor espera".tr);
                                         BankDetailsModel bankDetailsModel = controller.bankDetailsModel.value;
 
                                         bankDetailsModel.userId = FireStoreUtils.getCurrentUid();
