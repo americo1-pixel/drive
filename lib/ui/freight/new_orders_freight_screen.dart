@@ -380,7 +380,7 @@ class NewOrderFreightScreen extends StatelessWidget {
                                 }
                               }
                             } else {
-                              ShowToastDialog.showToast("Please enter valid offer rate".tr);
+                              ShowToastDialog.showToast("Por favor, introduzca una tarifa válida".tr);
                             }
                           },
                         ),

@@ -407,9 +407,12 @@ class ActiveOrderScreen extends StatelessWidget {
                 Get.back();
                 ShowToastDialog.showLoader("Por favor espera...".tr);
                 orderModel.status = Constant.rideInProgress;
+                
+                // Actualizar la variable cuando el código es correcto
+                controller.clienteRecogido.value = 1;
 
-                    await FireStoreUtils.getCustomer(orderModel.userId.toString())
-                        .then((value) async {
+                await FireStoreUtils.getCustomer(orderModel.userId.toString())
+                    .then((value) async {
                   if (value != null) {
                     await SendNotification.sendOneNotification(
                         token: value.fcmToken.toString(),
@@ -422,7 +425,7 @@ class ActiveOrderScreen extends StatelessWidget {
                 await FireStoreUtils.setOrder(orderModel).then((value) {
                   if (value == true) {
                     ShowToastDialog.closeLoader();
-                    ShowToastDialog.showToast("Cliente Recogida con éxito".tr);
+                    ShowToastDialog.showToast("Cliente Recogido con éxito".tr);
                   }
                 });
               } else {

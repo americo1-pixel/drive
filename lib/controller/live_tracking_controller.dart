@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:driver/constant/collection_name.dart';
 import 'package:driver/constant/constant.dart';
 import 'package:driver/constant/show_toast_dialog.dart';
+import 'package:driver/controller/active_order_controller.dart';
 import 'package:driver/model/driver_user_model.dart';
 import 'package:driver/model/intercity_order_model.dart';
 import 'package:driver/model/order_model.dart';
@@ -13,6 +14,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:driver/controller/active_order_controller.dart';
 
 
 class LiveTrackingController extends GetxController {
@@ -155,6 +157,21 @@ class LiveTrackingController extends GetxController {
                 }
               }
             });
+
+            if (argumentOrderModel.destinationLocationLAtLng?.latitude != null && 
+                argumentOrderModel.destinationLocationLAtLng?.longitude != null) {
+                
+                // Agregar el marcador verde del destino
+                addMarker(
+                    latitude: argumentOrderModel.destinationLocationLAtLng!.latitude,
+                    longitude: argumentOrderModel.destinationLocationLAtLng!.longitude,
+                    id: "Destino",
+                    descriptor: destinationIcon ?? BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueGreen),
+                    rotation: 0.0
+                );
+                
+                print("🟢 Marcador de destino agregado");
+            }
         } else {
             InterCityOrderModel argumentOrderModel = argumentData['interCityOrderModel'];
             print("Datos del modelo de orden intercity:");
@@ -202,132 +219,93 @@ class LiveTrackingController extends GetxController {
   BitmapDescriptor? destinationIcon;
   BitmapDescriptor? driverIcon;
 
-void getPolyline({required double? sourceLatitude, required double? sourceLongitude, required double? destinationLatitude, required double? destinationLongitude}) async {
-    print("==== Trazando ruta del conductor al pasajero ====");
+void getPolyline({
+    required double? sourceLatitude, 
+    required double? sourceLongitude, 
+    required double? destinationLatitude, 
+    required double? destinationLongitude
+}) async {
+    print("==== Trazando rutas ====");
     
-    // Verificar API key primero
-    print("API Key actual: '${mapAPIKey}'");
-    print("API Key length: ${mapAPIKey.length}");
-    
-    if (mapAPIKey.isEmpty) {
-        print("❌ Error: API key de Google Maps no configurada");
-        return;
-    }
-    print("API Key configurada: ${mapAPIKey}");
-
-    if (sourceLatitude != null && sourceLongitude != null && destinationLatitude != null && destinationLongitude != null) {
+    if (sourceLatitude != null && sourceLongitude != null && 
+        destinationLatitude != null && destinationLongitude != null) {
         try {
-            print("Obteniendo ruta desde ($sourceLatitude, $sourceLongitude) hasta ($destinationLatitude, $destinationLongitude)");
-            
-            final request = PolylineRequest(
-                origin: PointLatLng(sourceLatitude, sourceLongitude),
-                destination: PointLatLng(destinationLatitude, destinationLongitude),
-                mode: TravelMode.driving,
-            );
+            polyLines.clear(); // Limpiar rutas existentes
 
-            PolylineResult result = await polylinePoints.getRouteBetweenCoordinates(
-                googleApiKey: mapAPIKey,
-                request: request
-            );
+            // Obtener el valor actual de clienteRecogido
+            final activeOrderController = Get.find<ActiveOrderController>();
+            final clienteRecogido = activeOrderController.clienteRecogido.value;
 
-            print("Respuesta de Google: ${result.errorMessage ?? 'Sin errores'}");
-            print("Puntos recibidos: ${result.points.length}");
-
-            if (result.points.isNotEmpty) {
-                List<LatLng> polylineCoordinates = result.points
-                    .map((point) => LatLng(point.latitude, point.longitude))
-                    .toList();
-
-                PolylineId id = const PolylineId("poly");
-                final Polyline polyline = Polyline(
-                    polylineId: id,
-                    color: Colors.blue,
-                    points: polylineCoordinates,
-                    width: 5,
-                    geodesic: true
+            if (clienteRecogido == 0) {
+                // Solo mostrar ruta conductor -> pasajero
+                final request1 = PolylineRequest(
+                    origin: PointLatLng(sourceLatitude!, sourceLongitude!),
+                    destination: PointLatLng(
+                        orderModel.value.sourceLocationLAtLng?.latitude ?? 0.0,
+                        orderModel.value.sourceLocationLAtLng?.longitude ?? 0.0
+                    ),
+                    mode: TravelMode.driving,
                 );
 
-                polyLines.clear();
-                polyLines[id] = polyline;
-                print("✅ Ruta trazada con ${polylineCoordinates.length} puntos");
-                
-                // Forzar actualización de la UI
-                update();
-            } else {
-                print("❌ No se recibieron puntos para la ruta");
-                print("Error message: ${result.errorMessage}");
-                
-                // Si falla, al menos dibujar una línea recta
-                PolylineId id = const PolylineId("poly");
-                final Polyline polyline = Polyline(
-                    polylineId: id,
-                    color: Colors.blue,
-                    points: [
-                        LatLng(sourceLatitude, sourceLongitude),
-                        LatLng(destinationLatitude, destinationLongitude)
-                    ],
-                    width: 5,
+                PolylineResult driverToPassenger = await polylinePoints.getRouteBetweenCoordinates(
+                    googleApiKey: mapAPIKey,
+                    request: request1
                 );
-                
-                polyLines.clear();
-                polyLines[id] = polyline;
-                update();
+
+                if (driverToPassenger.points.isNotEmpty) {
+                    List<LatLng> polylineCoordinates = driverToPassenger.points
+                        .map((point) => LatLng(point.latitude, point.longitude))
+                        .toList();
+
+                    PolylineId id1 = const PolylineId("poly1");
+                    final Polyline polyline1 = Polyline(
+                        polylineId: id1,
+                        color: Colors.blue,
+                        points: polylineCoordinates,
+                        width: 6,
+                        geodesic: true
+                    );
+                    polyLines[id1] = polyline1;
+                }
+            } else if (clienteRecogido == 1) {
+                // Solo mostrar ruta pasajero -> destino
+                final request2 = PolylineRequest(
+                    origin: PointLatLng(
+                        orderModel.value.sourceLocationLAtLng?.latitude ?? 0.0,
+                        orderModel.value.sourceLocationLAtLng?.longitude ?? 0.0
+                    ),
+                    destination: PointLatLng(
+                        orderModel.value.destinationLocationLAtLng?.latitude ?? 0.0,
+                        orderModel.value.destinationLocationLAtLng?.longitude ?? 0.0
+                    ),
+                    mode: TravelMode.driving,
+                );
+
+                PolylineResult passengerToDestination = await polylinePoints.getRouteBetweenCoordinates(
+                    googleApiKey: mapAPIKey,
+                    request: request2
+                );
+
+                if (passengerToDestination.points.isNotEmpty) {
+                    List<LatLng> polylineCoordinates = passengerToDestination.points
+                        .map((point) => LatLng(point.latitude, point.longitude))
+                        .toList();
+
+                    PolylineId id2 = const PolylineId("poly2");
+                    final Polyline polyline2 = Polyline(
+                        polylineId: id2,
+                        color: Colors.green,
+                        points: polylineCoordinates,
+                        width: 6,
+                        geodesic: true
+                    );
+                    polyLines[id2] = polyline2;
+                }
             }
+
+            update();
         } catch (e) {
-            print("❌ Error al trazar la ruta: $e");
-        }
-    } else {
-        print("❌ Coordenadas incompletas para trazar la ruta");
-    }
-    print("==== Trazando ruta del conductor al pasajero ====");
-    
-    if (sourceLatitude != null && sourceLongitude != null && destinationLatitude != null && destinationLongitude != null) {
-        try {
-            // 1. Crear el request para obtener la ruta
-            final request = PolylineRequest(
-                origin: PointLatLng(sourceLatitude, sourceLongitude),
-                destination: PointLatLng(destinationLatitude, destinationLongitude),
-                mode: TravelMode.driving,
-            );
-
-            // 2. Obtener la ruta de Google
-            PolylineResult result = await polylinePoints.getRouteBetweenCoordinates(
-                googleApiKey: mapAPIKey,
-                request: request
-            );
-
-            print("Respuesta de Google: ${result.errorMessage ?? 'Sin errores'}");
-
-            // 3. Si tenemos puntos, crear la polyline
-            if (result.points.isNotEmpty) {
-                // Convertir los puntos a coordenadas para el mapa
-                List<LatLng> polylineCoordinates = result.points
-                    .map((point) => LatLng(point.latitude, point.longitude))
-                    .toList();
-
-                // Crear la polyline
-                PolylineId id = const PolylineId("poly");
-                final Polyline polyline = Polyline(
-                    polylineId: id,
-                    color: Colors.blue,
-                    points: polylineCoordinates,
-                    width: 3,
-                    geodesic: true
-                );
-
-                // Agregar la polyline al mapa
-                polyLines.clear();  // Limpiar polylines anteriores
-                polyLines[id] = polyline;
-                
-                print("✅ Ruta trazada con ${polylineCoordinates.length} puntos");
-                
-                // Actualizar la UI
-                update();
-            } else {
-                print("❌ Error al obtener la ruta: ${result.errorMessage}");
-            }
-        } catch (e) {
-            print("❌ Error al trazar la ruta: $e");
+            print("❌ Error al trazar las rutas: $e");
         }
     }
 }

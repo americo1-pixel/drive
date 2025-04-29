@@ -10,4 +10,5 @@ class ActiveOrderController extends GetxController {
   void resetOTPController() {
     otpController.value = TextEditingController();
   }
+  RxInt clienteRecogido = 0.obs;  // Variable observable inicializada en 0
 }

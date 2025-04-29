@@ -18,8 +18,12 @@ import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:geolocator/geolocator.dart' as prefix;
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+//here
 
 class OrderMapController extends GetxController {
+  // Agregar la API key como variable global
+  static const String mapAPIKey = "AIzaSyBF8F0YnhknJa_cvyMmaJvRVTqPS-somdk";
+
   final Completer<GoogleMapController> mapController = Completer<GoogleMapController>();
   Rx<TextEditingController> enterOfferRateController = TextEditingController().obs;
 
@@ -31,10 +35,6 @@ class OrderMapController extends GetxController {
 
   @override
   void onInit() {
-    if (Constant.selectedMapType == 'osm') {
-      ShowToastDialog.showLoader("Por favor espera");
-      mapOsmController = MapController(initPosition: GeoPoint(latitude: 20.9153, longitude: -100.7439), useExternalTracking: false); //OSM
-    }
     addMarkerSetup();
     getArgument();
     super.onInit();
@@ -100,12 +100,40 @@ class OrderMapController extends GetxController {
     if (argumentData != null) {
       String orderId = argumentData['orderModel'];
       await getData(orderId);
-      if (Constant.selectedMapType == 'google') {
+
+      // Agregar marcadores cuando tengamos los datos
+      if (orderModel.value.sourceLocationLAtLng != null) {
+        addMarker(
+          LatLng(
+            orderModel.value.sourceLocationLAtLng!.latitude ?? 0.0,  // Valor por defecto 0.0
+            orderModel.value.sourceLocationLAtLng!.longitude ?? 0.0  // Valor por defecto 0.0
+          ),
+          "pickup",
+          departureIcon ?? BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRed)
+        );
+      }
+
+      if (orderModel.value.destinationLocationLAtLng != null) {
+        addMarker(
+          LatLng(
+            orderModel.value.destinationLocationLAtLng!.latitude ?? 0.0,  // Valor por defecto 0.0
+            orderModel.value.destinationLocationLAtLng!.longitude ?? 0.0  // Valor por defecto 0.0
+          ),
+          "destination",
+          destinationIcon ?? BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueGreen)
+        );
+      }
+
+      // Dibujar la ruta entre los puntos
+      if (orderModel.value.sourceLocationLAtLng != null && 
+          orderModel.value.destinationLocationLAtLng != null) {
         getPolyline(
-            sourceLatitude: orderModel.value.sourceLocationLAtLng?.latitude,
-            sourceLongitude: orderModel.value.sourceLocationLAtLng?.longitude,
-            destinationLatitude: orderModel.value.destinationLocationLAtLng?.latitude,
-            destinationLongitude: orderModel.value.destinationLocationLAtLng?.longitude
+          driverLatitude: Constant.currentLocation?.latitude,
+          driverLongitude: Constant.currentLocation?.longitude,
+          sourceLatitude: orderModel.value.sourceLocationLAtLng?.latitude,
+          sourceLongitude: orderModel.value.sourceLocationLAtLng?.longitude,
+          destinationLatitude: orderModel.value.destinationLocationLAtLng?.latitude,
+          destinationLongitude: orderModel.value.destinationLocationLAtLng?.longitude,
         );
       }
     }
@@ -155,13 +183,13 @@ class OrderMapController extends GetxController {
     startNightTimeString = DateTime(currentDate.year, currentDate.month, currentDate.day, int.parse(startParts[0]), int.parse(startParts[1]));
     endNightTimeString = DateTime(currentDate.year, currentDate.month, currentDate.day, int.parse(endParts[0]), int.parse(endParts[1]));
 
-    double durationValueInMinutos = convertToMinutos(orderModel.value.duration.toString());
+    double durationValueInMinutes = convertToMinutes(orderModel.value.duration.toString());
     double distance = double.tryParse(orderModel.value.distance.toString()) ?? 0.0;
     double nonAcChargeValue = double.tryParse(driverModel.value.vehicleInformation!.nonAcPerKmRate.toString()) ?? 0.0;
     double acChargeValue = double.tryParse(driverModel.value.vehicleInformation!.acPerKmRate.toString()) ?? 0.0;
     double kmCharge = double.tryParse(driverModel.value.vehicleInformation!.perKmRate!.toString()) ?? 0.0;
 
-    totalChargeOfMinute.value = double.parse(durationValueInMinutos.toString()) * double.parse(orderModel.value.service!.perMinuteCharge.toString());
+    totalChargeOfMinute.value = double.parse(durationValueInMinutes.toString()) * double.parse(orderModel.value.service!.perMinuteCharge.toString());
     basicFare.value = double.parse(orderModel.value.service!.basicFareCharge.toString());
 
     if (distance <= double.parse(orderModel.value.service!.basicFare.toString())) {
@@ -212,98 +240,87 @@ class OrderMapController extends GetxController {
   RxMap<PolylineId, Polyline> polyLines = <PolylineId, Polyline>{}.obs;
   PolylinePoints polylinePoints = PolylinePoints();
 
-  void getPolyline({required double? sourceLatitude, required double? sourceLongitude, required double? destinationLatitude, required double? destinationLongitude}) async {
-    print("==== Trazando ruta del conductor al pasajero ====");
+  void getPolyline({
+    required double? driverLatitude,
+    required double? driverLongitude,
+    required double? sourceLatitude,
+    required double? sourceLongitude,
+    required double? destinationLatitude,
+    required double? destinationLongitude
+}) async {
+    print("==== Trazando rutas ====");
     
-    if (sourceLatitude != null && sourceLongitude != null && destinationLatitude != null && destinationLongitude != null) {
+    if (driverLatitude != null && driverLongitude != null && 
+        sourceLatitude != null && sourceLongitude != null && 
+        destinationLatitude != null && destinationLongitude != null) {
         try {
-            print("Obteniendo ruta desde ($sourceLatitude, $sourceLongitude) hasta ($destinationLatitude, $destinationLongitude)");
-            
-            final request = PolylineRequest(
+            // Ruta 1: Conductor -> Pasajero
+            final request1 = PolylineRequest(
+                origin: PointLatLng(driverLatitude, driverLongitude),
+                destination: PointLatLng(sourceLatitude, sourceLongitude),
+                mode: TravelMode.driving,
+            );
+
+            PolylineResult driverToSource = await polylinePoints.getRouteBetweenCoordinates(
+                googleApiKey: mapAPIKey,
+                request: request1
+            );
+
+            // Ruta 2: Pasajero -> Destino
+            final request2 = PolylineRequest(
                 origin: PointLatLng(sourceLatitude, sourceLongitude),
                 destination: PointLatLng(destinationLatitude, destinationLongitude),
                 mode: TravelMode.driving,
             );
 
-            print("Usando API key: ${Constant.mapAPIKey}");
-            PolylineResult result = await polylinePoints.getRouteBetweenCoordinates(
-                googleApiKey: Constant.mapAPIKey,
-                request: request
+            PolylineResult sourceToDestination = await polylinePoints.getRouteBetweenCoordinates(
+                googleApiKey: mapAPIKey,
+                request: request2
             );
 
-            print("Respuesta de Google: ${result.errorMessage ?? 'Sin errores'}");
-            print("Puntos recibidos: ${result.points.length}");
-            
-            if (result.points.isNotEmpty) {
-                print("Primeros 3 puntos de la ruta:");
-                result.points.take(3).forEach((point) {
-                    print("Punto: (${point.latitude}, ${point.longitude})");
-                });
-            }
+            polyLines.clear();
 
-            if (result.points.isNotEmpty) {
-                List<LatLng> polylineCoordinates = result.points
+            // Dibujar ruta conductor -> pasajero
+            if (driverToSource.points.isNotEmpty) {
+                List<LatLng> polylineCoordinates = driverToSource.points
                     .map((point) => LatLng(point.latitude, point.longitude))
                     .toList();
 
-                PolylineId id = const PolylineId("poly");
-                final Polyline polyline = Polyline(
-                    polylineId: id,
+                PolylineId id1 = const PolylineId("poly1");
+                final Polyline polyline1 = Polyline(
+                    polylineId: id1,
                     color: Colors.blue,
                     points: polylineCoordinates,
-                    width: 5,
+                    width: 6,
                     geodesic: true
                 );
-
-                // Actualizar el mapa observable
-                polyLines.clear();
-                polyLines[id] = polyline;
-                
-                print("✅ Ruta trazada con ${polylineCoordinates.length} puntos");
-            } else {
-                print("❌ No se recibieron puntos para la ruta");
-                // Crear una línea recta simple como fallback
-                PolylineId id = const PolylineId("poly");
-                Polyline polyline = Polyline(
-                    polylineId: id,
-                    color: Colors.blue,
-                    points: [
-                        LatLng(sourceLatitude, sourceLongitude),
-                        LatLng(destinationLatitude, destinationLongitude)
-                    ],
-                    width: 5,
-                );
-                
-                polyLines.clear();
-                polyLines[id] = polyline;
+                polyLines[id1] = polyline1;
             }
+
+            // Dibujar ruta pasajero -> destino
+            if (sourceToDestination.points.isNotEmpty) {
+                List<LatLng> polylineCoordinates = sourceToDestination.points
+                    .map((point) => LatLng(point.latitude, point.longitude))
+                    .toList();
+
+                PolylineId id2 = const PolylineId("poly2");
+                final Polyline polyline2 = Polyline(
+                    polylineId: id2,
+                    color: Colors.green,
+                    points: polylineCoordinates,
+                    width: 6,
+                    geodesic: true
+                );
+                polyLines[id2] = polyline2;
+            }
+
+            update();  // Actualizar UI
+            
         } catch (e) {
-            print("❌ Error al trazar la ruta: $e");
+            print("❌ Error al trazar las rutas: $e");
         }
-    }
-    
-    if (orderModel.value.sourceLocationLAtLng != null && orderModel.value.destinationLocationLAtLng != null) {
-      movePosition();
-      List<LatLng> polylineCoordinates = [];
-      PolylineRequest polylineRequest = PolylineRequest(
-        origin: PointLatLng(orderModel.value.sourceLocationLAtLng!.latitude ?? 0.0, orderModel.value.sourceLocationLAtLng!.longitude ?? 0.0),
-        destination: PointLatLng(orderModel.value.destinationLocationLAtLng!.latitude ?? 0.0, orderModel.value.destinationLocationLAtLng!.longitude ?? 0.0),
-        mode: TravelMode.driving,
-      );
-      PolylineResult result = await polylinePoints.getRouteBetweenCoordinates(
-        googleApiKey: Constant.mapAPIKey,
-        request: polylineRequest,
-      );
-      if (result.points.isNotEmpty) {
-        for (var point in result.points) {
-          polylineCoordinates.add(LatLng(point.latitude, point.longitude));
-        }
-      } else {
-        print(result.errorMessage.toString());
-      }
-      _addPolyLine(polylineCoordinates);
-      addMarker(LatLng(orderModel.value.sourceLocationLAtLng!.latitude ?? 0.0, orderModel.value.sourceLocationLAtLng!.longitude ?? 0.0), "Source", departureIcon);
-      addMarker(LatLng(orderModel.value.destinationLocationLAtLng!.latitude ?? 0.0, orderModel.value.destinationLocationLAtLng!.longitude ?? 0.0), "Destination", destinationIcon);
+    } else {
+        print("❌ Coordenadas incompletas para trazar las rutas");
     }
   }
 
@@ -344,7 +361,20 @@ class OrderMapController extends GetxController {
 
   addMarker(LatLng? position, String id, BitmapDescriptor? descriptor) {
     MarkerId markerId = MarkerId(id);
-    Marker marker = Marker(markerId: markerId, icon: descriptor!, position: position!);
+    Marker marker = Marker(
+      markerId: markerId,
+      icon: id == "pickup" 
+          ? BitmapDescriptor.defaultMarker
+        // BitmapDescriptor.defaultMarker (rojo)
+        // BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueAzure)
+        // BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueBlue)
+        : (descriptor ?? BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueGreen)),
+      position: position!,
+      infoWindow: InfoWindow(
+        title: id == "pickup" ? "Pasajero" : "Destino",
+        //snippet: id == "pickup" ? orderModel.value.userName : null,
+      ),
+    );
     markers[markerId] = marker;
   }
 
@@ -452,12 +482,12 @@ class OrderMapController extends GetxController {
     });
   }
 
-  double convertToMinutos(String duration) {
+  double convertToMinutes(String duration) {
     double durationValue = 0.0;
 
     try {
       final RegExp hoursRegex = RegExp(r"(\d+)\s*hour");
-      final RegExp MinutosRegex = RegExp(r"(\d+)\s*min");
+      final RegExp minutesRegex = RegExp(r"(\d+)\s*min");
 
       final Match? hoursMatch = hoursRegex.firstMatch(duration);
       if (hoursMatch != null) {
@@ -465,10 +495,10 @@ class OrderMapController extends GetxController {
         durationValue += hours * 60;
       }
 
-      final Match? MinutosMatch = MinutosRegex.firstMatch(duration);
-      if (MinutosMatch != null) {
-        int Minutos = int.parse(MinutosMatch.group(1)!.trim());
-        durationValue += Minutos;
+      final Match? minutesMatch = minutesRegex.firstMatch(duration);
+      if (minutesMatch != null) {
+        int minutes = int.parse(minutesMatch.group(1)!.trim());
+        durationValue += minutes;
       }
     } catch (e) {
       print("Exception: $e");
@@ -476,5 +506,13 @@ class OrderMapController extends GetxController {
     }
 
     return durationValue;
+  }
+
+  // Agregar variable para controlar la visibilidad
+  RxBool isBoxVisible = true.obs;
+
+  // Agregar método para alternar la visibilidad
+  void toggleBoxVisibility() {
+    isBoxVisible.value = !isBoxVisible.value;
   }
 }
