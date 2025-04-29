@@ -15,6 +15,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:driver/controller/dash_board_controller.dart';
 
 class VehicleInformationScreen extends StatelessWidget {
   const VehicleInformationScreen({super.key});
@@ -355,32 +356,27 @@ class VehicleInformationScreen extends StatelessWidget {
                                       ShowToastDialog.showLoader("Por favor espera".tr);
 
                                       if (controller.selectedServiceType.value.id == null || controller.selectedServiceType.value.id!.isEmpty) {
-                                        ShowToastDialog.showToast("Please select service".tr);
+                                        ShowToastDialog.showToast("Por favor selecciona el servicio".tr);
                                         return;
                                       }
 
                                       if (controller.vehicleNumberController.value.text.isEmpty) {
-                                        ShowToastDialog.showToast(
-                                          "Please enter Vehicle number".tr,
-                                        );
+                                        ShowToastDialog.showToast("Por favor ingrese el número de vehículo".tr);
                                       } else if (controller.selectedVehicle.value.id == null || controller.selectedVehicle.value.id!.isEmpty) {
-                                        ShowToastDialog.showToast(
-                                          "Please enter Vehicle type".tr,
-                                        );
+                                        ShowToastDialog.showToast("Por favor ingrese el tipo de vehículo".tr);
                                       } else if (controller.selectedColor.value.isEmpty) {
-                                        ShowToastDialog.showToast(
-                                          "Please enter Vehicle color".tr,
-                                        );
+                                        ShowToastDialog.showToast("Por favor ingrese el tipo de vehículo".tr);
                                       } else if (controller.seatsController.value.text.isEmpty) {
-                                        ShowToastDialog.showToast(
-                                          "Please enter seats".tr,
-                                        );
+                                        ShowToastDialog.showToast("Por favor ingrese el numero de asientos".tr);
                                       } else if (controller.selectedZone.isEmpty) {
-                                        ShowToastDialog.showToast(
-                                          "Please select Zone".tr,
-                                        );
+                                        ShowToastDialog.showToast("Por favor seleccione Zona".tr);
                                       } else {
-                                        controller.saveDetails();
+                                        await controller.saveDetails();
+                                        ShowToastDialog.closeLoader();
+                                        
+                                        // Navegar a la pantalla de Registro en línea
+                                        final dashboardController = Get.find<DashBoardController>();
+                                        dashboardController.onSelectItem(4); // Cambiado de 5 a 4
                                       }
                                     },
                                   ),

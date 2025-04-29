@@ -25,8 +25,8 @@ class LoginController extends GetxController {
       verificationFailed: (FirebaseAuthException e) {
         debugPrint("FirebaseAuthException--->${e.message}");
         ShowToastDialog.closeLoader();
-        if (e.code == 'invalid-phone-number') {
-          ShowToastDialog.showToast("The provided phone number is not valid.");
+        if (e.code == 'Numero telefonico invalido') {
+          ShowToastDialog.showToast("El número de teléfono proporcionado no es válido.");
         } else {
           ShowToastDialog.showToast(e.message);
         }
@@ -44,7 +44,7 @@ class LoginController extends GetxController {
         .catchError((error) {
       debugPrint("catchError--->$error");
       ShowToastDialog.closeLoader();
-      ShowToastDialog.showToast("You have try many time please send otp after some time");
+      ShowToastDialog.showToast("Lo has intentado muchas veces, por favor envía el OTP después de un tiempo.");
     });
   }
 

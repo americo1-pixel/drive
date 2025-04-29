@@ -84,7 +84,14 @@ class DetailsUploadScreen extends StatelessWidget {
                                     child: Column(
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
-                                        Text("Front Side of ${Constant.localizationTitle(controller.documentModel.value.title)}".tr, style: GoogleFonts.poppins(fontSize: 16, fontWeight: FontWeight.w600)),
+                                        Text(
+                                          "Lado frontal de ${Constant.localizationTitle(controller.documentModel.value.title)}".tr, 
+                                          style: GoogleFonts.poppins(
+                                            fontSize: 16, 
+                                            fontWeight: FontWeight.w600,
+                                            color: Colors.black // Forzar color negro
+                                          )
+                                        ),
                                         const SizedBox(
                                           height: 10,
                                         ),
@@ -149,7 +156,12 @@ class DetailsUploadScreen extends StatelessWidget {
                                                           const SizedBox(
                                                             height: 10,
                                                           ),
-                                                           Text("Add photo".tr)
+                                                           Text(
+                                                              "Agregar foto".tr,
+                                                              style: GoogleFonts.poppins(
+                                                                color: Colors.black // Forzar color negro
+                                                              )
+                                                            )
                                                         ],
                                                       )),
                                                 ),
@@ -165,7 +177,7 @@ class DetailsUploadScreen extends StatelessWidget {
                                     child: Column(
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
-                                        Text("Back side of ${Constant.localizationTitle(controller.documentModel.value.title)}".tr, style: GoogleFonts.poppins(fontSize: 16, fontWeight: FontWeight.w600)),
+                                        Text("Parte trasera de ${Constant.localizationTitle(controller.documentModel.value.title)}".tr, style: GoogleFonts.poppins(fontSize: 16, fontWeight: FontWeight.w600)),
                                         const SizedBox(
                                           height: 10,
                                         ),
@@ -230,7 +242,12 @@ class DetailsUploadScreen extends StatelessWidget {
                                                           const SizedBox(
                                                             height: 10,
                                                           ),
-                                                           Text("Add photo".tr)
+                                                           Text(
+                                                              "Agregar foto".tr,
+                                                              style: GoogleFonts.poppins(
+                                                                color: Colors.black // Forzar color negro
+                                                              )
+                                                            )
                                                         ],
                                                       )),
                                                 ),
@@ -246,15 +263,15 @@ class DetailsUploadScreen extends StatelessWidget {
                                   visible: controller.documents.value.verified == true ? false : true,
                                   child: ButtonThem.buildButton(
                                     context,
-                                    title: "Done".tr,
+                                    title: "Hecho".tr,
                                     onPress: () {
                                       if (controller.documentNumberController.value.text.isEmpty) {
-                                        ShowToastDialog.showToast("Please enter document number".tr);
+                                        ShowToastDialog.showToast("Por favor ingrese el número de documento.".tr);
                                       } else {
                                         if (controller.documentModel.value.frontSide == true && controller.frontImage.value.isEmpty) {
-                                          ShowToastDialog.showToast("Please upload front side of document.".tr);
+                                          ShowToastDialog.showToast("Por favor, cargue el anverso del documento.".tr);
                                         } else if (controller.documentModel.value.backSide == true && controller.backImage.value.isEmpty) {
-                                          ShowToastDialog.showToast("Please upload back side of document.".tr);
+                                          ShowToastDialog.showToast("Por favor, cargue el reverso del documento.".tr);
                                         } else {
                                           ShowToastDialog.showLoader("Por favor espera".tr);
                                           controller.uploadDocument();
@@ -291,6 +308,7 @@ class DetailsUploadScreen extends StatelessWidget {
                       style: GoogleFonts.poppins(
                         fontSize: 16,
                         fontWeight: FontWeight.w600,
+                        color: Colors.black // Forzar color negro
                       ),
                     ),
                   ),
@@ -311,7 +329,12 @@ class DetailsUploadScreen extends StatelessWidget {
                                 )),
                              Padding(
                               padding: EdgeInsets.only(top: 3),
-                              child: Text("Camera".tr),
+                              child: Text(
+                                "Camera".tr,
+                                style: GoogleFonts.poppins(
+                                  color: Colors.black // Forzar color negro
+                                )
+                              ),
                             ),
                           ],
                         ),
@@ -330,7 +353,12 @@ class DetailsUploadScreen extends StatelessWidget {
                                 )),
                              Padding(
                               padding: EdgeInsets.only(top: 3),
-                              child: Text("Gallery".tr),
+                              child: Text(
+                                "Gallery".tr,
+                                style: GoogleFonts.poppins(
+                                  color: Colors.black // Forzar color negro
+                                )
+                              ),
                             ),
                           ],
                         ),

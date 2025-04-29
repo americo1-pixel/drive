@@ -362,7 +362,7 @@ class ActiveFreightOrderScreen extends StatelessWidget {
                   }
                 });
               } else {
-                ShowToastDialog.showToast("OTP Invalid".tr);
+                ShowToastDialog.showToast("OTP Incorrecto".tr);
               }
             }),
             const SizedBox(

@@ -275,4 +275,12 @@ const Map<String, String> esES = {
   'Ride Picked Up': 'Viaje recogido',
   'Confirm cash payment': 'Confirmar pago en efectivo',
   'OTP verify from customer': 'Verificar OTP del cliente',
+  'Payment Confirm successfully': 'Pago confirmado con éxito',
+  'Please select serevice': 'Por favor selecciona el servicio',
+  'Please select vehicle type': 'Por favor selecciona el tipo de vehículo',
+  'Please select vehicle color': 'Por favor selecciona el color del vehículo',
+  'Please select vehicle number': 'Por favor selecciona el número de vehículo',
+  'Please select vehicle seats': 'Por favor selecciona los asientos del vehículo',
+  'Please select vehicle zone': 'Por favor selecciona la zona del vehículo',
+  'Please select vehicle per km rate': 'Por favor selecciona la tarifa por km del vehículo',
 };

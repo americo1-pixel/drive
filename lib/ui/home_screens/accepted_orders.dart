@@ -117,7 +117,7 @@ class AcceptedOrders extends StatelessWidget {
                                                     padding: const EdgeInsets.all(8.0),
                                                     child: Row(
                                                       children: [
-                                                        Expanded(child: Text("Offer Rate".tr, style: GoogleFonts.poppins(fontWeight: FontWeight.w600))),
+                                                        Expanded(child: Text("Oferta de viaje".tr, style: GoogleFonts.poppins(fontWeight: FontWeight.w600))),
                                                         Text(Constant.amountShow(amount:driverIdAcceptReject.offerAmount.toString())),
                                                       ],
                                                     ),

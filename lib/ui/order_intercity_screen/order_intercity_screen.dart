@@ -308,7 +308,7 @@ class OrderIntercityScreen extends StatelessWidget {
                                                               await FireStoreUtils.setInterCityOrder(orderModel).then((value) {
                                                                 if (value == true) {
                                                                   ShowToastDialog.closeLoader();
-                                                                  ShowToastDialog.showToast("Payment Confirm successfully".tr);
+                                                                  ShowToastDialog.showToast("Pago confirmado con éxito".tr);
                                                                 }
                                                               });
                                                             },

@@ -102,11 +102,10 @@ class DashBoardScreen extends StatelessWidget {
                                     child: Text(
                                       'Online'.tr,
                                       style: GoogleFonts.poppins(
-                                          color: driverModel.isOnline == true
-                                              ? Colors.black
-                                              : Colors.white,
-                                          fontWeight: FontWeight.w500,
-                                          fontSize: 14),
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 14
+                                      ),
                                     ),
                                   ),
                                 ),
@@ -185,7 +184,7 @@ class DashBoardScreen extends StatelessWidget {
             child: ListBody(
               children: <Widget>[
                 Text(
-                    'To start earning with GoRide you need to fill in your personal information'
+                    'Para empezar a ganar con Mujeres al Volante necesitas completar tus datos personales'
                         .tr),
               ],
             ),

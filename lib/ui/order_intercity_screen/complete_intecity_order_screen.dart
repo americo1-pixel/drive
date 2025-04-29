@@ -323,7 +323,7 @@ class CompleteIntercityOrderScreen extends StatelessWidget {
                                               crossAxisAlignment: CrossAxisAlignment.start,
                                               children: [
                                                 Text(
-                                                  "Admin Commission".tr,
+                                                  "Comis".tr,
                                                   style: GoogleFonts.poppins(
                                                     fontWeight: FontWeight.w600,
                                                   ),
@@ -335,7 +335,7 @@ class CompleteIntercityOrderScreen extends StatelessWidget {
                                                   children: [
                                                     Expanded(
                                                       child: Text(
-                                                        "Admin commission".tr,
+                                                        "Comisión administrativa".tr,
                                                         style: GoogleFonts.poppins(color: AppColors.subTitleColor),
                                                       ),
                                                     ),
@@ -353,7 +353,7 @@ class CompleteIntercityOrderScreen extends StatelessWidget {
                                                   height: 10,
                                                 ),
                                                 Text(
-                                                  "Note : Admin commission will be debited from your wallet balance. \n Admin commission will apply on Ride Amount minus Discount(if applicable).".tr,
+                                                  "Nota: La comisión de administrador se debitará del saldo de su billetera. \n La comisión de administrador se aplicará al monto del viaje menos el descuento (si corresponde).".tr,
                                                   style: GoogleFonts.poppins(color: Colors.red),
                                                 )
                                               ],

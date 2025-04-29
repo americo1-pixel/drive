@@ -381,11 +381,11 @@ class ActiveIntercityOrderScreen extends StatelessWidget {
                 await FireStoreUtils.setInterCityOrder(orderModel).then((value) {
                   if (value == true) {
                     ShowToastDialog.closeLoader();
-                    ShowToastDialog.showToast("Customer pickup successfully".tr);
+                    ShowToastDialog.showToast("Cliente Recogida con éxito".tr);
                   }
                 });
               } else {
-                ShowToastDialog.showToast("OTP Invalid".tr);
+                ShowToastDialog.showToast("OTP Incorrecto".tr);
               }
             }),
             const SizedBox(

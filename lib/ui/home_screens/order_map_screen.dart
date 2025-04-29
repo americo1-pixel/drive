@@ -28,6 +28,13 @@ class OrderMapScreen extends StatelessWidget {
         return Scaffold(
           appBar: AppBar(
             backgroundColor: AppColors.primary,
+            title: Text(
+              "Detalles del viaje".tr,
+              style: GoogleFonts.poppins(
+                color: Colors.white,
+                fontWeight: FontWeight.w500
+              ),
+            ),
             leading: InkWell(
               onTap: () {
                 Get.back();
@@ -230,13 +237,13 @@ class OrderMapScreen extends StatelessWidget {
                                                 style: GoogleFonts.poppins(fontWeight: FontWeight.w500),
                                               ),
                                               Text(
-                                                '${controller.orderModel.value.service!.basicFare} ${Constant.distanceType} - ${'Base Fare'.tr} (${Constant.amountShow(amount: controller.basicFare.value.toString())})',
+                                                '${controller.orderModel.value.service!.basicFare} ${Constant.distanceType} - ${'Precio Base'.tr} (${Constant.amountShow(amount: controller.basicFare.value.toString())})',
                                                 style: GoogleFonts.poppins(fontWeight: FontWeight.w500),
                                               ),
                                               const SizedBox(height: 20),
                                               ButtonThem.buildButton(
                                                 context,
-                                                title: '${'Accept fare on'.tr} ${Constant.amountShow(amount: controller.finalAmount.value.toString())}',
+                                                title: '${'Aceptar tarifa en'.tr} ${Constant.amountShow(amount: controller.finalAmount.value.toString())}',
                                                 onPress: () async {
                                                   if (double.parse(controller.amount.value.toString()) > 0) {
                                                     if (controller.driverModel.value.subscriptionTotalOrders == "-1") {

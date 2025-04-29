@@ -488,7 +488,7 @@ class NewOrderInterCityScreen extends StatelessWidget {
                         ),
                         ButtonThem.buildButton(
                           context,
-                          title: "Accept fare on ${Constant.amountShow(amount: controller.newAmount.value)}".tr,
+                          title: "Aceptar tarifa en ${Constant.amountShow(amount: controller.newAmount.value)}".tr,
                           onPress: () async {
                             if (controller.newAmount.value.isNotEmpty && double.parse(controller.newAmount.value.toString()) > 0) {
                               if (controller.driverModel.value.subscriptionTotalOrders == "-1") {

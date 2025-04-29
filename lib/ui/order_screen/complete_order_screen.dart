@@ -129,16 +129,18 @@ class CompleteOrderScreen extends StatelessWidget {
                                         ),
                                         Container(
                                           decoration: BoxDecoration(
-                                            color: Colors.black,
+                                            color: themeChange.getThem() 
+                                              ? AppColors.darkContainerBackground  // Color para modo noche
+                                              : Colors.white,  // Color para modo día
                                             borderRadius: BorderRadius.circular(10),
                                             boxShadow: [
-                                              BoxShadow(
-                                                color: Colors.black.withOpacity(0.2),
-                                                blurRadius: 5,
-                                                offset: const Offset(0, 4),
-                                              ),
-                                            ],
-                                          ),
+                                                  BoxShadow(
+                                                    color: Colors.black.withOpacity(0.2),
+                                                    blurRadius: 5,
+                                                    offset: const Offset(0, 4),
+                                                  ),
+                                                ],
+                                                                                      ),
                                           padding: const EdgeInsets.all(15),
                                           child: Column(
                                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -157,7 +159,9 @@ class CompleteOrderScreen extends StatelessWidget {
                                                 "Pickup and drop-off locations".tr,
                                                 style: GoogleFonts.poppins(
                                                   fontWeight: FontWeight.w600,
-                                                  color: Colors.white,
+                                                  color: themeChange.getThem() 
+                                                    ? Colors.white  // Color para modo noche
+                                                    : Colors.black, // Color para modo día
                                                 ),
                                               ),
                                               const SizedBox(
@@ -165,7 +169,7 @@ class CompleteOrderScreen extends StatelessWidget {
                                               ),
                                               Container(
                                                 decoration: BoxDecoration(
-                                                  color: themeChange.getThem() ? AppColors.darkContainerBackground : AppColors.containerBackground,
+                                                  color: themeChange.getThem() ? AppColors.darkBackground : AppColors.containerBackground,
                                                   borderRadius: const BorderRadius.all(Radius.circular(10)),
                                                   border: Border.all(color: themeChange.getThem() ? AppColors.darkContainerBorder : AppColors.containerBorder, width: 0.5),
                                                   boxShadow: themeChange.getThem()
@@ -190,7 +194,7 @@ class CompleteOrderScreen extends StatelessWidget {
                                                 padding: const EdgeInsets.symmetric(vertical: 14),
                                                 child: Container(
                                                   decoration: BoxDecoration(
-                                                      color: themeChange.getThem() ? AppColors.darkGray : AppColors.gray,
+                                                      color: themeChange.getThem() ? AppColors.darkBackground : AppColors.gray,
                                                       borderRadius: const BorderRadius.all(Radius.circular(10))),
                                                   child: Padding(
                                                       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 12),
@@ -206,7 +210,7 @@ class CompleteOrderScreen extends StatelessWidget {
                                               ),
                                               Container(
                                                 decoration: BoxDecoration(
-                                                  color: themeChange.getThem() ? AppColors.darkContainerBackground : const Color.fromARGB(255, 196, 9, 9),
+                                                  color: themeChange.getThem() ? AppColors.darkBackground : AppColors.gray,
                                                   borderRadius: const BorderRadius.all(Radius.circular(10)),
                                                   border: Border.all(color: themeChange.getThem() ? AppColors.darkContainerBorder : AppColors.containerBorder, width: 0.5),
                                                   boxShadow: themeChange.getThem()
@@ -234,7 +238,7 @@ class CompleteOrderScreen extends StatelessWidget {
                                                           ),
                                                           Container(
                                                             decoration: BoxDecoration(
-                                                                color: themeChange.getThem() ? AppColors.darkGray : AppColors.gray,
+                                                                color: themeChange.getThem() ? AppColors.darkBackground : AppColors.gray,
                                                                 borderRadius: const BorderRadius.all(Radius.circular(5))),
                                                             child: Padding(
                                                               padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 2),
@@ -281,7 +285,7 @@ class CompleteOrderScreen extends StatelessWidget {
                                                         children: [
                                                           Expanded(
                                                             child: Text(
-                                                              "Base Fare".tr,
+                                                              "Precio Base".tr,
                                                               style: GoogleFonts.poppins(color: AppColors.subTitleColor),
                                                             ),
                                                           ),
@@ -295,7 +299,7 @@ class CompleteOrderScreen extends StatelessWidget {
                                                         children: [
                                                           Expanded(
                                                             child: Text(
-                                                              "Holding Charge".tr,
+                                                              "Cargos por espera".tr,
                                                               style: GoogleFonts.poppins(color: AppColors.subTitleColor),
                                                             ),
                                                           ),
@@ -390,7 +394,7 @@ class CompleteOrderScreen extends StatelessWidget {
                                               ),
                                               Container(
                                                   decoration: BoxDecoration(
-                                                    color: themeChange.getThem() ? AppColors.darkContainerBackground : AppColors.containerBackground,
+                                                    color: themeChange.getThem() ? AppColors.darkBackground : AppColors.containerBackground,
                                                     borderRadius: const BorderRadius.all(Radius.circular(10)),
                                                     border: Border.all(color: themeChange.getThem() ? AppColors.darkContainerBorder : AppColors.containerBorder, width: 0.5),
                                                     boxShadow: themeChange.getThem()
@@ -409,7 +413,7 @@ class CompleteOrderScreen extends StatelessWidget {
                                                       crossAxisAlignment: CrossAxisAlignment.start,
                                                       children: [
                                                         Text(
-                                                          "Admin Commission".tr,
+                                                          "Comisión administrativa".tr,
                                                           style: GoogleFonts.poppins(
                                                             fontWeight: FontWeight.w600,
                                                           ),
@@ -421,7 +425,7 @@ class CompleteOrderScreen extends StatelessWidget {
                                                           children: [
                                                             Expanded(
                                                               child: Text(
-                                                                "Admin commission".tr,
+                                                                "Comisión administrativa".tr,
                                                                 style: GoogleFonts.poppins(color: AppColors.subTitleColor),
                                                               ),
                                                             ),
@@ -439,7 +443,7 @@ class CompleteOrderScreen extends StatelessWidget {
                                                           height: 10,
                                                         ),
                                                         Text(
-                                                          "Note : Admin commission will be debited from your wallet balance. \n Admin commission will apply on Ride Amount minus Discount(if applicable)."
+                                                          "Nota: La comisión de administrador se debitará del saldo de su billetera. \n La comisión de administrador se aplicará al monto del viaje menos el descuento (si corresponde)."
                                                               .tr,
                                                           style: GoogleFonts.poppins(color: Colors.red),
                                                         )

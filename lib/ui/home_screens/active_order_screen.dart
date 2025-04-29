@@ -229,7 +229,7 @@ class ActiveOrderScreen extends StatelessWidget {
                                     orderModel.status.toString() == Constant.rideHold
                                         ? Align(
                                             alignment: Alignment.topLeft,
-                                            child: Text("Do you want to Accept or Reject the Hold request?".tr, style: GoogleFonts.poppins(fontWeight: FontWeight.w600)),
+                                            child: Text("¿Quieres aceptar o rechazar la solicitud de retención?".tr, style: GoogleFonts.poppins(fontWeight: FontWeight.w600)),
                                           )
                                         : SizedBox.shrink(),
                                     orderModel.status.toString() == Constant.rideHold
@@ -291,7 +291,7 @@ class ActiveOrderScreen extends StatelessWidget {
                                     orderModel.status.toString() == Constant.rideHoldAccepted
                                         ? ButtonThem.buildButton(
                                             context,
-                                            title: "End Hold".tr,
+                                            title: "Finalizar antiguo".tr,
                                             btnHeight: 45,
                                             onPress: () async {
                                               ShowToastDialog.showLoader("Por favor espera...".tr);
@@ -401,7 +401,7 @@ class ActiveOrderScreen extends StatelessWidget {
               const SizedBox(height: 10),
               ButtonThem.buildButton(
                 context, 
-                title: "OTP verify".tr, 
+                title: "Verificar OTP".tr, 
                 onPress: () async {
               if (orderModel.otp.toString() == controller.otpController.value.text) {
                 Get.back();
@@ -422,11 +422,11 @@ class ActiveOrderScreen extends StatelessWidget {
                 await FireStoreUtils.setOrder(orderModel).then((value) {
                   if (value == true) {
                     ShowToastDialog.closeLoader();
-                    ShowToastDialog.showToast("Customer pickup successfully".tr);
+                    ShowToastDialog.showToast("Cliente Recogida con éxito".tr);
                   }
                 });
               } else {
-                    ShowToastDialog.showToast("OTP Invalid".tr);
+                    ShowToastDialog.showToast("OTP Incorrecto".tr);
               }
                 }
               ),

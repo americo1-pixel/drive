@@ -36,7 +36,14 @@ class OtpScreen extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Image.asset("assets/images/login_image.png", width: Responsive.width(100, context)),
+                  const SizedBox(height: 80),
+                  Center(
+                    child: Image.asset(
+                      "assets/images/login_image.png",
+                      width: Responsive.width(50, context)
+                    ),
+                  ),
+                  const SizedBox(height: 30),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 20),
                     child: Column(
@@ -44,11 +51,29 @@ class OtpScreen extends StatelessWidget {
                       children: [
                         Padding(
                           padding: const EdgeInsets.only(top: 10),
-                          child: Text("Verify Phone Number".tr, style: GoogleFonts.poppins(fontWeight: FontWeight.w600, fontSize: 18)),
+                          child: Center(  // Añadido Center
+                            child: Text(
+                              "Verify Phone Number".tr,
+                              style: GoogleFonts.poppins(
+                                fontWeight: FontWeight.w600,
+                                fontSize: 18,
+                                color: Colors.black  // Cambiado a negro como en login
+                              )
+                            ),
+                          ),
                         ),
                         Padding(
-                          padding: const EdgeInsets.only(top: 2),
-                          child: Text("We just send a verification code to \n${controller.countryCode.value + controller.phoneNumber.value}".tr, style: GoogleFonts.poppins()),
+                          padding: const EdgeInsets.only(top: 5),
+                          child: Center( // Añadido widget Center
+                            child: Text(
+                              "Enviaremos un codigo de verificacion a \n${controller.countryCode.value + controller.phoneNumber.value}".tr,
+                              textAlign: TextAlign.center,
+                              style: GoogleFonts.poppins(
+                                fontWeight: FontWeight.w400,
+                                color: Colors.black,
+                              )
+                            ),
+                          ),
                         ),
                         Padding(
                           padding: const EdgeInsets.only(top: 50),
@@ -56,15 +81,20 @@ class OtpScreen extends StatelessWidget {
                             length: 6,
                             appContext: context,
                             keyboardType: TextInputType.phone,
+                            textStyle: GoogleFonts.poppins(
+                              color: Colors.black,
+                              fontWeight: FontWeight.w600,
+                              fontSize: 16,
+                            ),
                             pinTheme: PinTheme(
                               fieldHeight: 50,
                               fieldWidth: 50,
                               activeColor: themeChange.getThem() ? AppColors.darkTextFieldBorder : AppColors.textFieldBorder,
                               selectedColor: themeChange.getThem() ? AppColors.darkTextFieldBorder : AppColors.textFieldBorder,
-                              inactiveColor: themeChange.getThem() ? AppColors.darkTextFieldBorder : AppColors.textFieldBorder,
-                              activeFillColor: themeChange.getThem() ? AppColors.darkTextField : AppColors.textField,
-                              inactiveFillColor: themeChange.getThem() ? AppColors.darkTextField : AppColors.textField,
-                              selectedFillColor: themeChange.getThem() ? AppColors.darkTextField : AppColors.textField,
+                              inactiveColor: themeChange.getThem() ? AppColors.darkTextFieldBorder : const Color.fromARGB(255, 218, 183, 216),
+                              activeFillColor: themeChange.getThem() ? AppColors.textField : AppColors.textField,
+                              inactiveFillColor: themeChange.getThem() ? AppColors.textField : AppColors.textField,
+                              selectedFillColor: themeChange.getThem() ? AppColors.textField : AppColors.textField,
                               shape: PinCodeFieldShape.box,
                               borderRadius: BorderRadius.circular(10),
                             ),

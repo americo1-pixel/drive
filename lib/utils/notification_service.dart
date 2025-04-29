@@ -102,7 +102,7 @@ class NotificationService {
       }
     });
 
-    await FirebaseMessaging.instance.subscribeToTopic("goRide_driver");
+    await FirebaseMessaging.instance.subscribeToTopic("Mujeres al Volante");
 
   }
 
@@ -119,8 +119,8 @@ class NotificationService {
 
       AndroidNotificationChannel channel = const AndroidNotificationChannel(
         '0',
-        'goRide-driver',
-        description: 'Show GoRide Notification',
+        'Mujeres al Volante',
+        description: 'Show Mujeres al Volante Notification',
         importance: Importance.max,
       );
       AndroidNotificationDetails notificationDetails =

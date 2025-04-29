@@ -76,7 +76,7 @@ class DetailsUploadController extends GetxController {
         backImage.value = image.path;
       }
     } on PlatformException catch (e) {
-      ShowToastDialog.showToast("Failed to Pick : \n $e");
+      ShowToastDialog.showToast("No se pudo elegir una foto: \n $e");
     }
   }
 

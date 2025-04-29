@@ -106,7 +106,7 @@ class InboxScreen extends StatelessWidget {
                                   Text(Constant.dateFormatTimestamp(inboxModel.createdAt), style: GoogleFonts.poppins(fontSize: 12, fontWeight: FontWeight.w400)),
                                 ],
                               ),
-                              subtitle: Text("Ride Id : #${inboxModel.orderId}".tr),
+                              subtitle: Text("ID de viaje : #${inboxModel.orderId}".tr),
                             ),
                           ),
                         ),

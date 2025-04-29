@@ -26,7 +26,7 @@ class VehicleInformationController extends GetxController {
   RxBool isLoading = true.obs;
 
   Rx<String> selectedColor = "".obs;
-  List<String> carColorList = <String>['Red', 'Black', 'White', 'Blue', 'Green', 'Orange', 'Silver', 'Gray', 'Yellow', 'Brown', 'Gold', 'Beige', 'Purple'].obs;
+  List<String> carColorList = <String>['Rojo', 'Negro', 'Blanco', 'Azul', 'Verde', 'Naranja', 'Plateado', 'Gris', 'Amarillo', 'Marrón', 'Dorado', 'Beige', 'Morado'].obs;
   List<String> sheetList = <String>['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15'].obs;
 
   @override
@@ -149,7 +149,7 @@ class VehicleInformationController extends GetxController {
       ShowToastDialog.closeLoader();
       if (value == true) {
         ShowToastDialog.showToast(
-          "Information update successfully".tr,
+          "Actualización de información exitosa".tr,
         );
       }
     });

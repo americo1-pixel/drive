@@ -29,23 +29,49 @@ class InformationScreen extends StatelessWidget {
         init: InformationController(),
         builder: (controller) {
           return Scaffold(
+            backgroundColor: Theme.of(context).colorScheme.background, // Fondo blanco
             body: SingleChildScrollView(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Image.asset("assets/images/login_image.png", width: Responsive.width(100, context)),
+                  const SizedBox(height: 80), // Mismo espaciado superior que login
+                  Center( // Centrar logo
+                    child: Image.asset(
+                      "assets/images/login_image.png",
+                      width: Responsive.width(50, context)
+                    ),
+                  ),
+                  const SizedBox(height: 30), // Mismo espaciado que login
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10),
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Padding(
                           padding: const EdgeInsets.only(top: 10),
-                          child: Text("Sign up".tr, style: GoogleFonts.poppins(fontWeight: FontWeight.w600, fontSize: 18)),
+                          child: Center( // Centrar título
+                            child: Text(
+                              "Sign up".tr,
+                              style: GoogleFonts.poppins(
+                                fontWeight: FontWeight.w600,
+                                fontSize: 18,
+                                color: Colors.black // Mismo color que login
+                              )
+                            ),
+                          ),
                         ),
                         Padding(
-                          padding: const EdgeInsets.only(top: 4),
-                          child: Text("Create your account to start using GoRide".tr, style: GoogleFonts.poppins(fontWeight: FontWeight.w400)),
+                          padding: const EdgeInsets.only(top: 5),
+                          child: Center( // Centrar subtítulo
+                            child: Text(
+                              "Create your account to start using Mujeres al Volante".tr,
+                              textAlign: TextAlign.center,
+                              style: GoogleFonts.poppins(
+                                fontWeight: FontWeight.w400,
+                                color: Colors.black // Mismo color que login
+                              )
+                            ),
+                          ),
                         ),
                         const SizedBox(
                           height: 20,
