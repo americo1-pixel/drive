@@ -28,6 +28,7 @@ class OrderModel {
   String? otp;
   String? totalHoldingCharges;
   String? acNonAcCharges;
+  String? rideHoldTimeMinutes;
   String? rideHoldTimeMinutos;
   List<dynamic>? acceptedDriverId;
   List<dynamic>? rejectedDriverId;
@@ -64,6 +65,7 @@ class OrderModel {
         this.otp,
         this.totalHoldingCharges,
         this.acNonAcCharges,
+        this.rideHoldTimeMinutes,
         this.rideHoldTimeMinutos,
         this.offerRate,
         this.finalRate,
@@ -112,6 +114,7 @@ class OrderModel {
     otp = json['otp'];
     totalHoldingCharges = json['totalHoldingCharges'] ?? "0.0";
     acNonAcCharges = json['acNonAcCharges'];
+    rideHoldTimeMinutes = json['rideHoldTimeMinutes'];
     rideHoldTimeMinutos = json['rideHoldTimeMinutos'];
     createdDate = json['createdDate'];
     updateDate = json['updateDate'];
@@ -180,6 +183,7 @@ class OrderModel {
     data['otp'] = otp;
     data['totalHoldingCharges'] = totalHoldingCharges;
     data['acNonAcCharges'] = acNonAcCharges;
+    data['rideHoldTimeMinutes'] = rideHoldTimeMinutes;
     data['rideHoldTimeMinutos'] = rideHoldTimeMinutos;
     data['createdDate'] = createdDate;
     data['updateDate'] = updateDate;

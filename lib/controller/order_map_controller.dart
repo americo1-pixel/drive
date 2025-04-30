@@ -46,49 +46,67 @@ class OrderMapController extends GetxController {
     super.onClose();
   }
 
-  acceptOrder() async {
-    if (double.parse(driverModel.value.walletAmount.toString()) >= double.parse(Constant.minimumDepositToRideAccept)) {
+  // Agregar esta variable
+  RxBool isProcessingOrder = false.obs;
+
+  // Modificar el método acceptOrder
+  Future<void> acceptOrder() async {
+    if (isProcessingOrder.value) {
+      ShowToastDialog.showToast("Procesando solicitud anterior...".tr);
+      return;
+    }
+
+    try {
+      isProcessingOrder.value = true;
       ShowToastDialog.showLoader("Por favor espera".tr);
-      List<dynamic> newAcceptedDriverId = [];
-      if (orderModel.value.acceptedDriverId != null) {
-        newAcceptedDriverId = orderModel.value.acceptedDriverId!;
-      } else {
-        newAcceptedDriverId = [];
-      }
-      newAcceptedDriverId.add(FireStoreUtils.getCurrentUid());
-      orderModel.value.acceptedDriverId = newAcceptedDriverId;
-      if (orderModel.value.isAcSelected == true) {
-        orderModel.value.acNonAcCharges = driverModel.value.vehicleInformation!.acPerKmRate;
-      } else {
-        orderModel.value.acNonAcCharges = driverModel.value.vehicleInformation!.nonAcPerKmRate;
-      }
-      // orderModel.value.offerRate = newAmount.value;
-      await FireStoreUtils.setOrder(orderModel.value);
 
-      await FireStoreUtils.getCustomer(orderModel.value.userId.toString()).then((value) async {
-        if (value != null) {
-          await SendNotification.sendOneNotification(
-              token: value.fcmToken.toString(),
-              title: 'New Driver Bid'.tr,
-              body: 'Driver has offered ${Constant.amountShow(amount: finalAmount.value.toString())} for your journey.🚗'.tr,
-              payload: {});
+      if (double.parse(driverModel.value.walletAmount.toString()) >= double.parse(Constant.minimumDepositToRideAccept)) {
+        List<dynamic> newAcceptedDriverId = [];
+        if (orderModel.value.acceptedDriverId != null) {
+          newAcceptedDriverId = orderModel.value.acceptedDriverId!;
+        } else {
+          newAcceptedDriverId = [];
         }
-      });
+        newAcceptedDriverId.add(FireStoreUtils.getCurrentUid());
+        orderModel.value.acceptedDriverId = newAcceptedDriverId;
+        if (orderModel.value.isAcSelected == true) {
+          orderModel.value.acNonAcCharges = driverModel.value.vehicleInformation!.acPerKmRate;
+        } else {
+          orderModel.value.acNonAcCharges = driverModel.value.vehicleInformation!.nonAcPerKmRate;
+        }
+        // orderModel.value.offerRate = newAmount.value;
+        await FireStoreUtils.setOrder(orderModel.value);
 
-      DriverIdAcceptReject driverIdAcceptReject =
-          DriverIdAcceptReject(driverId: FireStoreUtils.getCurrentUid(), acceptedRejectTime: cloudFirestore.Timestamp.now(), offerAmount: finalAmount.value.toString());
-      FireStoreUtils.acceptRide(orderModel.value, driverIdAcceptReject).then((value) async {
-        ShowToastDialog.closeLoader();
-        ShowToastDialog.showToast("Ride Accepted".tr);
-        if (driverModel.value.subscriptionTotalOrders != "-1") {
-          driverModel.value.subscriptionTotalOrders = (int.parse(driverModel.value.subscriptionTotalOrders.toString()) - 1).toString();
-          await FireStoreUtils.updateDriverUser(driverModel.value);
-        }
-        Get.back(result: true);
-      });
-    } else {
-      ShowToastDialog.showToast(
-          "You have to minimum ${Constant.amountShow(amount: Constant.minimumDepositToRideAccept.toString())} wallet amount to Accept Order and place a bid".tr);
+        await FireStoreUtils.getCustomer(orderModel.value.userId.toString()).then((value) async {
+          if (value != null) {
+            await SendNotification.sendOneNotification(
+                token: value.fcmToken.toString(),
+                title: 'New Driver Bid'.tr,
+                body: 'Driver has offered ${Constant.amountShow(amount: finalAmount.value.toString())} for your journey.🚗'.tr,
+                payload: {});
+          }
+        });
+
+        DriverIdAcceptReject driverIdAcceptReject =
+            DriverIdAcceptReject(driverId: FireStoreUtils.getCurrentUid(), acceptedRejectTime: cloudFirestore.Timestamp.now(), offerAmount: finalAmount.value.toString());
+        FireStoreUtils.acceptRide(orderModel.value, driverIdAcceptReject).then((value) async {
+          ShowToastDialog.closeLoader();
+          ShowToastDialog.showToast("Ride Accepted".tr);
+          if (driverModel.value.subscriptionTotalOrders != "-1") {
+            driverModel.value.subscriptionTotalOrders = (int.parse(driverModel.value.subscriptionTotalOrders.toString()) - 1).toString();
+            await FireStoreUtils.updateDriverUser(driverModel.value);
+          }
+          Get.back(result: true);
+        });
+      } else {
+        ShowToastDialog.showToast(
+            "You have to minimum ${Constant.amountShow(amount: Constant.minimumDepositToRideAccept.toString())} wallet amount to Accept Order and place a bid".tr);
+      }
+    } catch (e) {
+      ShowToastDialog.showToast("Error al procesar la solicitud".tr);
+    } finally {
+      isProcessingOrder.value = false;
+      ShowToastDialog.closeLoader();
     }
   }
 

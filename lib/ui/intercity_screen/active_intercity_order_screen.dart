@@ -234,7 +234,7 @@ class ActiveIntercityOrderScreen extends StatelessWidget {
 
                                                                 await FireStoreUtils.setInterCityOrder(orderModel).then((value) {
                                                                   if (value == true) {
-                                                                    ShowToastDialog.showToast("Ride Complete successfully".tr);
+                                                                    ShowToastDialog.showToast("Viaje completado con exito.".tr);
                                                                     controller.frightController.selectedIndex.value = 3;
                                                                   }
                                                                 });

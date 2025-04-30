@@ -1,3 +1,5 @@
+import 'package:intl/intl.dart';
+import 'package:intl/date_symbol_data_local.dart'; // Agregar esta línea
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:driver/constant/constant.dart';
 import 'package:driver/controller/global_setting_conroller.dart';
@@ -14,9 +16,14 @@ import 'package:provider/provider.dart';
 import 'services/localization_service.dart';
 import 'themes/Styles.dart';
 import 'utils/Preferences.dart';
+//here
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  
+  // Agregar esta línea para inicializar el locale español
+  await initializeDateFormatting('es');
+  
   await Firebase.initializeApp(
     name: 'driver_app',
     options: DefaultFirebaseOptions.currentPlatform,

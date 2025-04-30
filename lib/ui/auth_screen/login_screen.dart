@@ -50,21 +50,28 @@ class LoginScreen extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 20),
                     child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.center, // Cambiar a center
+                      mainAxisAlignment: MainAxisAlignment.center, // Agregar esta línea
                       children: [
-                        Padding(
-                          padding: const EdgeInsets.only(top: 10),
-                          child: Center(
-                            child: Text("Login".tr, style: GoogleFonts.poppins(fontWeight: FontWeight.w600, fontSize: 18, color: Colors.black)),
-                          ),
+                        Text(
+                          "Login".tr, 
+                          textAlign: TextAlign.center, // Agregar esta línea
+                          style: GoogleFonts.poppins(
+                            fontWeight: FontWeight.w600, 
+                            fontSize: 18, 
+                            color: Colors.black
+                          )
                         ),
-                        Padding(
-                          padding: const EdgeInsets.only(top: 5),
-                          child: Text("Welcome Back! We are happy to have \n you back".tr, textAlign: TextAlign.center, style: GoogleFonts.poppins(fontWeight: FontWeight.w400, color: Colors.black)),
+                        const SizedBox(height: 5),
+                        Text(
+                          "Welcome Back! We are happy to have \n you back".tr,
+                          textAlign: TextAlign.center,
+                          style: GoogleFonts.poppins(
+                            fontWeight: FontWeight.w400, 
+                            color: Colors.black
+                          )
                         ),
-                        const SizedBox(
-                          height: 20,
-                        ),
+                        const SizedBox(height: 20),
                         TextFormField(
                             validator: (value) => value != null && value.isNotEmpty ? null : 'Required',
                             keyboardType: TextInputType.number,

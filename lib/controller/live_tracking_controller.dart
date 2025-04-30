@@ -232,75 +232,35 @@ void getPolyline({
         try {
             polyLines.clear(); // Limpiar rutas existentes
 
-            // Obtener el valor actual de clienteRecogido
-            final activeOrderController = Get.find<ActiveOrderController>();
-            final clienteRecogido = activeOrderController.clienteRecogido.value;
+            // Trazar ruta completa
+            final request = PolylineRequest(
+                origin: PointLatLng(sourceLatitude, sourceLongitude),
+                destination: PointLatLng(
+                    orderModel.value.destinationLocationLAtLng?.latitude ?? 0.0,
+                    orderModel.value.destinationLocationLAtLng?.longitude ?? 0.0
+                ),
+                mode: TravelMode.driving,
+            );
 
-            if (clienteRecogido == 0) {
-                // Solo mostrar ruta conductor -> pasajero
-                final request1 = PolylineRequest(
-                    origin: PointLatLng(sourceLatitude!, sourceLongitude!),
-                    destination: PointLatLng(
-                        orderModel.value.sourceLocationLAtLng?.latitude ?? 0.0,
-                        orderModel.value.sourceLocationLAtLng?.longitude ?? 0.0
-                    ),
-                    mode: TravelMode.driving,
+            PolylineResult result = await polylinePoints.getRouteBetweenCoordinates(
+                googleApiKey: mapAPIKey,
+                request: request
+            );
+
+            if (result.points.isNotEmpty) {
+                List<LatLng> polylineCoordinates = result.points
+                    .map((point) => LatLng(point.latitude, point.longitude))
+                    .toList();
+
+                PolylineId id = const PolylineId("poly");
+                final Polyline polyline = Polyline(
+                    polylineId: id,
+                    color: AppColors.primary,
+                    points: polylineCoordinates,
+                    width: 6,
+                    geodesic: true
                 );
-
-                PolylineResult driverToPassenger = await polylinePoints.getRouteBetweenCoordinates(
-                    googleApiKey: mapAPIKey,
-                    request: request1
-                );
-
-                if (driverToPassenger.points.isNotEmpty) {
-                    List<LatLng> polylineCoordinates = driverToPassenger.points
-                        .map((point) => LatLng(point.latitude, point.longitude))
-                        .toList();
-
-                    PolylineId id1 = const PolylineId("poly1");
-                    final Polyline polyline1 = Polyline(
-                        polylineId: id1,
-                        color: Colors.blue,
-                        points: polylineCoordinates,
-                        width: 6,
-                        geodesic: true
-                    );
-                    polyLines[id1] = polyline1;
-                }
-            } else if (clienteRecogido == 1) {
-                // Solo mostrar ruta pasajero -> destino
-                final request2 = PolylineRequest(
-                    origin: PointLatLng(
-                        orderModel.value.sourceLocationLAtLng?.latitude ?? 0.0,
-                        orderModel.value.sourceLocationLAtLng?.longitude ?? 0.0
-                    ),
-                    destination: PointLatLng(
-                        orderModel.value.destinationLocationLAtLng?.latitude ?? 0.0,
-                        orderModel.value.destinationLocationLAtLng?.longitude ?? 0.0
-                    ),
-                    mode: TravelMode.driving,
-                );
-
-                PolylineResult passengerToDestination = await polylinePoints.getRouteBetweenCoordinates(
-                    googleApiKey: mapAPIKey,
-                    request: request2
-                );
-
-                if (passengerToDestination.points.isNotEmpty) {
-                    List<LatLng> polylineCoordinates = passengerToDestination.points
-                        .map((point) => LatLng(point.latitude, point.longitude))
-                        .toList();
-
-                    PolylineId id2 = const PolylineId("poly2");
-                    final Polyline polyline2 = Polyline(
-                        polylineId: id2,
-                        color: Colors.green,
-                        points: polylineCoordinates,
-                        width: 6,
-                        geodesic: true
-                    );
-                    polyLines[id2] = polyline2;
-                }
+                polyLines[id] = polyline;
             }
 
             update();

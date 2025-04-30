@@ -153,7 +153,7 @@ class ActiveOrderScreen extends StatelessWidget {
 
                                                     await FireStoreUtils.setOrder(orderModel).then((value) {
                                                       if (value == true) {
-                                                        ShowToastDialog.showToast("Ride Complete successfully".tr);
+                                                        ShowToastDialog.showToast("Viaje completado con exito.".tr);
                                                         controller.homeController.selectedIndex.value = 3;
                                                       }
                                                     });
@@ -408,9 +408,6 @@ class ActiveOrderScreen extends StatelessWidget {
                 ShowToastDialog.showLoader("Por favor espera...".tr);
                 orderModel.status = Constant.rideInProgress;
                 
-                // Actualizar la variable cuando el código es correcto
-                controller.clienteRecogido.value = 1;
-
                 await FireStoreUtils.getCustomer(orderModel.userId.toString())
                     .then((value) async {
                   if (value != null) {

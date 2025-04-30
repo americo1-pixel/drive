@@ -95,7 +95,7 @@ class OnlineRegistrationScreen extends StatelessWidget {
                                                     child: Padding(
                                                       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
                                                       child: Text(
-                                                        documents.verified == true ? "Verified".tr : "Unverified".tr,
+                                                        documents.verified == true ? "Verificado".tr : "No verificado".tr,
                                                         style: const TextStyle(color: Colors.white),
                                                       ),
                                                     ),

@@ -50,6 +50,18 @@ class VehicleInformationScreen extends StatelessWidget {
                                 const SizedBox(
                                   height: 10,
                                 ),
+                                // Agregar el título antes del ListView de servicios
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(horizontal: 15),
+                                  child: Text(
+                                    "Escoja su servicio".tr,
+                                    style: GoogleFonts.poppins(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w600,
+                                      color: Colors.black
+                                    ),
+                                  ),
+                                ),
                                 SizedBox(
                                   height: Responsive.height(18, context),
                                   child: ListView.builder(

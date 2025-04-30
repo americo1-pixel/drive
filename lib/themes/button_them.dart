@@ -6,40 +6,40 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 class ButtonThem {
-  const ButtonThem({Key? key});
-
-  static buildButton(
+  static Widget buildButton(
     BuildContext context, {
     required String title,
-    double btnHeight = 48,
-    double txtSize = 14,
-    double btnWidthRatio = 0.9,
+    required Function() onPress,
+    bool isEnabled = true, //habilitado boton (aceptar tarifa)
+    double? btnHeight,
+    double? btnWidthRatio,
     double btnRadius = 10,
+    double txtSize = 16, // Agregar este parámetro
     final Color? textColor,
     final Color? bgColors,
-    required Function() onPress,
     bool isVisible = true,
   }) {
     final themeChange = Provider.of<DarkThemeProvider>(context);
 
     return Visibility(
       visible: isVisible,
-      child: SizedBox(
-        width: Responsive.width(100, context) * btnWidthRatio,
-        child: MaterialButton(
-          onPressed: onPress,
-          height: btnHeight,
-          elevation: 0.5,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(btnRadius),
+      child: InkWell(
+        onTap: isEnabled ? onPress : null,
+        child: Container(
+          height: btnHeight ?? Responsive.height(5, context),
+          width: btnWidthRatio == null ? Responsive.width(90, context) : Responsive.width(btnWidthRatio, context),
+          decoration: BoxDecoration(
+            color: isEnabled ? AppColors.primary : AppColors.darkGray,
+            borderRadius: BorderRadius.all(Radius.circular(btnRadius)),
           ),
-          color: bgColors ?? (themeChange.getThem()
-                  ? AppColors.primary
-                  : AppColors.darkModePrimary),
-          child: Text(
-            title.toUpperCase(),
-            textAlign: TextAlign.center,
-            style: GoogleFonts.poppins(fontSize: txtSize, fontWeight: FontWeight.w600, color: textColor),
+          child: Center(
+            child: Text(
+              title,
+              style: GoogleFonts.poppins(
+                color: textColor ?? Colors.white, 
+                fontSize: txtSize // Usar el parámetro aquí
+              ),
+            ),
           ),
         ),
       ),

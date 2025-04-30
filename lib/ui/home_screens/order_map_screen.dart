@@ -274,10 +274,12 @@ class OrderMapScreen extends StatelessWidget {
                                       ButtonThem.buildButton(
                                         context,
                                         title: '${'Aceptar tarifa en'.tr} ${Constant.amountShow(amount: controller.finalAmount.value.toString())}',
+                                        // Deshabilitar el botón mientras se procesa
+                                        isEnabled: !controller.isProcessingOrder.value,
                                         onPress: () async {
                                           if (double.parse(controller.amount.value.toString()) > 0) {
                                             if (controller.driverModel.value.subscriptionTotalOrders == "-1") {
-                                              controller.acceptOrder();
+                                              await controller.acceptOrder();
                                             } else {
                                               if (Constant.isSubscriptionModelApplied == false && Constant.adminCommission!.isEnabled == false) {
                                                 controller.acceptOrder();

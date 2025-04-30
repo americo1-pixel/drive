@@ -32,6 +32,10 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:uuid/uuid.dart';
+//here
+
+// 1. Primero importa el paquete de localización
+import 'package:intl/date_symbol_data_local.dart';
 
 class Constant {
   static const String phoneLoginType = "phone";
@@ -291,7 +295,12 @@ class Constant {
   }
 
   static String dateFormatTimestamp(Timestamp? timestamp) {
-    var format = DateFormat('dd MMM yyyy'); // <- use skeleton here
+    // Inicializar la localización en español
+    initializeDateFormatting('es');
+    
+    // Crear el formateador con locale español
+    var format = DateFormat('d MMM yyyy', 'es');
+    
     return format.format(timestamp!.toDate());
   }
 
