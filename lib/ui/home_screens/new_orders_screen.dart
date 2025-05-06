@@ -47,7 +47,8 @@ class NewOrderScreen extends StatelessWidget {
                         }
                         if (!snapshot.hasData || (snapshot.data?.isEmpty ?? true)) {
                           return Center(
-                            child: Text("New Rides Not found".tr),
+                            child: Text("No se encontraron nuevos viajes".tr,
+                            style: TextStyle(color: Colors.black)),
                           );
                         } else {
                           // ordersList = snapshot.data!;
@@ -155,7 +156,9 @@ class NewOrderScreen extends StatelessWidget {
                                         children: [
                                           UserView(
                                             userId: orderModel.userId,
-                                            amount: orderModel.offerRate,
+                                            // Usar toStringAsFixed para mantener los decimales
+                                            amount: (double.tryParse(orderModel.offerRate?.toString() ?? '0.0') ?? 0.0)
+                                                .toStringAsFixed(2),  // Forzar a 2 decimales
                                             distance: orderModel.distance,
                                             distanceType: orderModel.distanceType,
                                             isAcOrNonAc: orderModel.service!.isAcNonAc == false ? null : orderModel.isAcSelected,
@@ -185,7 +188,7 @@ class NewOrderScreen extends StatelessWidget {
                                                           padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                                                           child: Center(
                                                             child: Text(
-                                                              '${'Recommended Price is'.tr} ${Constant.amountShow(amount: finalAmount.toString())}. '
+                                                              '${'El precio recomendado es'.tr} \$${calculateRecommendedPrice(orderModel).toStringAsFixed(2)}. '
                                                               '${'Approx distance'.tr} ${double.parse(orderModel.distance.toString()).toStringAsFixed(Constant.currencyModel!.decimalDigits!)} ${Constant.distanceType}',
                                                               style: GoogleFonts.poppins(fontWeight: FontWeight.w500),
                                                             ),
@@ -204,7 +207,7 @@ class NewOrderScreen extends StatelessWidget {
                                                           padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                                                           child: Center(
                                                             child: Text(
-                                                              '${'Recommended Price is'.tr} ${Constant.amountShow(amount: orderModel.offerRate.toString())}. '
+                                                              '${'El precio recomendado es'.tr} \$${calculateRecommendedPrice(orderModel).toStringAsFixed(2)}. '
                                                               '${'Approx distance'.tr} ${double.parse(orderModel.distance.toString()).toStringAsFixed(Constant.currencyModel!.decimalDigits!)} ${Constant.distanceType}',
                                                               style: GoogleFonts.poppins(fontWeight: FontWeight.w500),
                                                             ),
@@ -251,5 +254,20 @@ class NewOrderScreen extends StatelessWidget {
     }
 
     return durationValue;
+  }
+
+  double calculateRecommendedPrice(OrderModel orderModel) {
+    double rawDistance = double.parse(orderModel.distance.toString());
+    // Redondear la distancia: si el decimal es >= 0.51, redondear hacia arriba
+    double distance = (rawDistance % 1 >= 0.51) ? rawDistance.ceil().toDouble() : rawDistance.floor().toDouble();
+    
+    double basePrice = 15.0;  // Precio base para ≤ 2km
+    
+    if (distance <= 2.0) {
+        return basePrice;
+    } else {
+        double extraKm = distance - 2.0;  // Kilómetros extras después de 2km
+        return basePrice + (extraKm * 2.5);  // 2.5 por cada km extra
+    }
   }
 }

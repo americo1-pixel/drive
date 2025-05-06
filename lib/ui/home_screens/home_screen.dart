@@ -82,14 +82,14 @@ class HomeScreen extends StatelessWidget {
                       padding: const EdgeInsets.all(6.0),
                       child: Image.asset("assets/icons/ic_new.png", width: 18, color: controller.selectedIndex.value == 0 ? AppColors.darkModePrimary : Colors.white),
                     ),
-                    label: 'New'.tr,
+                    label: 'Nuevos'.tr,
                   ),
                   BottomNavigationBarItem(
                     icon: Padding(
                       padding: const EdgeInsets.all(6.0),
                       child: Image.asset("assets/icons/ic_accepted.png", width: 18, color: controller.selectedIndex.value == 1 ? AppColors.darkModePrimary : Colors.white),
                     ),
-                    label: 'Accepted'.tr,
+                    label: 'Aceptados'.tr,
                   ),
                   BottomNavigationBarItem(
                     icon: badges.Badge(
@@ -99,14 +99,14 @@ class HomeScreen extends StatelessWidget {
                         child: Image.asset("assets/icons/ic_active.png", width: 18, color: controller.selectedIndex.value == 2 ? AppColors.darkModePrimary : Colors.white),
                       ),
                     ),
-                    label: 'Active'.tr,
+                    label: 'Activos'.tr,
                   ),
                   BottomNavigationBarItem(
                     icon: Padding(
                       padding: const EdgeInsets.all(6.0),
                       child: Image.asset("assets/icons/ic_completed.png", width: 18, color: controller.selectedIndex.value == 3 ? AppColors.darkModePrimary : Colors.white),
                     ),
-                    label: 'Completed'.tr,
+                    label: 'Completados'.tr,
                   ),
                 ],
                 backgroundColor: AppColors.primary,

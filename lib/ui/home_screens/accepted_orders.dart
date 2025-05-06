@@ -13,6 +13,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+//here
 
 class AcceptedOrders extends StatelessWidget {
   const AcceptedOrders({Key? key}) : super(key: key);
@@ -118,7 +119,8 @@ class AcceptedOrders extends StatelessWidget {
                                                     child: Row(
                                                       children: [
                                                         Expanded(child: Text("Oferta de viaje".tr, style: GoogleFonts.poppins(fontWeight: FontWeight.w600))),
-                                                        Text(Constant.amountShow(amount:driverIdAcceptReject.offerAmount.toString())),
+                                                        Text("\Bs.${(double.tryParse(driverIdAcceptReject.offerAmount ?? '0.0') ?? 0.0).toStringAsFixed(2)}",
+                                                        style: GoogleFonts.poppins(fontWeight: FontWeight.w300)),
                                                       ],
                                                     ),
                                                   ),

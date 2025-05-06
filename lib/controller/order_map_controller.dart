@@ -118,6 +118,13 @@ class OrderMapController extends GetxController {
     if (argumentData != null) {
       String orderId = argumentData['orderModel'];
       await getData(orderId);
+      
+      // Inicializar el campo de texto con offerRate
+      enterOfferRateController.value.text = orderModel.value.offerRate?.toString() ?? '0.00';
+      // También actualizar las variables amount y finalAmount
+      amount.value = double.tryParse(orderModel.value.offerRate?.toString() ?? '0.00') ?? 0.00;
+      finalAmount.value = amount.value + totalChargeOfMinute.value +
+          (double.tryParse(orderModel.value.service?.basicFareCharge.toString() ?? '0.00') ?? 0.00);
 
       // Agregar marcadores cuando tengamos los datos
       if (orderModel.value.sourceLocationLAtLng != null) {
@@ -159,7 +166,7 @@ class OrderMapController extends GetxController {
     FireStoreUtils.fireStore.collection(CollectionName.driverUsers).doc(FireStoreUtils.getCurrentUid()).snapshots().listen((event) async {
       if (event.exists) {
         driverModel.value = DriverUserModel.fromJson(event.data()!);
-        calculateAmount();
+// No llamar a calculateAmount() aquí para preservar el valor inicial
       }
     });
 
@@ -235,8 +242,29 @@ class OrderMapController extends GetxController {
       }
     }
 
+// Solo actualizar si amount es 0 o no hay offerRate previo
+    if (amount.value == 0.0 && (orderModel.value.offerRate == null || orderModel.value.offerRate == '0.00')) {
+        // ... resto del código de cálculo ...
+    }
+
+    // Actualizar finalAmount pero NO el texto del controlador
     finalAmount.value = amount.value + basicFare.value + totalChargeOfMinute.value;
-    enterOfferRateController.value.text = amount.value.toStringAsFixed(2);
+      }
+
+  // Add this method to calculate the recommended price
+  double calculateRecommendedPrice() {
+    double rawDistance = double.parse(orderModel.value.distance.toString());
+    // Redondear la distancia: si el decimal es >= 0.51, redondear hacia arriba
+    double distance = (rawDistance % 1 >= 0.51) ? rawDistance.ceil().toDouble() : rawDistance.floor().toDouble();
+    
+    double basePrice = 15.0;  // Precio base para ≤ 2km
+    
+    if (distance <= 2.0) {
+      return basePrice;
+    } else {
+      double extraKm = distance - 2.0;  // Kilómetros extras después de 2km
+      return basePrice + (extraKm * 2.5);  // 2.5 por cada km extra
+    }
   }
 
   BitmapDescriptor? departureIcon;

@@ -15,7 +15,7 @@ import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:driver/controller/active_order_controller.dart';
-
+//here
 
 class LiveTrackingController extends GetxController {
   final String mapAPIKey = "AIzaSyBF8F0YnhknJa_cvyMmaJvRVTqPS-somdk";
@@ -227,52 +227,75 @@ void getPolyline({
 }) async {
     print("==== Trazando rutas ====");
     
-    if (sourceLatitude != null && sourceLongitude != null && 
-        destinationLatitude != null && destinationLongitude != null) {
-        try {
-            polyLines.clear(); // Limpiar rutas existentes
+    try {
+        polyLines.clear(); // Limpiar rutas existentes
 
-            // Trazar ruta completa
-            final request = PolylineRequest(
-                origin: PointLatLng(sourceLatitude, sourceLongitude),
+        // Ruta 1: Conductor -> Pasajero (Azul)
+        PolylineResult driverToSource = await polylinePoints.getRouteBetweenCoordinates(
+            googleApiKey: mapAPIKey,
+            request: PolylineRequest(
+                origin: PointLatLng(sourceLatitude!, sourceLongitude!),
+                destination: PointLatLng(destinationLatitude!, destinationLongitude!),
+                mode: TravelMode.driving,
+            )
+        );
+
+        List<LatLng> polylineCoordinates1 = driverToSource.points
+            .map((point) => LatLng(point.latitude, point.longitude))
+            .toList();
+
+        PolylineId id1 = const PolylineId("poly1");
+        final Polyline polyline1 = Polyline(
+            polylineId: id1,
+            color: Colors.blue,
+            points: polylineCoordinates1,
+            width: 6,
+            geodesic: true
+        );
+        polyLines[id1] = polyline1;
+
+        // Ruta 2: Pasajero -> Destino (Verde)
+        PolylineResult sourceToDestination = await polylinePoints.getRouteBetweenCoordinates(
+            googleApiKey: mapAPIKey,
+            request: PolylineRequest(
+                origin: PointLatLng(destinationLatitude!, destinationLongitude!),
                 destination: PointLatLng(
-                    orderModel.value.destinationLocationLAtLng?.latitude ?? 0.0,
-                    orderModel.value.destinationLocationLAtLng?.longitude ?? 0.0
+                    orderModel.value.destinationLocationLAtLng!.latitude!,
+                    orderModel.value.destinationLocationLAtLng!.longitude!
                 ),
                 mode: TravelMode.driving,
-            );
+            )
+        );
 
-            PolylineResult result = await polylinePoints.getRouteBetweenCoordinates(
-                googleApiKey: mapAPIKey,
-                request: request
-            );
+        List<LatLng> polylineCoordinates2 = sourceToDestination.points
+            .map((point) => LatLng(point.latitude, point.longitude))
+            .toList();
 
-            if (result.points.isNotEmpty) {
-                List<LatLng> polylineCoordinates = result.points
-                    .map((point) => LatLng(point.latitude, point.longitude))
-                    .toList();
+        PolylineId id2 = const PolylineId("poly2");
+        final Polyline polyline2 = Polyline(
+            polylineId: id2,
+            color: Colors.green,
+            points: polylineCoordinates2,
+            width: 6,
+            geodesic: true
+        );
+        polyLines[id2] = polyline2;
 
-                PolylineId id = const PolylineId("poly");
-                final Polyline polyline = Polyline(
-                    polylineId: id,
-                    color: AppColors.primary,
-                    points: polylineCoordinates,
-                    width: 6,
-                    geodesic: true
-                );
-                polyLines[id] = polyline;
-            }
-
-            update();
-        } catch (e) {
-            print("❌ Error al trazar las rutas: $e");
-        }
+        update();
+    } catch (e) {
+        print("❌ Error al trazar las rutas: $e");
     }
 }
 
   RxMap<MarkerId, Marker> markers = <MarkerId, Marker>{}.obs;
 
-  addMarker({required double? latitude, required double? longitude, required String id, required BitmapDescriptor descriptor, required double? rotation}) {
+  addMarker({
+    required double? latitude, 
+    required double? longitude, 
+    required String id, 
+    required BitmapDescriptor descriptor, 
+    required double? rotation
+}) {
     if (latitude == null || longitude == null) {
         print("Error: Coordenadas nulas para el marcador $id");
         return;
@@ -284,25 +307,34 @@ void getPolyline({
         markerId: markerId,
         position: LatLng(latitude, longitude),
         icon: descriptor,
+        rotation: rotation ?? 0, // Rotación del auto según bearing
+        anchor: (id == "Conductor") ? Offset(0.5, 0.5) : Offset(0.5, 1.0), // Centro de rotación para el auto
         infoWindow: InfoWindow(title: id),
         visible: true
     );
     markers[markerId] = marker;
-    update();  // Forzar actualización de la UI
+    update();
     print("Marcador agregado. Total de marcadores: ${markers.length}");
-  }
+}
 
   addMarkerSetup() async {
     print("==== Inicializando marcadores ====");
     try {
-        // Usar marcadores predeterminados de Google Maps
-        departureIcon = BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRed);     // Punto rojo para origen
-        destinationIcon = BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueGreen); // Punto verde para destino
-        driverIcon = BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueBlue);      // Punto azul para conductor
+        // Iconos de origen y destino
+        departureIcon = BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRed);
+        destinationIcon = BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueGreen);
         
-        print("Marcadores predeterminados configurados exitosamente");
+        // Cargar icono del auto
+        driverIcon = await BitmapDescriptor.fromAssetImage(
+            ImageConfiguration(size: Size(48, 48)),
+            'assets/images/car_top.png',
+        );
+        
+        print("✅ Marcadores configurados exitosamente");
     } catch (e) {
-        print("Error al configurar los marcadores: $e");
+        print("❌ Error al configurar los marcadores: $e");
+        // Fallback al marcador default si falla la carga del auto
+        driverIcon = BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueBlue);
     }
   }
 

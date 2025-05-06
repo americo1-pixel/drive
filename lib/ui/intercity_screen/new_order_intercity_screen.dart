@@ -307,7 +307,7 @@ class NewOrderInterCityScreen extends StatelessWidget {
                                                                     padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                                                                     child: Center(
                                                                       child: Text(
-                                                                        '${'Recommended Price is'.tr} ${Constant.amountShow(amount: amount)}. '
+                                                                        '${'El precio recomendado es'.tr} ${Constant.amountShow(amount: amount)}. '
                                                                         '${'Approx distance'.tr} ${double.parse(orderModel.distance.toString()).toStringAsFixed(Constant.currencyModel!.decimalDigits!)} ${Constant.distanceType}',
                                                                         style: GoogleFonts.poppins(fontWeight: FontWeight.w500),
                                                                       ),

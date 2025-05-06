@@ -54,7 +54,10 @@ class UserView extends StatelessWidget {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Text(Constant.amountShow(amount: amount.toString()), style: GoogleFonts.poppins(fontWeight: FontWeight.w500)),
+                                Text(
+                                    "${Constant.currencyModel!.symbol}${amount ?? "0.00"}", 
+                                    style: GoogleFonts.poppins(fontWeight: FontWeight.w500)
+                                ),
                                 Row(
                                   children: [
                                     const Icon(
@@ -128,7 +131,10 @@ class UserView extends StatelessWidget {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
-                              Text(Constant.amountShow(amount: amount.toString()), style: GoogleFonts.poppins(fontWeight: FontWeight.w500)),
+                              Text(
+                                  "${Constant.currencyModel!.symbol}${amount ?? "0.00"}", 
+                                  style: GoogleFonts.poppins(fontWeight: FontWeight.w500)
+                              ),
                               /*
                               isAcOrNonAc == null
                                   ? SizedBox()

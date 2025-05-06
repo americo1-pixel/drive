@@ -48,7 +48,7 @@ class ActiveOrderScreen extends StatelessWidget {
               }
               return snapshot.data!.docs.isEmpty
                   ? Center(
-                      child: Text("No active rides Found".tr,
+                      child: Text("No se encontraron viajes activos".tr,
                         style: GoogleFonts.poppins(
                           color: Colors.black,
                           fontSize: 16,

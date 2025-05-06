@@ -72,7 +72,7 @@ class Constant {
   static const String ridePlaced = "Ride Placed";
   static const String rideActive = "Ride Active";
   static const String rideInProgress = "Ride InProgress";
-  static const String rideComplete = "Viaje completado";
+  static const String rideComplete = "Ride Completed";
   static const String rideCanceled = "Ride Canceled";
   static const String rideHold = "Ride Hold";
   static const String rideHoldAccepted = "Ride Hold Accepted";
